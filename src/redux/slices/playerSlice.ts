@@ -20,12 +20,14 @@ interface Booking {
 interface PlayerState {
     popularCourts: Court[];
     upcomingBookings: Booking[];
+    bookingHistory: any[];
     location: string;
 }
 
 const initialState: PlayerState = {
     popularCourts: [],
     upcomingBookings: [],
+    bookingHistory: [],
     location: 'Mumbai, Maharashtra',
 };
 
@@ -39,11 +41,14 @@ const playerSlice = createSlice({
         setUpcomingBookings: (state, action: PayloadAction<Booking[]>) => {
             state.upcomingBookings = action.payload;
         },
+        setBookingHistory: (state, action: PayloadAction<any[]>) => {
+            state.bookingHistory = action.payload;
+        },
         setLocation: (state, action: PayloadAction<string>) => {
             state.location = action.payload;
         },
     },
 });
 
-export const { setPopularCourts, setUpcomingBookings, setLocation } = playerSlice.actions;
+export const { setPopularCourts, setUpcomingBookings, setBookingHistory, setLocation } = playerSlice.actions;
 export default playerSlice.reducer;

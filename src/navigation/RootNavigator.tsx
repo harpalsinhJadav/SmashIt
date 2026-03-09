@@ -15,6 +15,8 @@ import { AdminScreen } from '../screens/Admin/admin.screen';
 import { SignupScreen } from '../screens/Signup/signup.screen';
 import { BookingScreen } from '../screens/Booking/booking.screen';
 import { CourtDetailScreen } from '../screens/CourtDetail/courtdetail.screen';
+import { HistoryScreen } from '../screens/History/history.screen';
+import { HistoryDetailScreen } from '../screens/HistoryDetail/historydetail.screen';
 import { Home, Calendar, LayoutDashboard, Bell, User } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { Text, View } from 'react-native';
@@ -60,7 +62,7 @@ const PlayerTabs = () => {
         >
             <Tab.Screen name="PlayerHome" component={HomeScreen} options={{ tabBarLabel: 'Home' }} />
             <Tab.Screen name="Booking" component={BookingScreen} options={{ tabBarLabel: 'Book' }} />
-            <Tab.Screen name="History" component={() => <Placeholder name="History" />} options={{ tabBarLabel: 'History' }} />
+            <Tab.Screen name="History" component={HistoryScreen} options={{ tabBarLabel: 'History' }} />
             <Tab.Screen name="Notifications" component={() => <Placeholder name="Notifications" />} options={{ tabBarLabel: 'Alerts' }} />
             <Tab.Screen name="Profile" component={() => <Placeholder name="Profile" />} options={{ tabBarLabel: 'Profile' }} />
         </Tab.Navigator>
@@ -71,6 +73,7 @@ const PlayerNavigator = () => (
     <PlayerStack.Navigator screenOptions={{ headerShown: false }}>
         <PlayerStack.Screen name="PlayerTabs" component={PlayerTabs} />
         <PlayerStack.Screen name="CourtDetail" component={CourtDetailScreen} />
+        <PlayerStack.Screen name="HistoryDetail" component={HistoryDetailScreen} />
     </PlayerStack.Navigator>
 );
 

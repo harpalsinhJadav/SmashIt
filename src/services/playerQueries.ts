@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { playerService } from './playerService';
 import { useAppDispatch } from '../redux/store';
-import { setPopularCourts, setUpcomingBookings } from '../redux/slices/playerSlice';
+import { setPopularCourts, setUpcomingBookings, setBookingHistory } from '../redux/slices/playerSlice';
 import { useEffect } from 'react';
 
 export const usePlayerDashboard = () => {
@@ -33,6 +33,25 @@ export const useCourtById = (id: number) => {
     return useQuery({
         queryKey: ['court', id],
         queryFn: () => playerService.getCourtById(id),
+        enabled: !!id,
+    });
+};
+export const useBookingHistory = (filter: string = 'all') => {
+    const dispatch = useAppDispatch();
+    return useQuery({
+        queryKey: ['bookingHistory', filter],
+        queryFn: async () => {
+            const data = await playerService.getBookingHistory(filter);
+            dispatch(setBookingHistory(data));
+            return data;
+        },
+    });
+};
+
+export const useBookingDetail = (id: number) => {
+    return useQuery({
+        queryKey: ['bookingDetail', id],
+        queryFn: () => playerService.getBookingDetail(id),
         enabled: !!id,
     });
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Bell } from 'lucide-react-native';
+import { Bell, ArrowLeft } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { Logo } from './Logo';
 import { moderateScale, verticalScale, horizontalScale } from '../utils/helpers';
@@ -9,6 +9,8 @@ interface AppHeaderProps {
     title?: string;
     showLogo?: boolean;
     showNotifications?: boolean;
+    showBack?: boolean;
+    onBackPress?: () => void;
     onNotificationPress?: () => void;
 }
 
@@ -16,6 +18,8 @@ export const AppHeader = ({
     title,
     showLogo = true,
     showNotifications = true,
+    showBack = false,
+    onBackPress,
     onNotificationPress,
 }: AppHeaderProps) => {
     const { colors } = useTheme();
@@ -23,7 +27,12 @@ export const AppHeader = ({
     return (
         <View style={[styles.container, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
             <View style={styles.leftSection}>
-                {showLogo ? (
+                {showBack ? (
+                    <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
+                        <ArrowLeft size={24} color={colors.text} />
+                        <Text style={[styles.title, { color: colors.text, marginLeft: horizontalScale(12) }]}>{title}</Text>
+                    </TouchableOpacity>
+                ) : showLogo ? (
                     <Logo size="sm" showText={true} />
                 ) : (
                     <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
@@ -52,6 +61,10 @@ const styles = StyleSheet.create({
     },
     leftSection: {
         flex: 1,
+    },
+    backButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     rightSection: {
         flexDirection: 'row',

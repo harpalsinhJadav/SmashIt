@@ -59,4 +59,32 @@ export const playerService = {
             ],
         };
     },
+    getBookingHistory: async (filter: string = 'all') => {
+        await new Promise<void>(resolve => setTimeout(resolve, 800));
+        const bookings = [
+            { id: 1, court: 'Arena Sports Complex', game: 'Badminton', date: '2026-03-09', time: '6:00 PM - 7:00 PM', amount: '₹500', status: 'completed' },
+            { id: 2, court: 'Elite Sports Hub', game: 'Tennis', date: '2026-03-05', time: '4:00 PM - 5:00 PM', amount: '₹800', status: 'completed' },
+            { id: 3, court: 'Victory Court', game: 'Squash', date: '2026-03-10', time: '5:00 PM - 6:00 PM', amount: '₹600', status: 'upcoming' },
+            { id: 4, court: 'Champions Arena', game: 'Basketball', date: '2026-02-28', time: '7:00 PM - 8:00 PM', amount: '₹1000', status: 'cancelled' },
+        ];
+
+        return filter === 'all' ? bookings : bookings.filter(b => b.status === filter);
+    },
+    getBookingDetail: async (id: number) => {
+        await new Promise<void>(resolve => setTimeout(resolve, 800));
+        return {
+            id,
+            courtName: 'Arena Sports Complex',
+            location: 'Downtown, Mumbai',
+            game: 'Badminton',
+            date: 'Monday, 09 March 2026',
+            time: '6:00 PM - 7:00 PM',
+            amount: '₹500',
+            status: 'completed',
+            bookingId: 'SM-BK-2026-001',
+            paymentMethod: 'UPI - Google Pay',
+            transactionId: 'TXN1234567890',
+            courtId: 1,
+        };
+    },
 };
