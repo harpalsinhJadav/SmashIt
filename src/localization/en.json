@@ -29,5 +29,12 @@
   "home": {
     "title": "SmashIT Dashboard",
     "description": "Start smashing your goals today!"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "No notifications yet",
+    "bookingConfirmed": "Booking Confirmed",
+    "specialOffer": "Special Offer!",
+    "bookingReminder": "Booking Reminder"
   }
 }

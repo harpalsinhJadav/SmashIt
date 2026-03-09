@@ -23,6 +23,7 @@ export const HistoryScreen = () => {
         handleBookingPress,
         handleDownloadInvoice,
         handleFilterChange,
+        handleNotifications,
         refetch,
     } = useHistory();
 
@@ -30,7 +31,7 @@ export const HistoryScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <AppHeader title="Booking History" showBack={false} showLogo={false} />
+            <AppHeader title="Booking History" showBack={false} showLogo={false} onNotificationPress={handleNotifications} />
 
             <View style={[styles.content, { flex: 1 }]}>
                 <View style={styles.filterContainer}>

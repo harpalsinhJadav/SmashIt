@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { playerService } from './playerService';
 import { useAppDispatch } from '../redux/store';
-import { setPopularCourts, setUpcomingBookings, setBookingHistory } from '../redux/slices/playerSlice';
+import { setPopularCourts, setUpcomingBookings, setBookingHistory, setNotifications } from '../redux/slices/playerSlice';
 import { useEffect } from 'react';
 
 export const usePlayerDashboard = () => {
@@ -53,5 +53,16 @@ export const useBookingDetail = (id: number) => {
         queryKey: ['bookingDetail', id],
         queryFn: () => playerService.getBookingDetail(id),
         enabled: !!id,
+    });
+};
+export const useNotifications = () => {
+    const dispatch = useAppDispatch();
+    return useQuery({
+        queryKey: ['notifications'],
+        queryFn: async () => {
+            const data = await playerService.getNotifications();
+            dispatch(setNotifications(data));
+            return data;
+        },
     });
 };

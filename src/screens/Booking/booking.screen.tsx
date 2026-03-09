@@ -28,6 +28,7 @@ export const BookingScreen = () => {
         handleSearchChange,
         handleGameSelect,
         handleCourtPress,
+        handleNotifications,
         refetch,
     } = useBooking();
 
@@ -35,7 +36,7 @@ export const BookingScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <AppHeader title="Book a Court" showLogo={false} />
+            <AppHeader title="Book a Court" showLogo={false} onNotificationPress={handleNotifications} />
             <View style={styles.content}>
                 {/* Search & Location Fixed at Top */}
                 <View style={styles.searchSection}>

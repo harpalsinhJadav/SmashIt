@@ -87,4 +87,13 @@ export const playerService = {
             courtId: 1,
         };
     },
+    getNotifications: async () => {
+        await new Promise<void>(resolve => setTimeout(resolve, 800));
+        return [
+            { id: 1, type: 'booking', title: 'Booking Confirmed', message: 'Your booking at Arena Sports Complex is confirmed for 6:00 PM', time: '2 hours ago', read: false },
+            { id: 2, type: 'offer', title: 'Special Offer!', message: 'Get 20% off on your next booking. Use code SAVE20', time: '5 hours ago', read: false },
+            { id: 3, type: 'booking', title: 'Booking Reminder', message: 'You have a booking tomorrow at 4:00 PM', time: '1 day ago', read: true },
+            { id: 4, type: 'offer', title: 'Cashback Available', message: '₹100 cashback credited to your wallet', time: '2 days ago', read: true },
+        ];
+    },
 };

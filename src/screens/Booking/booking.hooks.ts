@@ -32,6 +32,10 @@ export const useBooking = () => {
         navigation.navigate('CourtDetail', { id });
     }, [navigation]);
 
+    const handleNotifications = useCallback(() => {
+        navigation.navigate('Notifications');
+    }, [navigation]);
+
     return {
         t,
         colors,
@@ -44,6 +48,7 @@ export const useBooking = () => {
         handleSearchChange,
         handleGameSelect,
         handleCourtPress,
+        handleNotifications,
         refetch,
     };
 };

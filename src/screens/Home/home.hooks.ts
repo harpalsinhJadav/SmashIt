@@ -37,6 +37,10 @@ export const useHome = () => {
         navigation.navigate('Booking');
     }, [navigation]);
 
+    const handleNotifications = useCallback(() => {
+        navigation.navigate('Notifications');
+    }, [navigation]);
+
     return {
         t,
         colors,
@@ -50,6 +54,7 @@ export const useHome = () => {
         handleMyBookings,
         handleViewAllCourts,
         handleBookACourt,
+        handleNotifications,
         refetch,
     };
 };

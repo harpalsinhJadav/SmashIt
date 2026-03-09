@@ -26,6 +26,10 @@ export const useHistory = () => {
         setFilter(newFilter);
     }, []);
 
+    const handleNotifications = useCallback(() => {
+        navigation.navigate('Notifications');
+    }, [navigation]);
+
     return {
         colors,
         t,
@@ -36,6 +40,7 @@ export const useHistory = () => {
         handleBookingPress,
         handleDownloadInvoice,
         handleFilterChange,
+        handleNotifications,
         refetch,
     };
 };

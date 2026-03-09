@@ -30,6 +30,7 @@ export const HomeScreen = () => {
         handleMyBookings,
         handleViewAllCourts,
         handleBookACourt,
+        handleNotifications,
         refetch,
     } = useHome();
 
@@ -37,7 +38,7 @@ export const HomeScreen = () => {
 
     return (
         <SafeAreaView style={[styles.container, { backgroundColor: colors.surface }]}>
-            <AppHeader />
+            <AppHeader onNotificationPress={handleNotifications} />
             <ScrollView
                 style={styles.scrollView}
                 refreshControl={
