@@ -8,9 +8,17 @@ interface SearchBarProps {
     placeholder?: string;
     onPress?: () => void;
     editable?: boolean;
+    value?: string;
+    onChangeText?: (text: string) => void;
 }
 
-export const SearchBar = ({ placeholder, onPress, editable = true }: SearchBarProps) => {
+export const SearchBar = ({
+    placeholder,
+    onPress,
+    editable = true,
+    value,
+    onChangeText,
+}: SearchBarProps) => {
     const { colors } = useTheme();
 
     const Container = onPress ? TouchableOpacity : View;
@@ -26,6 +34,8 @@ export const SearchBar = ({ placeholder, onPress, editable = true }: SearchBarPr
                 placeholder={placeholder}
                 placeholderTextColor={colors.textSecondary}
                 editable={editable && !onPress}
+                value={value}
+                onChangeText={onChangeText}
             />
         </Container>
     );

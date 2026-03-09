@@ -21,3 +21,10 @@ export const usePlayerDashboard = () => {
 
     return query;
 };
+
+export const useCourts = (params: { game?: string; search?: string }) => {
+    return useQuery({
+        queryKey: ['courts', params],
+        queryFn: () => playerService.getCourts(params),
+    });
+};

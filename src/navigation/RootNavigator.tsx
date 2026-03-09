@@ -13,6 +13,7 @@ import { HomeScreen } from '../screens/Home/home.screen';
 import { LoginScreen } from '../screens/Login/login.screen';
 import { AdminScreen } from '../screens/Admin/admin.screen';
 import { SignupScreen } from '../screens/Signup/signup.screen';
+import { BookingScreen } from '../screens/Booking/booking.screen';
 import { Home, Calendar, LayoutDashboard, Bell, User } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { Text } from 'react-native';
@@ -53,7 +54,7 @@ const PlayerTabs = () => {
             })}
         >
             <Tab.Screen name="PlayerHome" component={HomeScreen} options={{ tabBarLabel: 'Home' }} />
-            <Tab.Screen name="Booking" component={() => <Placeholder name="Booking" />} options={{ tabBarLabel: 'Book' }} />
+            <Tab.Screen name="Booking" component={BookingScreen} options={{ tabBarLabel: 'Book' }} />
             <Tab.Screen name="History" component={() => <Placeholder name="History" />} options={{ tabBarLabel: 'History' }} />
             <Tab.Screen name="Notifications" component={() => <Placeholder name="Notifications" />} options={{ tabBarLabel: 'Alerts' }} />
             <Tab.Screen name="Profile" component={() => <Placeholder name="Profile" />} options={{ tabBarLabel: 'Profile' }} />
