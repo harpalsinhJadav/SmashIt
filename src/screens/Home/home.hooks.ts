@@ -22,9 +22,12 @@ export const useHome = () => {
     }, [navigation]);
 
     const handleBookingPress = useCallback((id: number) => {
-        // navigation.navigate('BookingDetails', { id });
-        console.log('Booking pressed:', id);
-    }, []);
+        navigation.navigate('HistoryDetail', { id });
+    }, [navigation]);
+
+    const handleMyBookings = useCallback(() => {
+        navigation.navigate('History');
+    }, [navigation]);
 
     const handleViewAllCourts = useCallback(() => {
         navigation.navigate('Booking');
@@ -44,6 +47,7 @@ export const useHome = () => {
         location,
         handleCourtPress,
         handleBookingPress,
+        handleMyBookings,
         handleViewAllCourts,
         handleBookACourt,
         refetch,

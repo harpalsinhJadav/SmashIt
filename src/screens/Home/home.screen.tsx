@@ -27,6 +27,7 @@ export const HomeScreen = () => {
         location,
         handleCourtPress,
         handleBookingPress,
+        handleMyBookings,
         handleViewAllCourts,
         handleBookACourt,
         refetch,
@@ -73,7 +74,7 @@ export const HomeScreen = () => {
                             description="View history"
                             color={colors.accent}
                             icon={<TrendingUp size={32} color={colors.white} />}
-                            onPress={() => console.log('My Bookings pressed')}
+                            onPress={handleMyBookings}
                         />
                     </View>
 
