@@ -16,6 +16,7 @@ import { Calendar } from 'lucide-react-native';
 export const HistoryScreen = () => {
     const {
         colors,
+        t,
         filter,
         FILTERS,
         bookings,
@@ -31,7 +32,7 @@ export const HistoryScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <AppHeader title="Booking History" showBack={false} showLogo={false} onNotificationPress={handleNotifications} />
+            <AppHeader title={t('history.title')} showBack={false} showLogo={false} onNotificationPress={handleNotifications} />
 
             <View style={[styles.content, { flex: 1 }]}>
                 <View style={styles.filterContainer}>
@@ -43,7 +44,7 @@ export const HistoryScreen = () => {
                         contentContainerStyle={styles.filterList}
                         renderItem={({ item }) => (
                             <FilterChip
-                                label={item}
+                                label={t(`history.${item}`)}
                                 isActive={filter === item}
                                 onPress={() => handleFilterChange(item)}
                             />
@@ -64,7 +65,7 @@ export const HistoryScreen = () => {
                             <View style={styles.emptyContainer}>
                                 <Calendar size={48} color={colors.textSecondary} />
                                 <Text style={[styles.emptyText, { color: colors.textSecondary }]}>
-                                    No bookings found
+                                    {t('history.noBookings')}
                                 </Text>
                             </View>
                         ) : null

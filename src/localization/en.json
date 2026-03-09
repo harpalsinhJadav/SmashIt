@@ -26,15 +26,84 @@
     "assistant": "Assistant",
     "admin": "Admin"
   },
-  "home": {
-    "title": "SmashIT Dashboard",
-    "description": "Start smashing your goals today!"
-  },
   "notifications": {
     "title": "Notifications",
     "noNotifications": "No notifications yet",
     "bookingConfirmed": "Booking Confirmed",
     "specialOffer": "Special Offer!",
     "bookingReminder": "Booking Reminder"
+  },
+  "profile": {
+    "title": "Profile",
+    "email": "Email",
+    "phone": "Phone",
+    "preferredLocation": "Preferred Location",
+    "submitComplaint": "Submit Complaint",
+    "logout": "Logout",
+    "deleteAccount": "Delete Account",
+    "change": "Change",
+    "player": "Player"
+  },
+  "courtDetail": {
+    "facilities": "Facilities",
+    "inclusions": "Inclusions",
+    "exclusions": "Exclusions",
+    "selectDate": "Select Date",
+    "availableSlots": "Available Slots",
+    "popular": "Popular",
+    "cancellationPolicy": "Cancellation Policy",
+    "cancellationText": "Free cancellation up to 2 hours before booking. 50% refund after that.",
+    "proceedToBook": "Proceed to Book",
+    "selectedSlot": "Selected Slot"
+  },
+  "booking": {
+    "title": "Book a Court",
+    "searchPlaceholder": "Search court name, area...",
+    "change": "Change",
+    "more": "More",
+    "courtsFound": "{{count}} courts found"
+  },
+  "history": {
+    "title": "Booking History",
+    "noBookings": "No bookings found",
+    "all": "All",
+    "completed": "Completed",
+    "upcoming": "Upcoming",
+    "cancelled": "Cancelled"
+  },
+  "historyDetail": {
+    "title": "Booking Details",
+    "completedTitle": "Booking Completed",
+    "completedDesc": "Your session at the court was successful.",
+    "upcomingTitle": "Upcoming Session",
+    "upcomingDesc": "Get ready for your session!",
+    "cancelledTitle": "Booking Cancelled",
+    "cancelledDesc": "This booking was cancelled.",
+    "courtInfo": "Court Information",
+    "courtName": "Court Name",
+    "sport": "Sport",
+    "location": "Location",
+    "bookingSchedule": "Booking Schedule",
+    "date": "Date",
+    "timeSlot": "Time Slot",
+    "bookingId": "Booking ID",
+    "paymentDetails": "Payment Details",
+    "amountPaid": "Amount Paid",
+    "method": "Method",
+    "transactionId": "Transaction ID",
+    "total": "Total",
+    "bookAgain": "Book Again",
+    "downloadInvoice": "Download Invoice"
+  },
+  "home": {
+    "change": "Change",
+    "searchPlaceholder": "Search courts, areas...",
+    "bookACourt": "Book a Court",
+    "bookACourtDesc": "Find & reserve slots",
+    "myBookings": "My Bookings",
+    "myBookingsDesc": "View history",
+    "upcomingBookings": "Upcoming Bookings",
+    "popularCourts": "Popular Courts",
+    "viewAll": "View All"
   }
 }

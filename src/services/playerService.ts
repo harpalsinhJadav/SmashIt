@@ -96,4 +96,15 @@ export const playerService = {
             { id: 4, type: 'offer', title: 'Cashback Available', message: '₹100 cashback credited to your wallet', time: '2 days ago', read: true },
         ];
     },
+    getProfile: async () => {
+        await new Promise<void>(resolve => setTimeout(resolve, 800));
+        return {
+            id: '1',
+            name: 'Rahul Sharma',
+            email: 'rahul.sharma@example.com',
+            phone: '+91 98765 43210',
+            role: 'player',
+            avatar: '',
+        };
+    },
 };

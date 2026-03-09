@@ -18,6 +18,7 @@ import { CourtListItem } from '../../components/CourtListItem';
 
 export const BookingScreen = () => {
     const {
+        t,
         colors,
         selectedGame,
         searchQuery,
@@ -36,12 +37,12 @@ export const BookingScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <AppHeader title="Book a Court" showLogo={false} onNotificationPress={handleNotifications} />
+            <AppHeader title={t('booking.title')} showLogo={false} onNotificationPress={handleNotifications} />
             <View style={styles.content}>
                 {/* Search & Location Fixed at Top */}
                 <View style={styles.searchSection}>
                     <SearchBar
-                        placeholder="Search court name, area..."
+                        placeholder={t('booking.searchPlaceholder')}
                         value={searchQuery}
                         onChangeText={handleSearchChange}
                     />
@@ -53,7 +54,7 @@ export const BookingScreen = () => {
                         <Text style={[styles.locationText, { color: colors.text }]}>{location}</Text>
                     </View>
                     <TouchableOpacity>
-                        <Text style={[styles.changeText, { color: colors.primary }]}>Change</Text>
+                        <Text style={[styles.changeText, { color: colors.primary }]}>{t('booking.change')}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -75,7 +76,7 @@ export const BookingScreen = () => {
                         ListFooterComponent={
                             <TouchableOpacity style={styles.moreFilters}>
                                 <Filter size={16} color={colors.text} />
-                                <Text style={[styles.moreFiltersText, { color: colors.text }]}>More</Text>
+                                <Text style={[styles.moreFiltersText, { color: colors.text }]}>{t('booking.more')}</Text>
                             </TouchableOpacity>
                         }
                     />
@@ -93,7 +94,7 @@ export const BookingScreen = () => {
                 ListHeaderComponent={
                     <View style={styles.courtsHeader}>
                         <Text style={[styles.courtsCount, { color: colors.textSecondary }]}>
-                            {courts.length} courts found
+                            {t('booking.courtsFound', { count: courts.length })}
                         </Text>
                     </View>
                 }

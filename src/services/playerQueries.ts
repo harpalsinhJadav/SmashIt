@@ -66,3 +66,10 @@ export const useNotifications = () => {
         },
     });
 };
+
+export const usePlayerProfile = () => {
+    return useQuery({
+        queryKey: ['playerProfile'],
+        queryFn: playerService.getProfile,
+    });
+};

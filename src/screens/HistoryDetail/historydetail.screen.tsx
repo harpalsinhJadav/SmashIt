@@ -24,6 +24,7 @@ export const HistoryDetailScreen = () => {
         booking,
         isLoading,
         colors,
+        t,
         handleBack,
         handleDownloadInvoice,
         handleBookAgain,
@@ -45,22 +46,22 @@ export const HistoryDetailScreen = () => {
                 return {
                     icon: <CheckCircle2 size={40} color="#059669" />,
                     bg: '#ECFDF5',
-                    title: 'Booking Completed',
-                    desc: 'Your session at the court was successful.'
+                    title: t('historyDetail.completedTitle'),
+                    desc: t('historyDetail.completedDesc')
                 };
             case 'upcoming':
                 return {
                     icon: <Clock size={40} color="#2563EB" />,
                     bg: '#EFF6FF',
-                    title: 'Upcoming Session',
-                    desc: 'Get ready for your session!'
+                    title: t('historyDetail.upcomingTitle'),
+                    desc: t('historyDetail.upcomingDesc')
                 };
             case 'cancelled':
                 return {
                     icon: <XCircle size={40} color="#DC2626" />,
                     bg: '#FEF2F2',
-                    title: 'Booking Cancelled',
-                    desc: 'This booking was cancelled.'
+                    title: t('historyDetail.cancelledTitle'),
+                    desc: t('historyDetail.cancelledDesc')
                 };
             default:
                 return null;
@@ -71,7 +72,7 @@ export const HistoryDetailScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <AppHeader title="Booking Details" showBack={true} onBackPress={handleBack} />
+            <AppHeader title={t('historyDetail.title')} showBack={true} onBackPress={handleBack} />
 
             <ScrollView style={styles.container} contentContainerStyle={styles.content}>
                 {statusInfo && (
@@ -83,17 +84,17 @@ export const HistoryDetailScreen = () => {
                 )}
 
                 <View style={styles.card}>
-                    <Text style={[styles.cardTitle, { color: colors.text }]}>Court Information</Text>
+                    <Text style={[styles.cardTitle, { color: colors.text }]}>{t('historyDetail.courtInfo')}</Text>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Court Name</Text>
+                        <Text style={styles.label}>{t('historyDetail.courtName')}</Text>
                         <Text style={styles.value}>{booking.courtName}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Sport</Text>
+                        <Text style={styles.label}>{t('historyDetail.sport')}</Text>
                         <Text style={styles.value}>{booking.game}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Location</Text>
+                        <Text style={styles.label}>{t('historyDetail.location')}</Text>
                         <Text style={[styles.value, { color: colors.primary }]}>
                             <MapPin size={12} /> {booking.location}
                         </Text>
@@ -101,38 +102,38 @@ export const HistoryDetailScreen = () => {
                 </View>
 
                 <View style={styles.card}>
-                    <Text style={[styles.cardTitle, { color: colors.text }]}>Booking Schedule</Text>
+                    <Text style={[styles.cardTitle, { color: colors.text }]}>{t('historyDetail.bookingSchedule')}</Text>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Date</Text>
+                        <Text style={styles.label}>{t('historyDetail.date')}</Text>
                         <Text style={styles.value}>{booking.date}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Time Slot</Text>
+                        <Text style={styles.label}>{t('historyDetail.timeSlot')}</Text>
                         <Text style={styles.value}>{booking.time}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Booking ID</Text>
+                        <Text style={styles.label}>{t('historyDetail.bookingId')}</Text>
                         <Text style={styles.value}>{booking.bookingId}</Text>
                     </View>
                 </View>
 
                 <View style={styles.card}>
-                    <Text style={[styles.cardTitle, { color: colors.text }]}>Payment Details</Text>
+                    <Text style={[styles.cardTitle, { color: colors.text }]}>{t('historyDetail.paymentDetails')}</Text>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Amount Paid</Text>
+                        <Text style={styles.label}>{t('historyDetail.amountPaid')}</Text>
                         <Text style={styles.value}>{booking.amount}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Method</Text>
+                        <Text style={styles.label}>{t('historyDetail.method')}</Text>
                         <Text style={styles.value}>{booking.paymentMethod}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text style={styles.label}>Transaction ID</Text>
+                        <Text style={styles.label}>{t('historyDetail.transactionId')}</Text>
                         <Text style={styles.value}>{booking.transactionId}</Text>
                     </View>
                     <View style={styles.divider} />
                     <View style={styles.totalRow}>
-                        <Text style={[styles.totalLabel, { color: colors.text }]}>Total</Text>
+                        <Text style={[styles.totalLabel, { color: colors.text }]}>{t('historyDetail.total')}</Text>
                         <Text style={[styles.totalValue, { color: colors.primary }]}>{booking.amount}</Text>
                     </View>
                 </View>
@@ -141,14 +142,14 @@ export const HistoryDetailScreen = () => {
                     <TouchableOpacity style={styles.primaryBtn} onPress={handleBookAgain}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
                             <RotateCcw size={20} color={colors.white} />
-                            <Text style={styles.primaryBtnText}>Book Again</Text>
+                            <Text style={styles.primaryBtnText}>{t('historyDetail.bookAgain')}</Text>
                         </View>
                     </TouchableOpacity>
 
                     {booking.status === 'completed' && (
                         <TouchableOpacity style={styles.secondaryBtn} onPress={handleDownloadInvoice}>
                             <Download size={20} color={colors.primary} />
-                            <Text style={styles.secondaryBtnText}>Download Invoice</Text>
+                            <Text style={styles.secondaryBtnText}>{t('historyDetail.downloadInvoice')}</Text>
                         </TouchableOpacity>
                     )}
                 </View>

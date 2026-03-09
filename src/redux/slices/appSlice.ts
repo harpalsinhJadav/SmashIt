@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface AppState {
     isLoading: boolean;
     user: any | null;
-    role: 'admin' | 'user' | null;
+    role: 'admin' | 'player' | 'owner' | 'assistant' | null;
     error: string | null;
 }
 
@@ -24,7 +24,7 @@ const appSlice = createSlice({
         setUser: (state, action: PayloadAction<any>) => {
             state.user = action.payload;
         },
-        setRole: (state, action: PayloadAction<'admin' | 'user' | null>) => {
+        setRole: (state, action: PayloadAction<'admin' | 'player' | 'owner' | 'assistant' | null>) => {
             state.role = action.payload;
         },
         setError: (state, action: PayloadAction<string | null>) => {

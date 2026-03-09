@@ -27,6 +27,7 @@ export const CourtDetailScreen = () => {
         court,
         isLoading,
         colors,
+        t,
         selectedDate,
         setSelectedDate,
         selectedSlot,
@@ -85,7 +86,7 @@ export const CourtDetailScreen = () => {
 
                 {/* Facilities */}
                 <View style={styles.section}>
-                    <Text style={[styles.sectionTitle, { color: colors.text }]}>Facilities</Text>
+                    <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('courtDetail.facilities')}</Text>
                     <View style={styles.grid}>
                         {court.facilities.map((facility: string) => (
                             <View key={facility} style={styles.facilityItem}>
@@ -99,7 +100,7 @@ export const CourtDetailScreen = () => {
                 {/* Inclusions & Exclusions */}
                 <View style={[styles.section, { flexDirection: 'row', gap: 16 }]}>
                     <View style={{ flex: 1 }}>
-                        <Text style={[styles.sectionTitle, { color: colors.text }]}>Inclusions</Text>
+                        <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('courtDetail.inclusions')}</Text>
                         {court.inclusions.map((item: string) => (
                             <View key={item} style={[styles.facilityItem, { width: '100%' }]}>
                                 <CheckCircle2 size={14} color="#059669" />
@@ -108,7 +109,7 @@ export const CourtDetailScreen = () => {
                         ))}
                     </View>
                     <View style={{ flex: 1 }}>
-                        <Text style={[styles.sectionTitle, { color: colors.text }]}>Exclusions</Text>
+                        <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('courtDetail.exclusions')}</Text>
                         {court.exclusions.map((item: string) => (
                             <View key={item} style={[styles.facilityItem, { width: '100%' }]}>
                                 <XCircle size={14} color="#DC2626" />
@@ -121,7 +122,7 @@ export const CourtDetailScreen = () => {
                 {/* Date Selection */}
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>
-                        <CalendarIcon size={20} color={colors.text} /> Select Date
+                        <CalendarIcon size={20} color={colors.text} /> {t('courtDetail.selectDate')}
                     </Text>
                     <TouchableOpacity
                         style={styles.dateButton}
@@ -148,7 +149,7 @@ export const CourtDetailScreen = () => {
                 {/* Time Slots */}
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>
-                        <Clock size={20} color={colors.text} /> Available Slots
+                        <Clock size={20} color={colors.text} /> {t('courtDetail.availableSlots')}
                     </Text>
                     <View style={styles.slotGrid}>
                         {court.timeSlots.map((slot: any) => (
@@ -173,7 +174,7 @@ export const CourtDetailScreen = () => {
                                 </Text>
                                 {slot.popular && slot.available && (
                                     <View style={styles.popularBadge}>
-                                        <Text style={styles.popularText}>Popular</Text>
+                                        <Text style={styles.popularText}>{t('courtDetail.popular')}</Text>
                                     </View>
                                 )}
                             </TouchableOpacity>
@@ -183,9 +184,9 @@ export const CourtDetailScreen = () => {
 
                 {/* Policy */}
                 <View style={styles.policyCard}>
-                    <Text style={styles.policyTitle}>Cancellation Policy</Text>
+                    <Text style={styles.policyTitle}>{t('courtDetail.cancellationPolicy')}</Text>
                     <Text style={styles.policyText}>
-                        Free cancellation up to 2 hours before booking. 50% refund after that.
+                        {t('courtDetail.cancellationText')}
                     </Text>
                 </View>
             </ScrollView>
@@ -194,11 +195,11 @@ export const CourtDetailScreen = () => {
             {selectedSlot && (
                 <View style={styles.footer}>
                     <View style={styles.footerInfo}>
-                        <Text style={styles.footerLabel}>Selected Slot</Text>
+                        <Text style={styles.footerLabel}>{t('courtDetail.selectedSlot')}</Text>
                         <Text style={styles.footerValue}>{selectedSlot}</Text>
                     </View>
                     <TouchableOpacity style={styles.bookButton} onPress={handleBooking}>
-                        <Text style={styles.bookButtonText}>Proceed to Book</Text>
+                        <Text style={styles.bookButtonText}>{t('courtDetail.proceedToBook')}</Text>
                     </TouchableOpacity>
                 </View>
             )}

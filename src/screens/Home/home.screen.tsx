@@ -51,12 +51,12 @@ export const HomeScreen = () => {
                         <MapPin size={18} color={colors.primary} />
                         <Text style={[styles.locationText, { color: colors.text }]}>{location}</Text>
                         <TouchableOpacity>
-                            <Text style={[styles.changeText, { color: colors.primary }]}>Change</Text>
+                            <Text style={[styles.changeText, { color: colors.primary }]}>{t('home.change')}</Text>
                         </TouchableOpacity>
                     </View>
 
                     <SearchBar
-                        placeholder="Search courts, areas..."
+                        placeholder={t('home.searchPlaceholder')}
                         onPress={() => console.log('Search pressed')}
                         editable={false}
                     />
@@ -64,15 +64,15 @@ export const HomeScreen = () => {
                     {/* Quick Actions */}
                     <View style={styles.quickActions}>
                         <ActionCard
-                            title="Book a Court"
-                            description="Find & reserve slots"
+                            title={t('home.bookACourt')}
+                            description={t('home.bookACourtDesc')}
                             color={colors.primary}
                             icon={<Calendar size={32} color={colors.white} />}
                             onPress={handleBookACourt}
                         />
                         <ActionCard
-                            title="My Bookings"
-                            description="View history"
+                            title={t('home.myBookings')}
+                            description={t('home.myBookingsDesc')}
                             color={colors.accent}
                             icon={<TrendingUp size={32} color={colors.white} />}
                             onPress={handleMyBookings}
@@ -83,7 +83,7 @@ export const HomeScreen = () => {
                     {upcomingBookings.length > 0 && (
                         <View style={styles.section}>
                             <View style={styles.sectionHeader}>
-                                <Text style={[styles.sectionTitle, { color: colors.text }]}>Upcoming Bookings</Text>
+                                <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('home.upcomingBookings')}</Text>
                             </View>
                             {upcomingBookings.map((booking) => (
                                 <BookingCard
@@ -100,9 +100,9 @@ export const HomeScreen = () => {
                     {/* Popular Courts */}
                     <View style={styles.section}>
                         <View style={styles.sectionHeader}>
-                            <Text style={[styles.sectionTitle, { color: colors.text }]}>Popular Courts</Text>
+                            <Text style={[styles.sectionTitle, { color: colors.text }]}>{t('home.popularCourts')}</Text>
                             <TouchableOpacity onPress={handleViewAllCourts}>
-                                <Text style={[styles.viewAll, { color: colors.primary }]}>View All</Text>
+                                <Text style={[styles.viewAll, { color: colors.primary }]}>{t('home.viewAll')}</Text>
                             </TouchableOpacity>
                         </View>
 

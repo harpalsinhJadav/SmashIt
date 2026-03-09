@@ -18,6 +18,7 @@ import { CourtDetailScreen } from '../screens/CourtDetail/courtdetail.screen';
 import { HistoryScreen } from '../screens/History/history.screen';
 import { HistoryDetailScreen } from '../screens/HistoryDetail/historydetail.screen';
 import { NotificationsScreen } from '../screens/Notifications/notifications.screen';
+import { ProfileScreen } from '../screens/Profile/profile.screen';
 import { Home, Calendar, LayoutDashboard, Bell, User } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { Text, View } from 'react-native';
@@ -65,7 +66,7 @@ const PlayerTabs = () => {
             <Tab.Screen name="Booking" component={BookingScreen} options={{ tabBarLabel: 'Book' }} />
             <Tab.Screen name="History" component={HistoryScreen} options={{ tabBarLabel: 'History' }} />
             <Tab.Screen name="Notifications" component={NotificationsScreen} options={{ tabBarLabel: 'Alerts' }} />
-            <Tab.Screen name="Profile" component={() => <Placeholder name="Profile" />} options={{ tabBarLabel: 'Profile' }} />
+            <Tab.Screen name="Profile" component={ProfileScreen} options={{ tabBarLabel: 'Profile' }} />
         </Tab.Navigator>
     );
 };
@@ -101,6 +102,8 @@ export const RootNavigator = () => {
                     <RootStack.Screen name="AuthStack" component={AuthNavigator} />
                 ) : role === 'admin' ? (
                     <RootStack.Screen name="AdminStack" component={AdminNavigator} />
+                ) : role === 'player' ? (
+                    <RootStack.Screen name="PlayerStack" component={PlayerNavigator} />
                 ) : (
                     <RootStack.Screen name="PlayerStack" component={PlayerNavigator} />
                 )}
