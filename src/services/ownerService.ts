@@ -23,5 +23,44 @@ export const ownerService = {
                 });
             }, 800);
         });
+    },
+
+    getMyCourts: async () => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([
+                    {
+                        id: 1,
+                        name: 'Arena Sports Complex',
+                        location: 'Downtown, Mumbai',
+                        game: 'Badminton',
+                        status: 'active',
+                        todayBookings: 8,
+                        revenue: '₹4,000',
+                        image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=400'
+                    },
+                    {
+                        id: 2,
+                        name: 'Elite Sports Hub',
+                        location: 'North Zone, Mumbai',
+                        game: 'Tennis',
+                        status: 'active',
+                        todayBookings: 6,
+                        revenue: '₹4,800',
+                        image: 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400'
+                    },
+                    {
+                        id: 3,
+                        name: 'Victory Court',
+                        location: 'East Side, Mumbai',
+                        game: 'Squash',
+                        status: 'under_review',
+                        todayBookings: 0,
+                        revenue: '₹0',
+                        image: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a26?w=400'
+                    },
+                ]);
+            }, 600);
+        });
     }
 };

@@ -7,3 +7,10 @@ export const useOwnerDashboardStats = () => {
         queryFn: ownerService.getDashboardStats as any
     });
 };
+
+export const useOwnerCourts = () => {
+    return useQuery({
+        queryKey: ['ownerCourts'],
+        queryFn: ownerService.getMyCourts as any
+    });
+};

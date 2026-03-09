@@ -122,5 +122,13 @@
         "activePlayers": "Active Players",
         "cancellationRate": "Cancellation Rate"
     }
+  },
+  "ownerCourts": {
+    "title": "My Courts",
+    "addNewCourt": "Add New Court",
+    "noCourts": "No courts added yet.",
+    "todaysBookings": "Today's Bookings",
+    "todaysRevenue": "Today's Revenue",
+    "manageCourt": "Manage Court"
   }
 }
