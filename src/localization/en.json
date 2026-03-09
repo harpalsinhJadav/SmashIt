@@ -1,0 +1,33 @@
+{
+  "common": {
+    "welcome": "Welcome back",
+    "login": "Login",
+    "signup": "Sign Up",
+    "home": "Home",
+    "settings": "Settings",
+    "profile": "Profile",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "email": "Email",
+    "phone": "Phone",
+    "sendOtp": "Send OTP",
+    "newUser": "New user?",
+    "alreadyHaveAccount": "Already have an account?",
+    "bookYourCourt": "Book Your Game Court",
+    "loginAs": "Login As",
+    "enterEmail": "Enter your email",
+    "enterPhone": "Enter your phone number",
+    "name": "Name",
+    "enterName": "Enter your name"
+  },
+  "roles": {
+    "player": "Player",
+    "owner": "Court Owner",
+    "assistant": "Assistant",
+    "admin": "Admin"
+  },
+  "home": {
+    "title": "SmashIT Dashboard",
+    "description": "Start smashing your goals today!"
+  }
+}
