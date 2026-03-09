@@ -2,6 +2,7 @@ export type RootStackParamList = {
     AuthStack: undefined;
     AdminStack: undefined;
     PlayerStack: undefined;
+    OwnerStack: undefined;
 };
 
 export type AuthStackParamList = {

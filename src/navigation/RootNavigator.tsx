@@ -19,7 +19,8 @@ import { HistoryScreen } from '../screens/History/history.screen';
 import { HistoryDetailScreen } from '../screens/HistoryDetail/historydetail.screen';
 import { NotificationsScreen } from '../screens/Notifications/notifications.screen';
 import { ProfileScreen } from '../screens/Profile/profile.screen';
-import { Home, Calendar, LayoutDashboard, Bell, User } from 'lucide-react-native';
+import { OwnerDashboardScreen } from '../screens/OwnerDashboard/ownerdashboard.screen';
+import { Home, Calendar, LayoutDashboard, Bell, User, DollarSign } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { Text, View } from 'react-native';
 
@@ -29,15 +30,57 @@ const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const PlayerStack = createNativeStackNavigator<any>();
 const Tab = createBottomTabNavigator<PlayerStackParamList>();
 
+const OwnerStack = createNativeStackNavigator<any>();
+const OwnerTab = createBottomTabNavigator<any>();
+
 // Placeholder screens
-const Placeholder = ({ name }: { name: string }) => {
+const Placeholder = ({ name, title }: { name: string, title?: string }) => {
     const { colors } = useTheme();
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
-            <Text style={{ color: colors.text }}>{name} Screen</Text>
+            <Text style={{ color: colors.text }}>{title || name} Screen</Text>
         </View>
     );
 };
+
+const OwnerPlaceholder = ({ route }: any) => <Placeholder name={route.name} />;
+
+const OwnerTabs = () => {
+    const { colors } = useTheme();
+
+    return (
+        <OwnerTab.Navigator
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                tabBarActiveTintColor: colors.primary,
+                tabBarInactiveTintColor: colors.textSecondary,
+                tabBarStyle: {
+                    backgroundColor: colors.background,
+                    borderTopColor: colors.border,
+                },
+                tabBarIcon: ({ color, size }) => {
+                    if (route.name === 'OwnerDashboard') return <LayoutDashboard color={color} size={size} />;
+                    if (route.name === 'OwnerCourts') return <Calendar color={color} size={size} />;
+                    if (route.name === 'OwnerSales') return <DollarSign color={color} size={size} />;
+                    if (route.name === 'Profile') return <User color={color} size={size} />;
+                    return <Home color={color} size={size} />;
+                },
+            })}
+        >
+            <OwnerTab.Screen name="OwnerDashboard" component={OwnerDashboardScreen} options={{ tabBarLabel: 'Dashboard' }} />
+            <OwnerTab.Screen name="OwnerCourts" component={OwnerPlaceholder} options={{ tabBarLabel: 'Courts' }} />
+            <OwnerTab.Screen name="OwnerSales" component={OwnerPlaceholder} options={{ tabBarLabel: 'Sales' }} />
+            <OwnerTab.Screen name="Profile" component={ProfileScreen} options={{ tabBarLabel: 'Profile' }} />
+        </OwnerTab.Navigator>
+    );
+};
+
+const OwnerNavigator = () => (
+    <OwnerStack.Navigator screenOptions={{ headerShown: false }}>
+        <OwnerStack.Screen name="OwnerTabs" component={OwnerTabs} />
+        <OwnerStack.Screen name="Notifications" component={NotificationsScreen} />
+    </OwnerStack.Navigator>
+);
 
 const PlayerTabs = () => {
     const { colors } = useTheme();
@@ -104,6 +147,8 @@ export const RootNavigator = () => {
                     <RootStack.Screen name="AdminStack" component={AdminNavigator} />
                 ) : role === 'player' ? (
                     <RootStack.Screen name="PlayerStack" component={PlayerNavigator} />
+                ) : role === 'owner' ? (
+                    <RootStack.Screen name="OwnerStack" component={OwnerNavigator} />
                 ) : (
                     <RootStack.Screen name="PlayerStack" component={PlayerNavigator} />
                 )}
@@ -111,3 +156,4 @@ export const RootNavigator = () => {
         </NavigationContainer>
     );
 };
+

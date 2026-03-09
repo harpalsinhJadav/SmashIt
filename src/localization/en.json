@@ -105,5 +105,22 @@
     "upcomingBookings": "Upcoming Bookings",
     "popularCourts": "Popular Courts",
     "viewAll": "View All"
+  },
+  "ownerDashboard": {
+    "addNewCourt": "Add New Court",
+    "addNewCourtDesc": "Create & manage",
+    "viewSales": "View Sales",
+    "viewSalesDesc": "Revenue reports",
+    "myCourts": "My Courts",
+    "viewAll": "View All",
+    "bookingsThisMonth": "bookings this month",
+    "recentBookings": "Recent Bookings",
+    "player": "Player",
+    "stats": {
+        "totalBookings": "Total Bookings",
+        "revenue": "Revenue (This Month)",
+        "activePlayers": "Active Players",
+        "cancellationRate": "Cancellation Rate"
+    }
   }
 }
