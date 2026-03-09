@@ -22,3 +22,10 @@ export const useOwnerCourtDetail = (id: number) => {
         enabled: !!id
     });
 };
+
+export const useOwnerSales = (filter: string) => {
+    return useQuery({
+        queryKey: ['ownerSales', filter],
+        queryFn: () => ownerService.getOwnerSales(filter) as any
+    });
+};

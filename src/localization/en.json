@@ -185,5 +185,21 @@
     "status": "Initial Status",
     "addCourt": "Add Court",
     "success": "Court added logically."
+  },
+  "ownerSales": {
+    "title": "Sales Analytics",
+    "export": "Export",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year",
+    "revenueTrend": "Revenue Trend",
+    "courtWisePerformance": "Court-wise Performance",
+    "bookings": "bookings",
+    "stats": {
+      "totalRevenue": "Total Revenue",
+      "totalBookings": "Total Bookings",
+      "activePlayers": "Active Players",
+      "avgBookingValue": "Avg. Booking Value"
+    }
   }
 }

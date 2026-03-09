@@ -87,5 +87,34 @@ export const ownerService = {
                 });
             }, 600);
         });
+    },
+
+    getOwnerSales: async (filter: string) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    stats: [
+                        { label: 'totalRevenue', value: '₹2,45,600', color: '#16a34a' },
+                        { label: 'totalBookings', value: '412', color: '#2563eb' },
+                        { label: 'activePlayers', value: '156', color: '#9333ea' },
+                        { label: 'avgBookingValue', value: '₹596', color: '#ea580c' },
+                    ],
+                    chartData: [
+                        { name: 'Mon', revenue: 12000 },
+                        { name: 'Tue', revenue: 15000 },
+                        { name: 'Wed', revenue: 18000 },
+                        { name: 'Thu', revenue: 14000 },
+                        { name: 'Fri', revenue: 22000 },
+                        { name: 'Sat', revenue: 28000 },
+                        { name: 'Sun', revenue: 25000 },
+                    ],
+                    courtWiseSales: [
+                        { court: 'Arena Sports Complex', bookings: 156, revenue: '₹78,400' },
+                        { court: 'Elite Sports Hub', bookings: 128, revenue: '₹102,400' },
+                        { court: 'Victory Court', bookings: 92, revenue: '₹55,200' },
+                    ]
+                });
+            }, 600);
+        });
     }
 };
