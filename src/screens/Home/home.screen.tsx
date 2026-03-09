@@ -28,6 +28,7 @@ export const HomeScreen = () => {
         handleCourtPress,
         handleBookingPress,
         handleViewAllCourts,
+        handleBookACourt,
         refetch,
     } = useHome();
 
@@ -65,7 +66,7 @@ export const HomeScreen = () => {
                             description="Find & reserve slots"
                             color={colors.primary}
                             icon={<Calendar size={32} color={colors.white} />}
-                            onPress={() => console.log('Book Court pressed')}
+                            onPress={handleBookACourt}
                         />
                         <ActionCard
                             title="My Bookings"

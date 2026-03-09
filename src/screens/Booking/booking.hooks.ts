@@ -3,10 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../theme';
 import { useCourts } from '../../services/playerQueries';
 import { useAppSelector } from '../../redux/store';
+import { useNavigation } from '@react-navigation/native';
 
 export const useBooking = () => {
     const { t } = useTranslation();
     const { colors } = useTheme();
+    const navigation = useNavigation<any>();
     const [selectedGame, setSelectedGame] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const location = useAppSelector((state) => state.player.location);
@@ -27,8 +29,8 @@ export const useBooking = () => {
     }, []);
 
     const handleCourtPress = useCallback((id: number) => {
-        console.log('Court pressed for booking:', id);
-    }, []);
+        navigation.navigate('CourtDetail', { id });
+    }, [navigation]);
 
     return {
         t,

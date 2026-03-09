@@ -18,9 +18,8 @@ export const useHome = () => {
     const location = useAppSelector((state) => state.player.location);
 
     const handleCourtPress = useCallback((id: number) => {
-        // navigation.navigate('CourtDetails', { id });
-        console.log('Court pressed:', id);
-    }, []);
+        navigation.navigate('CourtDetail', { id });
+    }, [navigation]);
 
     const handleBookingPress = useCallback((id: number) => {
         // navigation.navigate('BookingDetails', { id });
@@ -28,9 +27,12 @@ export const useHome = () => {
     }, []);
 
     const handleViewAllCourts = useCallback(() => {
-        // navigation.navigate('SearchCourts');
-        console.log('View all courts');
-    }, []);
+        navigation.navigate('Booking');
+    }, [navigation]);
+
+    const handleBookACourt = useCallback(() => {
+        navigation.navigate('Booking');
+    }, [navigation]);
 
     return {
         t,
@@ -43,6 +45,7 @@ export const useHome = () => {
         handleCourtPress,
         handleBookingPress,
         handleViewAllCourts,
+        handleBookACourt,
         refetch,
     };
 };

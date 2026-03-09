@@ -19,4 +19,5 @@ export type PlayerStackParamList = {
     History: undefined;
     Notifications: undefined;
     Profile: undefined;
+    CourtDetail: { id: number };
 };

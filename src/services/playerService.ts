@@ -33,4 +33,30 @@ export const playerService = {
             return matchGame && matchSearch;
         });
     },
+    getCourtById: async (id: number) => {
+        await new Promise<void>(resolve => setTimeout(resolve, 800));
+        return {
+            id,
+            name: 'Arena Sports Complex',
+            location: 'Downtown, Mumbai',
+            game: 'Badminton',
+            rating: 4.8,
+            reviews: 142,
+            price: '₹500/hr',
+            image: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=800',
+            facilities: ['Parking', 'Changing Room', 'Refreshments', 'Equipment Rental'],
+            inclusions: ['Court Access', 'Basic Equipment', 'Lighting'],
+            exclusions: ['Professional Coaching', 'Tournament Booking'],
+            timeSlots: [
+                { time: '6:00 AM - 7:00 AM', available: true, popular: false },
+                { time: '7:00 AM - 8:00 AM', available: true, popular: true },
+                { time: '8:00 AM - 9:00 AM', available: false, popular: false },
+                { time: '9:00 AM - 10:00 AM', available: true, popular: false },
+                { time: '4:00 PM - 5:00 PM', available: true, popular: true },
+                { time: '5:00 PM - 6:00 PM', available: true, popular: true },
+                { time: '6:00 PM - 7:00 PM', available: false, popular: true },
+                { time: '7:00 PM - 8:00 PM', available: true, popular: false },
+            ],
+        };
+    },
 };

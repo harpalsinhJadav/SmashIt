@@ -28,3 +28,11 @@ export const useCourts = (params: { game?: string; search?: string }) => {
         queryFn: () => playerService.getCourts(params),
     });
 };
+
+export const useCourtById = (id: number) => {
+    return useQuery({
+        queryKey: ['court', id],
+        queryFn: () => playerService.getCourtById(id),
+        enabled: !!id,
+    });
+};

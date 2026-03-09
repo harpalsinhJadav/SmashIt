@@ -14,19 +14,25 @@ import { LoginScreen } from '../screens/Login/login.screen';
 import { AdminScreen } from '../screens/Admin/admin.screen';
 import { SignupScreen } from '../screens/Signup/signup.screen';
 import { BookingScreen } from '../screens/Booking/booking.screen';
+import { CourtDetailScreen } from '../screens/CourtDetail/courtdetail.screen';
 import { Home, Calendar, LayoutDashboard, Bell, User } from 'lucide-react-native';
 import { useTheme } from '../theme';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const AdminStack = createNativeStackNavigator<AdminStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const PlayerStack = createNativeStackNavigator<any>();
 const Tab = createBottomTabNavigator<PlayerStackParamList>();
 
 // Placeholder screens
 const Placeholder = ({ name }: { name: string }) => {
     const { colors } = useTheme();
-    return <Text style={{ color: colors.text }}>{name} Screen</Text>;
+    return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+            <Text style={{ color: colors.text }}>{name} Screen</Text>
+        </View>
+    );
 };
 
 const PlayerTabs = () => {
@@ -43,7 +49,6 @@ const PlayerTabs = () => {
                     borderTopColor: colors.border,
                 },
                 tabBarIcon: ({ color, size }) => {
-                    let iconName;
                     if (route.name === 'PlayerHome') return <Home color={color} size={size} />;
                     if (route.name === 'Booking') return <Calendar color={color} size={size} />;
                     if (route.name === 'History') return <LayoutDashboard color={color} size={size} />;
@@ -61,6 +66,13 @@ const PlayerTabs = () => {
         </Tab.Navigator>
     );
 };
+
+const PlayerNavigator = () => (
+    <PlayerStack.Navigator screenOptions={{ headerShown: false }}>
+        <PlayerStack.Screen name="PlayerTabs" component={PlayerTabs} />
+        <PlayerStack.Screen name="CourtDetail" component={CourtDetailScreen} />
+    </PlayerStack.Navigator>
+);
 
 const AuthNavigator = () => (
     <AuthStack.Navigator screenOptions={{ headerShown: false }}>
@@ -86,7 +98,7 @@ export const RootNavigator = () => {
                 ) : role === 'admin' ? (
                     <RootStack.Screen name="AdminStack" component={AdminNavigator} />
                 ) : (
-                    <RootStack.Screen name="PlayerStack" component={PlayerTabs} />
+                    <RootStack.Screen name="PlayerStack" component={PlayerNavigator} />
                 )}
             </RootStack.Navigator>
         </NavigationContainer>
