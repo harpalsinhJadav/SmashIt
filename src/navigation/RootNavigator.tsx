@@ -24,6 +24,7 @@ import { OwnerCourtsScreen } from '../screens/OwnerCourts/ownercourts.screen';
 import { OwnerCourtManagementScreen } from '../screens/OwnerCourtManagement/ownercourtmanagement.screen';
 import { OwnerAddCourtScreen } from '../screens/OwnerAddCourt/owneraddcourt.screen';
 import { OwnerSalesScreen } from '../screens/OwnerSales/ownersales.screen';
+import { OwnerProfileScreen } from '../screens/OwnerProfile/ownerprofile.screen';
 import { Home, Calendar, LayoutDashboard, Bell, User, DollarSign } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { Text, View } from 'react-native';
@@ -74,7 +75,7 @@ const OwnerTabs = () => {
             <OwnerTab.Screen name="OwnerDashboard" component={OwnerDashboardScreen} options={{ tabBarLabel: 'Dashboard' }} />
             <OwnerTab.Screen name="OwnerCourts" component={OwnerCourtsScreen} options={{ tabBarLabel: 'Courts' }} />
             <OwnerTab.Screen name="OwnerSales" component={OwnerSalesScreen} options={{ tabBarLabel: 'Sales' }} />
-            <OwnerTab.Screen name="Profile" component={ProfileScreen} options={{ tabBarLabel: 'Profile' }} />
+            <OwnerTab.Screen name="OwnerProfile" component={OwnerProfileScreen} options={{ tabBarLabel: 'Profile' }} />
         </OwnerTab.Navigator>
     );
 };

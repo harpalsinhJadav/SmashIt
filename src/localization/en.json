@@ -201,5 +201,19 @@
       "activePlayers": "Active Players",
       "avgBookingValue": "Avg. Booking Value"
     }
+  },
+  "ownerProfile": {
+    "title": "Profile",
+    "role": "Court Owner",
+    "email": "Email",
+    "phone": "Phone",
+    "businessLocation": "Business Location",
+    "edit": "Edit",
+    "businessStats": "Business Stats",
+    "courts": "Courts",
+    "assistants": "Assistants",
+    "bookings": "Bookings",
+    "logout": "Logout",
+    "deleteAccount": "Delete Account"
   }
 }
