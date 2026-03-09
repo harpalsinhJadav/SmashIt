@@ -1,46 +1,127 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+    View,
+    Text,
+    ScrollView,
+    RefreshControl,
+    FlatList,
+    TouchableOpacity,
+    SafeAreaView,
+} from 'react-native';
+import { MapPin, Calendar, TrendingUp } from 'lucide-react-native';
 import { useHome } from './home.hooks';
 import { createStyles } from './home.style';
+import { AppHeader } from '../../components/AppHeader';
+import { SearchBar } from '../../components/SearchBar';
+import { ActionCard } from '../../components/ActionCard';
+import { BookingCard } from '../../components/BookingCard';
+import { CourtCard } from '../../components/CourtCard';
 
 export const HomeScreen = () => {
     const {
         t,
         colors,
-        toggleTheme,
-        isDark,
-        count,
-        handleIncrement,
-        handleAsyncAction,
         isLoading,
+        popularCourts,
+        upcomingBookings,
+        location,
+        handleCourtPress,
+        handleBookingPress,
+        handleViewAllCourts,
+        refetch,
     } = useHome();
 
     const styles = createStyles(colors);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{t('home.title')}</Text>
-            <Text style={styles.description}>{t('home.description')}</Text>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.surface }]}>
+            <AppHeader />
+            <ScrollView
+                style={styles.scrollView}
+                refreshControl={
+                    <RefreshControl refreshing={isLoading} onRefresh={refetch} tintColor={colors.primary} />
+                }
+            >
+                <View style={styles.content}>
+                    {/* Location & Search */}
+                    <View style={styles.locationContainer}>
+                        <MapPin size={18} color={colors.primary} />
+                        <Text style={[styles.locationText, { color: colors.text }]}>{location}</Text>
+                        <TouchableOpacity>
+                            <Text style={[styles.changeText, { color: colors.primary }]}>Change</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            <Text style={[styles.title, { marginTop: 20 }]}>Count: {count}</Text>
+                    <SearchBar
+                        placeholder="Search courts, areas..."
+                        onPress={() => console.log('Search pressed')}
+                        editable={false}
+                    />
 
-            <TouchableOpacity style={styles.button} onPress={handleIncrement}>
-                <Text style={styles.buttonText}>Increment</Text>
-            </TouchableOpacity>
+                    {/* Quick Actions */}
+                    <View style={styles.quickActions}>
+                        <ActionCard
+                            title="Book a Court"
+                            description="Find & reserve slots"
+                            color={colors.primary}
+                            icon={<Calendar size={32} color={colors.white} />}
+                            onPress={() => console.log('Book Court pressed')}
+                        />
+                        <ActionCard
+                            title="My Bookings"
+                            description="View history"
+                            color={colors.accent}
+                            icon={<TrendingUp size={32} color={colors.white} />}
+                            onPress={() => console.log('My Bookings pressed')}
+                        />
+                    </View>
 
-            <TouchableOpacity style={[styles.button, { backgroundColor: colors.secondary }]} onPress={handleAsyncAction}>
-                {isLoading ? (
-                    <ActivityIndicator color="#FFF" />
-                ) : (
-                    <Text style={styles.buttonText}>Test Async Action</Text>
-                )}
-            </TouchableOpacity>
+                    {/* Upcoming Bookings */}
+                    {upcomingBookings.length > 0 && (
+                        <View style={styles.section}>
+                            <View style={styles.sectionHeader}>
+                                <Text style={[styles.sectionTitle, { color: colors.text }]}>Upcoming Bookings</Text>
+                            </View>
+                            {upcomingBookings.map((booking) => (
+                                <BookingCard
+                                    key={booking.id}
+                                    court={booking.court}
+                                    game={booking.game}
+                                    date={booking.date}
+                                    onPress={() => handleBookingPress(booking.id)}
+                                />
+                            ))}
+                        </View>
+                    )}
 
-            <TouchableOpacity style={[styles.button, { backgroundColor: colors.border }]} onPress={toggleTheme}>
-                <Text style={[styles.buttonText, { color: colors.text }]}>
-                    Switch to {isDark ? 'Light' : 'Dark'} Mode
-                </Text>
-            </TouchableOpacity>
-        </View>
+                    {/* Popular Courts */}
+                    <View style={styles.section}>
+                        <View style={styles.sectionHeader}>
+                            <Text style={[styles.sectionTitle, { color: colors.text }]}>Popular Courts</Text>
+                            <TouchableOpacity onPress={handleViewAllCourts}>
+                                <Text style={[styles.viewAll, { color: colors.primary }]}>View All</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <FlatList
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            data={popularCourts}
+                            keyExtractor={(item) => item.id.toString()}
+                            renderItem={({ item }) => (
+                                <CourtCard
+                                    name={item.name}
+                                    game={item.game}
+                                    location={item.location}
+                                    price={item.price}
+                                    image={item.image}
+                                    onPress={() => handleCourtPress(item.id)}
+                                />
+                            )}
+                        />
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };

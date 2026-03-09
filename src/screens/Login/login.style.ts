@@ -18,19 +18,19 @@ export const createStyles = (colors: ThemeColors) =>
         },
         logoContainer: {
             marginBottom: verticalScale(16),
-            backgroundColor: '#FFFFFF',
+            backgroundColor: colors.white,
             padding: moderateScale(10),
             borderRadius: moderateScale(15),
         },
         title: {
             fontSize: moderateScale(32),
             fontWeight: 'bold',
-            color: '#FFFFFF',
+            color: colors.white,
             marginBottom: verticalScale(8),
         },
         subtitle: {
             fontSize: moderateScale(16),
-            color: 'rgba(255, 255, 255, 0.8)',
+            color: colors.overlay,
         },
         card: {
             backgroundColor: colors.background,
@@ -114,7 +114,7 @@ export const createStyles = (colors: ThemeColors) =>
             marginBottom: verticalScale(20),
         },
         submitButtonText: {
-            color: '#FFFFFF',
+            color: colors.white,
             fontSize: moderateScale(16),
             fontWeight: 'bold',
         },

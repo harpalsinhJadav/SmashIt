@@ -1,7 +1,7 @@
 export type RootStackParamList = {
     AuthStack: undefined;
     AdminStack: undefined;
-    UserStack: undefined;
+    PlayerStack: undefined;
 };
 
 export type AuthStackParamList = {
@@ -13,7 +13,10 @@ export type AdminStackParamList = {
     AdminHome: undefined;
 };
 
-export type UserStackParamList = {
-    Home: undefined;
+export type PlayerStackParamList = {
+    PlayerHome: undefined;
+    Booking: undefined;
+    History: undefined;
+    Notifications: undefined;
     Profile: undefined;
 };

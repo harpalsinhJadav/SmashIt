@@ -1,36 +1,48 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../theme';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { setLoading } from '../../redux/slices/appSlice';
+import { usePlayerDashboard } from '../../services/playerQueries';
+import { useNavigation } from '@react-navigation/native';
 
 export const useHome = () => {
     const { t } = useTranslation();
-    const { colors, toggleTheme, isDark } = useTheme();
+    const { colors, isDark } = useTheme();
     const dispatch = useAppDispatch();
-    const { isLoading } = useAppSelector((state) => state.app);
+    const navigation = useNavigation<any>();
 
-    const [count, setCount] = useState(0);
+    const { isLoading, refetch } = usePlayerDashboard();
 
-    const handleIncrement = useCallback(() => {
-        setCount((prev) => prev + 1);
+    const popularCourts = useAppSelector((state) => state.player.popularCourts);
+    const upcomingBookings = useAppSelector((state) => state.player.upcomingBookings);
+    const location = useAppSelector((state) => state.player.location);
+
+    const handleCourtPress = useCallback((id: number) => {
+        // navigation.navigate('CourtDetails', { id });
+        console.log('Court pressed:', id);
     }, []);
 
-    const handleAsyncAction = useCallback(async () => {
-        dispatch(setLoading(true));
-        // Simulate API call
-        await new Promise<void>((resolve) => setTimeout(resolve, 1000));
-        dispatch(setLoading(false));
-    }, [dispatch]);
+    const handleBookingPress = useCallback((id: number) => {
+        // navigation.navigate('BookingDetails', { id });
+        console.log('Booking pressed:', id);
+    }, []);
+
+    const handleViewAllCourts = useCallback(() => {
+        // navigation.navigate('SearchCourts');
+        console.log('View all courts');
+    }, []);
 
     return {
         t,
         colors,
-        toggleTheme,
         isDark,
-        count,
-        handleIncrement,
-        handleAsyncAction,
         isLoading,
+        popularCourts,
+        upcomingBookings,
+        location,
+        handleCourtPress,
+        handleBookingPress,
+        handleViewAllCourts,
+        refetch,
     };
 };

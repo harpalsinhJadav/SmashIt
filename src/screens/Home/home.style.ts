@@ -1,34 +1,53 @@
 import { StyleSheet } from 'react-native';
 import { ThemeColors } from '../../theme/colors';
+import { horizontalScale, verticalScale, moderateScale } from '../../utils/helpers';
 
 export const createStyles = (colors: ThemeColors) =>
     StyleSheet.create({
         container: {
             flex: 1,
-            backgroundColor: colors.background,
+            backgroundColor: colors.surface,
+        },
+        scrollView: {
+            flex: 1,
+        },
+        content: {
+            padding: moderateScale(16),
+            paddingBottom: verticalScale(100), // Space for bottom nav if needed
+        },
+        locationContainer: {
+            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: 20,
+            marginBottom: verticalScale(8),
         },
-        title: {
-            fontSize: 24,
+        locationText: {
+            fontSize: moderateScale(14),
+            fontWeight: '500',
+            marginLeft: horizontalScale(4),
+        },
+        changeText: {
+            fontSize: moderateScale(12),
+            marginLeft: 'auto',
+        },
+        section: {
+            marginTop: verticalScale(24),
+        },
+        sectionHeader: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: verticalScale(12),
+        },
+        sectionTitle: {
+            fontSize: moderateScale(18),
             fontWeight: 'bold',
-            color: colors.text,
-            marginBottom: 10,
         },
-        description: {
-            fontSize: 16,
-            color: colors.textSecondary,
-            textAlign: 'center',
+        viewAll: {
+            fontSize: moderateScale(14),
         },
-        button: {
-            marginTop: 20,
-            padding: 15,
-            backgroundColor: colors.primary,
-            borderRadius: 10,
-        },
-        buttonText: {
-            color: '#FFFFFF',
-            fontWeight: 'bold',
+        quickActions: {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: verticalScale(16),
         },
     });
