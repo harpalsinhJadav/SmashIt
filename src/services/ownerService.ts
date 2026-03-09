@@ -62,5 +62,30 @@ export const ownerService = {
                 ]);
             }, 600);
         });
+    },
+
+    getOwnerCourtDetail: async (id: number) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    id,
+                    name: 'Arena Sports Complex',
+                    game: 'Badminton',
+                    status: 'active',
+                    slots: [
+                        { id: 1, time: '6:00 AM - 7:00 AM', price: '₹400', status: 'available' },
+                        { id: 2, time: '7:00 AM - 8:00 AM', price: '₹500', status: 'booked' },
+                        { id: 3, time: '8:00 AM - 9:00 AM', price: '₹500', status: 'maintenance' },
+                        { id: 4, time: '4:00 PM - 5:00 PM', price: '₹600', status: 'available' },
+                        { id: 5, time: '5:00 PM - 6:00 PM', price: '₹600', status: 'booked' },
+                        { id: 6, time: '6:00 PM - 7:00 PM', price: '₹700', status: 'booked' },
+                    ],
+                    assistants: [
+                        { id: 1, name: 'Suresh Kumar', email: 'suresh@example.com', assignedCourts: 'All Courts' },
+                        { id: 2, name: 'Anjali Patel', email: 'anjali@example.com', assignedCourts: 'This Court' },
+                    ]
+                });
+            }, 600);
+        });
     }
 };

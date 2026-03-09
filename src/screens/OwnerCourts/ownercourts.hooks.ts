@@ -16,14 +16,12 @@ export const useOwnerCourtsList = () => {
     }, [navigation]);
 
     const handleAddNewCourt = useCallback(() => {
-        // Navigate to add new court screen
-        console.log('Navigate to Add New Court');
-    }, []);
+        navigation.navigate('OwnerAddCourt');
+    }, [navigation]);
 
     const handleManageCourt = useCallback((id: number) => {
-        // Navigate to manage court screen
-        console.log('Navigate to Manage Court', id);
-    }, []);
+        navigation.navigate('OwnerCourtManagement', { id });
+    }, [navigation]);
 
     return {
         t,

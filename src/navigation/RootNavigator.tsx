@@ -21,6 +21,8 @@ import { NotificationsScreen } from '../screens/Notifications/notifications.scre
 import { ProfileScreen } from '../screens/Profile/profile.screen';
 import { OwnerDashboardScreen } from '../screens/OwnerDashboard/ownerdashboard.screen';
 import { OwnerCourtsScreen } from '../screens/OwnerCourts/ownercourts.screen';
+import { OwnerCourtManagementScreen } from '../screens/OwnerCourtManagement/ownercourtmanagement.screen';
+import { OwnerAddCourtScreen } from '../screens/OwnerAddCourt/owneraddcourt.screen';
 import { Home, Calendar, LayoutDashboard, Bell, User, DollarSign } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { Text, View } from 'react-native';
@@ -80,6 +82,8 @@ const OwnerNavigator = () => (
     <OwnerStack.Navigator screenOptions={{ headerShown: false }}>
         <OwnerStack.Screen name="OwnerTabs" component={OwnerTabs} />
         <OwnerStack.Screen name="Notifications" component={NotificationsScreen} />
+        <OwnerStack.Screen name="OwnerCourtManagement" component={OwnerCourtManagementScreen} />
+        <OwnerStack.Screen name="OwnerAddCourt" component={OwnerAddCourtScreen} />
     </OwnerStack.Navigator>
 );
 

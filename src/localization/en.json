@@ -130,5 +130,60 @@
     "todaysBookings": "Today's Bookings",
     "todaysRevenue": "Today's Revenue",
     "manageCourt": "Manage Court"
+  },
+  "ownerCourtManagement": {
+    "courtStatus": "Court Status",
+    "statusActive": "Active",
+    "statusUnderReview": "Under Review",
+    "statusInactive": "Inactive",
+    "tabs": {
+        "slots": "Slots",
+        "details": "Details",
+        "assistants": "Assistants"
+    },
+    "slotsTab": {
+        "title": "Time Slots",
+        "addSlot": "Add Slot",
+        "addMoreSlots": "+ Add More Slots",
+        "editSlot": "Edit Slot",
+        "slotTime": "Time (e.g., 6:00 AM - 7:00 AM)",
+        "slotPrice": "Price (e.g., ₹500)",
+        "slotStatus": "Status (available, booked, maintenance)",
+        "saveSlot": "Save Slot",
+        "deleteSlot": "Delete Slot",
+        "cancel": "Cancel"
+    },
+    "detailsTab": {
+        "courtName": "Court Name",
+        "gameType": "Game Type",
+        "minDuration": "Minimum Slot Duration (minutes)",
+        "maxDuration": "Maximum Slot Duration (minutes)",
+        "allowDynamic": "Allow dynamic time slots",
+        "facilities": "Facilities (comma separated)",
+        "saveChanges": "Save Changes"
+    },
+    "assistantsTab": {
+        "title": "Assigned Assistants",
+        "addAssistant": "Add Assistant",
+        "remove": "Remove",
+        "assistantName": "Assistant Name",
+        "assistantEmail": "Assistant Email",
+        "assignedCourts": "Assigned Courts (e.g., All Courts, Court A)",
+        "saveAssistant": "Save Assistant",
+        "editAssistant": "Edit Assistant"
+    }
+  },
+  "ownerAddCourt": {
+    "title": "Add New Court",
+    "courtName": "Court Name",
+    "location": "Location",
+    "gameType": "Game Type",
+    "minDuration": "Min Slot Duration (min)",
+    "maxDuration": "Max Slot Duration (min)",
+    "allowDynamic": "Allow dynamic time slots",
+    "facilities": "Facilities (comma separated)",
+    "status": "Initial Status",
+    "addCourt": "Add Court",
+    "success": "Court added logically."
   }
 }

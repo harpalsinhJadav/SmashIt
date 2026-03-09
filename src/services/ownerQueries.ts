@@ -14,3 +14,11 @@ export const useOwnerCourts = () => {
         queryFn: ownerService.getMyCourts as any
     });
 };
+
+export const useOwnerCourtDetail = (id: number) => {
+    return useQuery({
+        queryKey: ['ownerCourtDetail', id],
+        queryFn: () => ownerService.getOwnerCourtDetail(id) as any,
+        enabled: !!id
+    });
+};
