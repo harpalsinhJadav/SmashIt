@@ -4,14 +4,14 @@ import {
   CourtType,
   Status,
   BookingStatus,
-} from "@prisma/client";
-import * as crypto from "crypto";
+} from "../generated/client";
+import * as bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-// Simple password hash (in production you'd use bcrypt)
-function hashPassword(password: string): string {
-  return crypto.createHash("sha256").update(password).digest("hex");
+// Use bcrypt for consistent hashing with the API
+async function hashPassword(password: string): Promise<string> {
+  return bcrypt.hash(password, 10);
 }
 
 async function main() {
@@ -31,7 +31,7 @@ async function main() {
     data: {
       email: "admin@smashit.com",
       name: "Super Admin",
-      password: hashPassword("Admin@123"),
+      password: await hashPassword("Admin@123"),
       role: Role.ADMIN,
       phoneNumber: "+91 9800000000",
     },
@@ -43,7 +43,7 @@ async function main() {
     data: {
       email: "raj@smashit.com",
       name: "Rajesh Sharma",
-      password: hashPassword("Owner@123"),
+      password: await hashPassword("Owner@123"),
       role: Role.OWNER,
       phoneNumber: "+91 9812345678",
     },
@@ -53,7 +53,7 @@ async function main() {
     data: {
       email: "priya@smashit.com",
       name: "Priya Mehta",
-      password: hashPassword("Owner@123"),
+      password: await hashPassword("Owner@123"),
       role: Role.OWNER,
       phoneNumber: "+91 9823456789",
     },
@@ -64,7 +64,7 @@ async function main() {
     data: {
       email: "arjun@smashit.com",
       name: "Arjun Kapoor",
-      password: hashPassword("Player@123"),
+      password: await hashPassword("Player@123"),
       role: Role.PLAYER,
       phoneNumber: "+91 9834567890",
     },
@@ -74,7 +74,7 @@ async function main() {
     data: {
       email: "sneha@smashit.com",
       name: "Sneha Patil",
-      password: hashPassword("Player@123"),
+      password: await hashPassword("Player@123"),
       role: Role.PLAYER,
       phoneNumber: "+91 9845678901",
     },
@@ -84,7 +84,7 @@ async function main() {
     data: {
       email: "vikram@smashit.com",
       name: "Vikram Nair",
-      password: hashPassword("Player@123"),
+      password: await hashPassword("Player@123"),
       role: Role.PLAYER,
       phoneNumber: "+91 9856789012",
     },

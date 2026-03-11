@@ -83,3 +83,5 @@ build/
 .env
 .env.local
 .env.*.local
+packages/database/generated/
+generated/client
