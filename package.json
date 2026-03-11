@@ -1,6 +1,7 @@
 {
   "name": "smashit-monorepo",
   "private": true,
+  "packageManager": "npm@10.9.3",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -13,11 +14,22 @@
     "mobile:start": "npm run start -w apps/mobile",
     "mobile:android": "npm run android -w apps/mobile",
     "mobile:ios": "npm run ios -w apps/mobile",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "turbo": "^2.1.2",
-    "prettier": "2.8.8"
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.3",
+    "prettier": "2.8.8",
+    "turbo": "^2.1.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write"
+    ],
+    "*.{md,json}": [
+      "prettier --write"
+    ]
   },
   "engines": {
     "node": ">= 22.11.0"
