@@ -16,18 +16,44 @@ enum Role {
   PLAYER
 }
 
+enum CourtType {
+  BADMINTON
+  TENNIS
+  SQUASH
+  BASKETBALL
+  FOOTBALL
+  CRICKET
+}
+
+enum Status {
+  ACTIVE
+  UNDER_REVIEW
+  MAINTENANCE
+  INACTIVE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      Role     @default(PLAYER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  password     String
+  phoneNumber  String?
+  avatarUrl    String?
+  role         Role     @default(PLAYER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   // Relationships
-  bookings  Booking[]
+  bookings     Booking[]
   ownerProfile Owner?
+  reviews      Review[]
 }
 
 model Owner {
@@ -42,23 +68,62 @@ model Court {
   name        String
   description String?
   location    String
-  price       Float
+  address     String?
+  latitude    Float?
+  longitude   Float?
+  type        CourtType @default(BADMINTON)
+  status      Status    @default(UNDER_REVIEW)
+  facilities  String[]  // ["Parking", "WiFi", "Water"]
+  pricePerHour Float
+  mainImage   String?
+  
   ownerId     String
   owner       Owner    @relation(fields: [ownerId], references: [id])
+  
+  slots       Slot[]
   bookings    Booking[]
+  reviews     Review[]
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
+model Slot {
+  id          String   @id @default(cuid())
+  courtId     String
+  court       Court    @relation(fields: [courtId], references: [id])
+  startTime   String   // e.g., "06:00"
+  endTime     String   // e.g., "07:00"
+  price       Float?   // Override court price if specific slots cost more
+  isAvailable Boolean  @default(true)
+
+  @@unique([courtId, startTime, endTime])
+}
+
 model Booking {
+  id          String        @id @default(cuid())
+  courtId     String
+  court       Court         @relation(fields: [courtId], references: [id])
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  
+  bookingDate DateTime
+  startTime   String        // Reference to Slot.startTime
+  endTime     String        // Reference to Slot.endTime
+  totalAmount Float
+  
+  status      BookingStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model Review {
   id        String   @id @default(cuid())
-  courtId   String
-  court     Court    @relation(fields: [courtId], references: [id])
+  rating    Int      @default(5)
+  comment   String?
   userId    String
   user      User     @relation(fields: [userId], references: [id])
-  startTime DateTime
-  endTime   DateTime
-  status    String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED
+  courtId   String
+  court     Court    @relation(fields: [courtId], references: [id])
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
