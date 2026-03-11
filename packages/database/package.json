@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"No tests specified for database package\"",
-    "build": "tsc",
+    "build": "npm run generate && tsc",
     "generate": "prisma generate",
     "push": "prisma db push",
     "migrate:dev": "prisma migrate dev",
@@ -14,13 +14,15 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "^5.10.2"
+    "@prisma/client": "^5.10.2",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0"
   },
   "devDependencies": {
+    "@types/node": "^20.11.20",
     "prisma": "^5.10.2",
-    "typescript": "^5.3.3",
     "ts-node": "^10.9.2",
-    "@types/node": "^20.11.20"
+    "typescript": "^5.3.3"
   },
   "keywords": [],
   "author": "",
