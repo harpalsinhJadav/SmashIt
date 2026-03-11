@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBookingDto } from './dto/booking.dto';
-import { BookingStatus } from '@prisma/client';
+import { BookingStatus } from '@smashit/database';
 
 @Injectable()
 export class BookingsService {

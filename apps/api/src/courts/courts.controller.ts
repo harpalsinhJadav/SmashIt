@@ -13,7 +13,7 @@ import {
   ApiBearerAuth,
   ApiQuery,
 } from '@nestjs/swagger';
-import { Role } from '@prisma/client';
+import { Role } from '@smashit/database';
 import { CourtsService } from './courts.service';
 import { CreateCourtDto, UpdateCourtDto } from './dto/court.dto';
 import { Public } from '../auth/decorators/public.decorator';

@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"No tests specified for database package\"",
-    "build": "tsc",
+    "build": "npm run generate && tsc",
     "generate": "prisma generate",
     "push": "prisma db push",
     "migrate:dev": "prisma migrate dev",

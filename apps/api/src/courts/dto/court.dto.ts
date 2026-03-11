@@ -7,7 +7,7 @@ import {
   Min,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { CourtType, Status } from '@prisma/client';
+import { CourtType, Status } from '@smashit/database';
 import { Type } from 'class-transformer';
 
 export class CreateCourtDto {

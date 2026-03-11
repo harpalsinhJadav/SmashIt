@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Patch, Body, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { Role, BookingStatus } from '@prisma/client';
+import { Role, BookingStatus } from '@smashit/database';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/booking.dto';
 import { Roles } from '../auth/decorators/roles.decorator';

@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCourtDto, UpdateCourtDto } from './dto/court.dto';
-import { CourtType, Status } from '@prisma/client';
+import { CourtType, Status } from '@smashit/database';
 
 @Injectable()
 export class CourtsService {

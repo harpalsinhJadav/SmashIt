@@ -6,7 +6,7 @@ import {
   IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Role } from '@prisma/client';
+import { Role } from '@smashit/database';
 
 export class RegisterDto {
   @ApiProperty({ example: 'arjun@smashit.com' })
