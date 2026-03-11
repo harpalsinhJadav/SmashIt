@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { MapPin, Star } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { moderateScale, horizontalScale, verticalScale } from '../utils/helpers';
@@ -26,6 +27,7 @@ export const CourtListItem = ({
     onPress,
 }: CourtListItemProps) => {
     const { colors } = useTheme();
+    const { t } = useTranslation();
 
     return (
         <TouchableOpacity
@@ -43,7 +45,7 @@ export const CourtListItem = ({
                         </View>
                     </View>
                     <View style={[styles.ratingContainer, { backgroundColor: colors.surface }]}>
-                        <Star size={14} color="#FBBF24" fill="#FBBF24" />
+                        <Star size={14} color={colors.starColor} fill={colors.starColor} />
                         <Text style={[styles.rating, { color: colors.text }]}>{rating}</Text>
                     </View>
                 </View>
@@ -52,15 +54,15 @@ export const CourtListItem = ({
                     <View style={[styles.tag, { backgroundColor: colors.surface }]}>
                         <Text style={[styles.tagText, { color: colors.primary }]}>{game}</Text>
                     </View>
-                    <Text style={[styles.availability, { color: available ? '#059669' : '#DC2626' }]}>
-                        {available ? 'Available Today' : 'Fully Booked'}
+                    <Text style={[styles.availability, { color: available ? colors.success : colors.error }]}>
+                        {available ? t('booking.availableToday') : t('booking.fullyBooked')}
                     </Text>
                 </View>
 
                 <View style={styles.footer}>
                     <Text style={[styles.price, { color: colors.primary }]}>{price}</Text>
                     <View style={[styles.viewButton, { backgroundColor: colors.primary }]}>
-                        <Text style={[styles.viewButtonText, { color: colors.white }]}>View Slots</Text>
+                        <Text style={[styles.viewButtonText, { color: colors.white }]}>{t('booking.viewSlots')}</Text>
                     </View>
                 </View>
             </View>

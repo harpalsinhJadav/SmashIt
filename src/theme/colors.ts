@@ -1,7 +1,7 @@
 export const lightColors = {
     primary: '#007AFF',
     secondary: '#5856D6',
-    accent: '#9333EA', // Added for history/purple actions
+    accent: '#9333EA',
     background: '#FFFFFF',
     surface: '#F0F7FF',
     card: '#FFFFFF',
@@ -16,6 +16,24 @@ export const lightColors = {
     textOnPrimary: '#FFFFFF',
     textOnAccent: '#FFFFFF',
     overlay: 'rgba(255, 255, 255, 0.8)',
+    // Semantic status colors
+    successBg: '#ECFDF5',
+    successText: '#065F46',
+    dangerBg: '#FEF2F2',
+    dangerText: '#991B1B',
+    warningBg: '#FEF3C7',
+    warningText: '#92400E',
+    infoBg: '#EFF6FF',
+    infoText: '#1D4ED8',
+    maintenanceBg: '#FFF7ED',
+    maintenanceText: '#C2410C',
+    starColor: '#FBBF24',
+    revenue: '#059669',
+    shadow: '#000',
+    statBlue: '#3B82F6',
+    statGreen: '#10B981',
+    statPurple: '#8B5CF6',
+    statOrange: '#F59E0B',
 };
 
 export const darkColors = {
@@ -36,6 +54,24 @@ export const darkColors = {
     textOnPrimary: '#FFFFFF',
     textOnAccent: '#FFFFFF',
     overlay: 'rgba(0, 0, 0, 0.6)',
+    // Semantic status colors
+    successBg: '#064E3B',
+    successText: '#6EE7B7',
+    dangerBg: '#7F1D1D',
+    dangerText: '#FCA5A5',
+    warningBg: '#78350F',
+    warningText: '#FDE68A',
+    infoBg: '#1E3A5F',
+    infoText: '#93C5FD',
+    maintenanceBg: '#7C2D12',
+    maintenanceText: '#FDBA74',
+    starColor: '#FBBF24',
+    revenue: '#34D399',
+    shadow: '#000',
+    statBlue: '#60A5FA',
+    statGreen: '#34D399',
+    statPurple: '#A78BFA',
+    statOrange: '#FBBF24',
 };
 
 export type ThemeColors = typeof lightColors;

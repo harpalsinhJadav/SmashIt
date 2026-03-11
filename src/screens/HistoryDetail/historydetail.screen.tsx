@@ -44,22 +44,22 @@ export const HistoryDetailScreen = () => {
         switch (booking.status) {
             case 'completed':
                 return {
-                    icon: <CheckCircle2 size={40} color="#059669" />,
-                    bg: '#ECFDF5',
+                    icon: <CheckCircle2 size={40} color={colors.successText} />,
+                    bg: colors.successBg,
                     title: t('historyDetail.completedTitle'),
                     desc: t('historyDetail.completedDesc')
                 };
             case 'upcoming':
                 return {
-                    icon: <Clock size={40} color="#2563EB" />,
-                    bg: '#EFF6FF',
+                    icon: <Clock size={40} color={colors.infoText} />,
+                    bg: colors.infoBg,
                     title: t('historyDetail.upcomingTitle'),
                     desc: t('historyDetail.upcomingDesc')
                 };
             case 'cancelled':
                 return {
-                    icon: <XCircle size={40} color="#DC2626" />,
-                    bg: '#FEF2F2',
+                    icon: <XCircle size={40} color={colors.dangerText} />,
+                    bg: colors.dangerBg,
                     title: t('historyDetail.cancelledTitle'),
                     desc: t('historyDetail.cancelledDesc')
                 };

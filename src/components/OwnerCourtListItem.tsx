@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme';
 
 interface OwnerCourtListItemProps {
@@ -12,6 +13,7 @@ interface OwnerCourtListItemProps {
 
 export const OwnerCourtListItem = ({ name, status, bookings, bookingsText, onPress }: OwnerCourtListItemProps) => {
     const { colors } = useTheme();
+    const { t } = useTranslation();
 
     const isActive = status === 'active';
 
@@ -30,13 +32,13 @@ export const OwnerCourtListItem = ({ name, status, bookings, bookingsText, onPre
                 </View>
                 <View style={[
                     styles.badge,
-                    { backgroundColor: isActive ? '#ECFDF5' : '#FEF3C7' }
+                    { backgroundColor: isActive ? colors.successBg : colors.warningBg }
                 ]}>
                     <Text style={[
                         styles.badgeText,
-                        { color: isActive ? '#065F46' : '#92400E' }
+                        { color: isActive ? colors.successText : colors.warningText }
                     ]}>
-                        {status.replace('_', ' ')}
+                        {t(`ownerCourtManagement.status${status.charAt(0).toUpperCase() + status.slice(1).replace('_', '')}`)}
                     </Text>
                 </View>
             </View>

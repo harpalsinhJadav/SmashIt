@@ -16,7 +16,7 @@ export const useOwnerDashboard = () => {
     }, [navigation]);
 
     const handleAddNewCourt = useCallback(() => {
-        navigation.navigate('OwnerCourts');
+        navigation.navigate('OwnerAddCourt');
     }, [navigation]);
 
     const handleViewSales = useCallback(() => {
@@ -28,8 +28,8 @@ export const useOwnerDashboard = () => {
     }, [navigation]);
 
     const handleCourtPress = useCallback((id: number) => {
-        // Navigate to court details
-    }, []);
+        navigation.navigate('OwnerCourtManagement', { id });
+    }, [navigation]);
 
     return {
         t,

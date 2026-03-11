@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme';
 import { moderateScale, verticalScale, horizontalScale } from '../utils/helpers';
 
@@ -12,6 +13,7 @@ interface BookingCardProps {
 
 export const BookingCard = ({ court, date, game, onPress }: BookingCardProps) => {
     const { colors } = useTheme();
+    const { t } = useTranslation();
 
     return (
         <View style={[styles.container, { backgroundColor: colors.background, borderColor: colors.border }]}>
@@ -21,7 +23,7 @@ export const BookingCard = ({ court, date, game, onPress }: BookingCardProps) =>
                 <Text style={[styles.date, { color: colors.primary }]}>{date}</Text>
             </View>
             <TouchableOpacity onPress={onPress} style={[styles.button, { borderColor: colors.primary }]}>
-                <Text style={[styles.buttonText, { color: colors.primary }]}>View</Text>
+                <Text style={[styles.buttonText, { color: colors.primary }]}>{t('common.view')}</Text>
             </TouchableOpacity>
         </View>
     );

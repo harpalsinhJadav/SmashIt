@@ -23,6 +23,7 @@ interface PlayerState {
     bookingHistory: any[];
     notifications: any[];
     location: string;
+    currentCourt: any | null;
 }
 
 const initialState: PlayerState = {
@@ -31,6 +32,7 @@ const initialState: PlayerState = {
     bookingHistory: [],
     notifications: [],
     location: 'Mumbai, Maharashtra',
+    currentCourt: null,
 };
 
 const playerSlice = createSlice({
@@ -52,6 +54,9 @@ const playerSlice = createSlice({
         setNotifications: (state, action: PayloadAction<any[]>) => {
             state.notifications = action.payload;
         },
+        setCurrentCourt: (state, action: PayloadAction<any>) => {
+            state.currentCourt = action.payload;
+        },
     },
 });
 
@@ -60,6 +65,7 @@ export const {
     setUpcomingBookings,
     setBookingHistory,
     setLocation,
-    setNotifications
+    setNotifications,
+    setCurrentCourt,
 } = playerSlice.actions;
 export default playerSlice.reducer;

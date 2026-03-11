@@ -18,7 +18,8 @@
     "enterEmail": "Enter your email",
     "enterPhone": "Enter your phone number",
     "name": "Name",
-    "enterName": "Enter your name"
+    "enterName": "Enter your name",
+    "view": "View"
   },
   "roles": {
     "player": "Player",
@@ -61,7 +62,10 @@
     "searchPlaceholder": "Search court name, area...",
     "change": "Change",
     "more": "More",
-    "courtsFound": "{{count}} courts found"
+    "courtsFound": "{{count}} courts found",
+    "viewSlots": "View Slots",
+    "availableToday": "Available Today",
+    "fullyBooked": "Fully Booked"
   },
   "history": {
     "title": "Booking History",
@@ -120,7 +124,8 @@
         "totalBookings": "Total Bookings",
         "revenue": "Revenue (This Month)",
         "activePlayers": "Active Players",
-        "cancellationRate": "Cancellation Rate"
+        "cancellationRate": "Cancellation Rate",
+        "fromLastMonth": "from last month"
     }
   },
   "ownerCourts": {

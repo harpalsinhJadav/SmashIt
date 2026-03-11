@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, RefreshControl, SafeAreaView, TouchableOpacity, TextInput, Modal } from 'react-native';
-import { Clock, Settings, UserPlus, FileEdit } from 'lucide-react-native';
+import { Clock, Settings, UserPlus, FileEdit, Trash2, X } from 'lucide-react-native';
 import { useOwnerCourtManagement } from './ownercourtmanagement.hooks';
 import { createStyles } from './ownercourtmanagement.style';
 import { AppHeader } from '../../components/AppHeader';
@@ -14,37 +14,51 @@ export const OwnerCourtManagementScreen = () => {
         activeTab,
         setActiveTab,
         handleBack,
-        handleSave,
+        handleSaveDetails,
         isDynamic,
         toggleDynamic,
         courtDetails,
         handleCourtDetailChange,
         isSlotModalVisible,
         editingSlot,
+        slotForm,
+        setSlotForm,
         openAddSlot,
         openEditSlot,
         closeSlotModal,
         handleSaveSlot,
+        handleDeleteSlot,
         isAssistantModalVisible,
+        assistantForm,
+        setAssistantForm,
         openAddAssistant,
         closeAssistantModal,
         handleSaveAssistant,
+        handleRemoveAssistant,
         refetch,
     } = useOwnerCourtManagement();
 
     const styles = createStyles(colors);
 
-    const getStatusColor = (status: string) => {
-        if (status === 'available') return { bg: '#ECFDF5', text: '#065F46' };
-        if (status === 'booked') return { bg: '#EFF6FF', text: '#1D4ED8' };
-        if (status === 'maintenance') return { bg: '#FFF7ED', text: '#C2410C' };
-        if (status === 'active') return { bg: '#ECFDF5', text: '#065F46' };
-        return { bg: '#FEF2F2', text: '#991B1B' };
+    const getStatusStyles = (status: string) => {
+        switch (status) {
+            case 'available':
+            case 'active':
+                return { bg: colors.successBg, text: colors.successText };
+            case 'booked':
+                return { bg: colors.infoBg, text: colors.infoText };
+            case 'maintenance':
+                return { bg: colors.maintenanceBg, text: colors.maintenanceText };
+            case 'under_review':
+                return { bg: colors.warningBg, text: colors.warningText };
+            default:
+                return { bg: colors.dangerBg, text: colors.dangerText };
+        }
     };
 
     if (isLoading && !court) {
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
                 <AppHeader title={t('ownerCourts.manageCourt')} showBack onBackPress={handleBack} />
                 <View style={styles.loadingContainer}>
                     <Text style={{ color: colors.text }}>Loading...</Text>
@@ -55,10 +69,8 @@ export const OwnerCourtManagementScreen = () => {
 
     if (!court) return null;
 
-    const courtStatusColors = getStatusColor(court.status);
-
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
             <AppHeader
                 title={court.name}
                 showBack
@@ -71,7 +83,7 @@ export const OwnerCourtManagementScreen = () => {
                 refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} tintColor={colors.primary} />}
             >
                 <View style={styles.content}>
-                    {/* Status Badge */}
+                    {/* Status Toggle Card */}
                     <View style={[styles.statusCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                         <View>
                             <Text style={[styles.gameTitle, { color: colors.text }]}>{courtDetails.game || court.game}</Text>
@@ -82,17 +94,29 @@ export const OwnerCourtManagementScreen = () => {
                         <View style={{ flexDirection: 'row', gap: 8 }}>
                             <TouchableOpacity
                                 onPress={() => handleCourtDetailChange('status', 'active')}
-                                style={[styles.statusBadge, { backgroundColor: courtDetails.status === 'active' ? '#ECFDF5' : colors.background }]}
+                                style={[
+                                    styles.statusBadge,
+                                    { backgroundColor: courtDetails.status === 'active' ? colors.successBg : colors.background }
+                                ]}
                             >
-                                <Text style={[styles.statusBadgeText, { color: courtDetails.status === 'active' ? '#065F46' : colors.textSecondary }]}>
+                                <Text style={[
+                                    styles.statusBadgeText,
+                                    { color: courtDetails.status === 'active' ? colors.successText : colors.textSecondary }
+                                ]}>
                                     {t('ownerCourtManagement.statusActive')}
                                 </Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => handleCourtDetailChange('status', 'under_review')}
-                                style={[styles.statusBadge, { backgroundColor: courtDetails.status === 'under_review' ? '#FEF3C7' : colors.background }]}
+                                style={[
+                                    styles.statusBadge,
+                                    { backgroundColor: courtDetails.status === 'under_review' ? colors.warningBg : colors.background }
+                                ]}
                             >
-                                <Text style={[styles.statusBadgeText, { color: courtDetails.status === 'under_review' ? '#92400E' : colors.textSecondary }]}>
+                                <Text style={[
+                                    styles.statusBadgeText,
+                                    { color: courtDetails.status === 'under_review' ? colors.warningText : colors.textSecondary }
+                                ]}>
                                     {t('ownerCourtManagement.statusUnderReview')}
                                 </Text>
                             </TouchableOpacity>
@@ -102,7 +126,7 @@ export const OwnerCourtManagementScreen = () => {
                     {/* Tabs Framework */}
                     <View style={[styles.tabsContainer, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                         <View style={[styles.tabRow, { borderBottomColor: colors.border }]}>
-                            {['slots', 'details', 'assistants'].map((tab) => {
+                            {(['slots', 'details', 'assistants'] as const).map((tab) => {
                                 const isActive = activeTab === tab;
                                 return (
                                     <TouchableOpacity
@@ -114,7 +138,7 @@ export const OwnerCourtManagementScreen = () => {
                                                 backgroundColor: isActive ? `${colors.primary}10` : 'transparent',
                                             }
                                         ]}
-                                        onPress={() => setActiveTab(tab as any)}
+                                        onPress={() => setActiveTab(tab)}
                                     >
                                         <Text style={[
                                             styles.tabButtonText,
@@ -147,16 +171,16 @@ export const OwnerCourtManagementScreen = () => {
                                     </View>
 
                                     {court.slots?.map((slot: any) => {
-                                        const slotColors = getStatusColor(slot.status);
+                                        const slotStyles = getStatusStyles(slot.status);
                                         return (
                                             <View key={slot.id} style={[styles.slotCard, { borderColor: colors.border }]}>
                                                 <View style={{ flex: 1 }}>
                                                     <Text style={[styles.slotTime, { color: colors.text }]}>{slot.time}</Text>
                                                     <Text style={[styles.slotPrice, { color: colors.primary }]}>{slot.price}</Text>
                                                 </View>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <View style={[styles.slotStatusBadge, { backgroundColor: slotColors.bg }]}>
-                                                        <Text style={[styles.slotStatusText, { color: slotColors.text }]}>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                                                    <View style={[styles.slotStatusBadge, { backgroundColor: slotStyles.bg }]}>
+                                                        <Text style={[styles.slotStatusText, { color: slotStyles.text }]}>
                                                             {slot.status}
                                                         </Text>
                                                     </View>
@@ -230,12 +254,13 @@ export const OwnerCourtManagementScreen = () => {
                                     </View>
 
                                     <TouchableOpacity style={styles.checkboxRow} onPress={toggleDynamic} activeOpacity={0.8}>
-                                        {/* Checkbox mock */}
                                         <View style={{
                                             width: 20, height: 20, borderWidth: 2, borderColor: colors.primary,
                                             backgroundColor: isDynamic ? colors.primary : 'transparent',
-                                            borderRadius: 4
-                                        }} />
+                                            borderRadius: 4, justifyContent: 'center', alignItems: 'center'
+                                        }}>
+                                            {isDynamic && <X size={14} color={colors.white} strokeWidth={3} />}
+                                        </View>
                                         <Text style={[styles.checkboxLabel, { color: colors.text }]}>
                                             {t('ownerCourtManagement.detailsTab.allowDynamic')}
                                         </Text>
@@ -254,7 +279,7 @@ export const OwnerCourtManagementScreen = () => {
 
                                     <TouchableOpacity
                                         style={[styles.saveButton, { backgroundColor: colors.primary }]}
-                                        onPress={handleSave}
+                                        onPress={handleSaveDetails}
                                     >
                                         <Text style={[styles.saveButtonText, { color: colors.white }]}>
                                             {t('ownerCourtManagement.detailsTab.saveChanges')}
@@ -282,17 +307,19 @@ export const OwnerCourtManagementScreen = () => {
                                     </View>
 
                                     {court.assistants?.map((assistant: any) => (
-                                        <View key={assistant.id} style={[styles.assistantCard, { borderColor: colors.border }]}>
+                                        <View key={assistant.id} style={[styles.assistantCard, { backgroundColor: colors.surface, borderColor: colors.border }]}>
                                             <View style={styles.assistantHeader}>
-                                                <View>
+                                                <View style={{ flex: 1 }}>
                                                     <Text style={[styles.assistantName, { color: colors.text }]}>{assistant.name}</Text>
                                                     <Text style={[styles.assistantEmail, { color: colors.textSecondary }]}>{assistant.email}</Text>
-                                                    <Text style={[styles.assistantCourts, { color: colors.primary }]}>{assistant.assignedCourts}</Text>
+                                                    <View style={[styles.assistantBadge, { backgroundColor: colors.accent + '20' }]}>
+                                                        <Text style={[styles.assistantCourts, { color: colors.accent }]}>
+                                                            {assistant.assignedCourts}
+                                                        </Text>
+                                                    </View>
                                                 </View>
-                                                <TouchableOpacity>
-                                                    <Text style={[styles.removeButton, { color: '#DC2626' }]}>
-                                                        {t('ownerCourtManagement.assistantsTab.remove')}
-                                                    </Text>
+                                                <TouchableOpacity onPress={() => handleRemoveAssistant(assistant.id)}>
+                                                    <Trash2 size={20} color={colors.error} />
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -304,62 +331,123 @@ export const OwnerCourtManagementScreen = () => {
                 </View>
             </ScrollView>
 
+            {/* Slot Modal */}
             <Modal visible={isSlotModalVisible} transparent animationType="slide">
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
                     <View style={{ backgroundColor: colors.background, padding: 24, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
-                        <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: colors.text, marginBottom: 16 }}>
-                            {editingSlot ? t('ownerCourtManagement.slotsTab.editSlot') : t('ownerCourtManagement.slotsTab.addSlot')}
-                        </Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                            <Text style={{ fontSize: 18, fontWeight: '700', color: colors.text }}>
+                                {editingSlot ? t('ownerCourtManagement.slotsTab.editSlot') : t('ownerCourtManagement.slotsTab.addSlot')}
+                            </Text>
+                            <TouchableOpacity onPress={closeSlotModal}>
+                                <X size={24} color={colors.textSecondary} />
+                            </TouchableOpacity>
+                        </View>
 
-                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.slotsTab.slotTime')}</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }} defaultValue={editingSlot?.time} />
+                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontWeight: '600' }}>{t('ownerCourtManagement.slotsTab.slotTime')}</Text>
+                        <TextInput
+                            style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }}
+                            value={slotForm.time}
+                            onChangeText={(val) => setSlotForm(prev => ({ ...prev, time: val }))}
+                            placeholder="e.g. 6:00 AM - 7:00 AM"
+                            placeholderTextColor={colors.textTertiary}
+                        />
 
-                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.slotsTab.slotPrice')}</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }} defaultValue={editingSlot?.price} />
+                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontWeight: '600' }}>{t('ownerCourtManagement.slotsTab.slotPrice')}</Text>
+                        <TextInput
+                            style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }}
+                            value={slotForm.price}
+                            onChangeText={(val) => setSlotForm(prev => ({ ...prev, price: val }))}
+                            placeholder="e.g. ₹500"
+                            placeholderTextColor={colors.textTertiary}
+                        />
 
-                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.slotsTab.slotStatus')}</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 24, color: colors.text }} defaultValue={editingSlot?.status} />
+                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontWeight: '600' }}>{t('ownerCourtManagement.slotsTab.slotStatus')}</Text>
+                        <View style={{ flexDirection: 'row', gap: 8, marginBottom: 24 }}>
+                            {['available', 'booked', 'maintenance'].map((s) => (
+                                <TouchableOpacity
+                                    key={s}
+                                    style={{
+                                        paddingHorizontal: 12, paddingVertical: 8, borderRadius: 20,
+                                        backgroundColor: slotForm.status === s ? colors.primary : colors.surface,
+                                        borderWidth: 1, borderColor: colors.border
+                                    }}
+                                    onPress={() => setSlotForm(prev => ({ ...prev, status: s }))}
+                                >
+                                    <Text style={{ color: slotForm.status === s ? colors.white : colors.textSecondary, fontSize: 12 }}>{s}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
 
                         <View style={{ flexDirection: 'row', gap: 12 }}>
                             <TouchableOpacity style={{ flex: 1, padding: 14, borderWidth: 1, borderColor: colors.border, borderRadius: 8, alignItems: 'center' }} onPress={closeSlotModal}>
-                                <Text style={{ color: colors.text, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.slotsTab.cancel')}</Text>
+                                <Text style={{ color: colors.text, fontWeight: '600' }}>{t('ownerCourtManagement.slotsTab.cancel')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flex: 1, padding: 14, backgroundColor: colors.primary, borderRadius: 8, alignItems: 'center' }} onPress={handleSaveSlot}>
-                                <Text style={{ color: colors.white, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.slotsTab.saveSlot')}</Text>
+                                <Text style={{ color: colors.white, fontWeight: '600' }}>{t('ownerCourtManagement.slotsTab.saveSlot')}</Text>
                             </TouchableOpacity>
                         </View>
 
                         {editingSlot && (
-                            <TouchableOpacity style={{ padding: 14, alignItems: 'center', marginTop: 12 }} onPress={closeSlotModal}>
-                                <Text style={{ color: '#DC2626', fontFamily: 'Inter-SemiBold' }}>{t('ownerCourtManagement.slotsTab.deleteSlot')}</Text>
+                            <TouchableOpacity style={{ padding: 14, alignItems: 'center', marginTop: 12, flexDirection: 'row', justifyContent: 'center', gap: 8 }} onPress={handleDeleteSlot}>
+                                <Trash2 size={16} color={colors.error} />
+                                <Text style={{ color: colors.error, fontWeight: '600' }}>{t('ownerCourtManagement.slotsTab.deleteSlot')}</Text>
                             </TouchableOpacity>
                         )}
                     </View>
                 </View>
             </Modal>
 
+            {/* Assistant Modal */}
             <Modal visible={isAssistantModalVisible} transparent animationType="slide">
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
                     <View style={{ backgroundColor: colors.background, padding: 24, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
-                        <Text style={{ fontSize: 18, fontFamily: 'Inter-SemiBold', color: colors.text, marginBottom: 16 }}>
-                            {t('ownerCourtManagement.assistantsTab.addAssistant')}
-                        </Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                            <Text style={{ fontSize: 18, fontWeight: '700', color: colors.text }}>
+                                {t('ownerCourtManagement.assistantsTab.addAssistant')}
+                            </Text>
+                            <TouchableOpacity onPress={closeAssistantModal}>
+                                <X size={24} color={colors.textSecondary} />
+                            </TouchableOpacity>
+                        </View>
 
-                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.assistantsTab.assistantName')}</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }} />
+                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontWeight: '600' }}>{t('ownerCourtManagement.assistantsTab.assistantName')}</Text>
+                        <TextInput
+                            style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }}
+                            value={assistantForm.name}
+                            onChangeText={(val) => setAssistantForm(prev => ({ ...prev, name: val }))}
+                        />
 
-                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.assistantsTab.assistantEmail')}</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }} />
+                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontWeight: '600' }}>{t('ownerCourtManagement.assistantsTab.assistantEmail')}</Text>
+                        <TextInput
+                            style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 16, color: colors.text }}
+                            value={assistantForm.email}
+                            onChangeText={(val) => setAssistantForm(prev => ({ ...prev, email: val }))}
+                        />
 
-                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.assistantsTab.assignedCourts')}</Text>
-                        <TextInput style={{ borderWidth: 1, borderColor: colors.border, padding: 12, borderRadius: 8, marginBottom: 24, color: colors.text }} />
+                        <Text style={{ color: colors.textSecondary, marginBottom: 8, fontWeight: '600' }}>{t('ownerCourtManagement.assistantsTab.assignedCourts')}</Text>
+                        <View style={{ flexDirection: 'row', gap: 12, marginBottom: 24 }}>
+                            {['This Court', 'All Courts'].map((p) => (
+                                <TouchableOpacity
+                                    key={p}
+                                    style={{
+                                        flex: 1, padding: 12, borderRadius: 8, alignItems: 'center',
+                                        backgroundColor: assistantForm.assignedCourts === p ? colors.primary : colors.surface,
+                                        borderWidth: 1, borderColor: colors.border
+                                    }}
+                                    onPress={() => setAssistantForm(prev => ({ ...prev, assignedCourts: p }))}
+                                >
+                                    <Text style={{ color: assistantForm.assignedCourts === p ? colors.white : colors.textSecondary }}>{p}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
 
                         <View style={{ flexDirection: 'row', gap: 12 }}>
                             <TouchableOpacity style={{ flex: 1, padding: 14, borderWidth: 1, borderColor: colors.border, borderRadius: 8, alignItems: 'center' }} onPress={closeAssistantModal}>
-                                <Text style={{ color: colors.text, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.slotsTab.cancel')}</Text>
+                                <Text style={{ color: colors.text, fontWeight: '600' }}>{t('ownerCourtManagement.slotsTab.cancel')}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{ flex: 1, padding: 14, backgroundColor: colors.primary, borderRadius: 8, alignItems: 'center' }} onPress={handleSaveAssistant}>
-                                <Text style={{ color: colors.white, fontFamily: 'Inter-Medium' }}>{t('ownerCourtManagement.assistantsTab.saveAssistant')}</Text>
+                                <Text style={{ color: colors.white, fontWeight: '600' }}>{t('ownerCourtManagement.assistantsTab.saveAssistant')}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

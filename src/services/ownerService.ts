@@ -116,5 +116,88 @@ export const ownerService = {
                 });
             }, 600);
         });
-    }
+    },
+
+    getOwnerProfile: async () => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    id: '1',
+                    name: 'Amit Verma',
+                    email: 'amit.verma@example.com',
+                    phone: '+91 99999 88888',
+                    role: 'owner',
+                    location: 'Mumbai, Maharashtra',
+                    stats: {
+                        courts: 3,
+                        assistants: 2,
+                        bookings: 156,
+                    }
+                });
+            }, 600);
+        });
+    },
+
+    addOwnerCourt: async (data: any) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('API: Adding new court', data);
+                resolve({ success: true, data: { ...data, id: Date.now() } });
+            }, 600);
+        });
+    },
+
+    updateOwnerCourt: async (id: number, data: any) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('API: Updating court', id, data);
+                resolve({ success: true, data });
+            }, 600);
+        });
+    },
+
+    addCourtSlot: async (courtId: number, slot: any) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('API: Adding slot to court', courtId, slot);
+                resolve({ success: true, slot: { ...slot, id: Date.now() } });
+            }, 600);
+        });
+    },
+
+    updateCourtSlot: async (courtId: number, slotId: number, slot: any) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('API: Updating slot', slotId, 'for court', courtId, slot);
+                resolve({ success: true, slot });
+            }, 600);
+        });
+    },
+
+    deleteCourtSlot: async (courtId: number, slotId: number) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('API: Deleting slot', slotId, 'for court', courtId);
+                resolve({ success: true });
+            }, 600);
+        });
+    },
+
+    addAssistant: async (courtId: number, assistant: any) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('API: Adding assistant to court', courtId, assistant);
+                resolve({ success: true, assistant: { ...assistant, id: Date.now() } });
+            }, 600);
+        });
+    },
+
+    removeAssistant: async (courtId: number, assistantId: number) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('API: Removing assistant', assistantId, 'from court', courtId);
+                resolve({ success: true });
+            }, 600);
+        });
+    },
 };

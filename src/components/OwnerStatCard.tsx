@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../theme';
 
 interface OwnerStatCardProps {
@@ -12,6 +13,7 @@ interface OwnerStatCardProps {
 
 export const OwnerStatCard = ({ label, value, change, icon, color }: OwnerStatCardProps) => {
     const { colors } = useTheme();
+    const { t } = useTranslation();
 
     const isPositive = change.startsWith('+');
 
@@ -22,8 +24,8 @@ export const OwnerStatCard = ({ label, value, change, icon, color }: OwnerStatCa
             </View>
             <Text style={[styles.label, { color: colors.textSecondary }]}>{label}</Text>
             <Text style={[styles.value, { color: colors.text }]}>{value}</Text>
-            <Text style={[styles.change, { color: isPositive ? '#059669' : '#DC2626' }]}>
-                {change} from last month
+            <Text style={[styles.change, { color: isPositive ? colors.success : colors.error }]}>
+                {change} {t('ownerDashboard.stats.fromLastMonth')}
             </Text>
         </View>
     );

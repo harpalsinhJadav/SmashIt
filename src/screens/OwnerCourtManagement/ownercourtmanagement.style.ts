@@ -186,9 +186,15 @@ export const createStyles = (colors: any) =>
             fontFamily: 'Inter-Regular',
         },
         assistantCourts: {
-            fontSize: 13,
+            fontSize: 12,
             fontFamily: 'Inter-Medium',
-            marginTop: 4,
+        },
+        assistantBadge: {
+            paddingHorizontal: 8,
+            paddingVertical: 2,
+            borderRadius: 6,
+            marginTop: 8,
+            alignSelf: 'flex-start',
         },
         removeButton: {
             fontSize: 13,

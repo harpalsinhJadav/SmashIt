@@ -2,11 +2,13 @@ import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../theme';
+import { useAddOwnerCourt } from '../../services/ownerQueries';
 
 export const useOwnerAddCourt = () => {
     const { t } = useTranslation();
     const { colors } = useTheme();
     const navigation = useNavigation<any>();
+    const addCourtMutation = useAddOwnerCourt();
 
     const [form, setForm] = useState({
         courtName: '',
@@ -32,10 +34,12 @@ export const useOwnerAddCourt = () => {
     }, []);
 
     const handleSubmit = useCallback(() => {
-        // mock API call
-        console.log('Submitting new court:', form);
-        navigation.goBack(); // mock success
-    }, [form, navigation]);
+        addCourtMutation.mutate(form, {
+            onSuccess: () => {
+                navigation.goBack();
+            }
+        });
+    }, [form, navigation, addCourtMutation]);
 
     return {
         t,
@@ -45,5 +49,6 @@ export const useOwnerAddCourt = () => {
         handleChange,
         toggleDynamic,
         handleSubmit,
+        isLoading: addCourtMutation.isPending,
     };
 };

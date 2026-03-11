@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, RefreshControl } from 'react-native';
 import { User, Mail, Phone, MapPin, LogOut } from 'lucide-react-native';
 import { useOwnerProfileScreen } from './ownerprofile.hooks';
 import { createStyles } from './ownerprofile.style';
@@ -9,10 +9,13 @@ export const OwnerProfileScreen = () => {
     const {
         t,
         colors,
+        profileData,
+        isLoading,
         handleNotifications,
         handleLogout,
         handleEditLocation,
         handleDeleteAccount,
+        refetch,
     } = useOwnerProfileScreen();
 
     const styles = createStyles(colors);
@@ -26,7 +29,10 @@ export const OwnerProfileScreen = () => {
                 onNotificationPress={handleNotifications}
             />
 
-            <ScrollView style={styles.scrollView}>
+            <ScrollView
+                style={styles.scrollView}
+                refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} tintColor={colors.primary} />}
+            >
                 <View style={styles.content}>
 
                     {/* Profile Header */}
@@ -34,7 +40,7 @@ export const OwnerProfileScreen = () => {
                         <View style={[styles.avatarContainer, { backgroundColor: `${colors.primary}15` }]}>
                             <User size={48} color={colors.primary} />
                         </View>
-                        <Text style={[styles.nameText, { color: colors.text }]}>Amit Verma</Text>
+                        <Text style={[styles.nameText, { color: colors.text }]}>{profileData?.name || ''}</Text>
                         <Text style={[styles.roleText, { color: colors.textSecondary }]}>{t('ownerProfile.role')}</Text>
                     </View>
 
@@ -44,7 +50,7 @@ export const OwnerProfileScreen = () => {
                             <Mail size={20} color={colors.textSecondary} />
                             <View style={styles.detailContent}>
                                 <Text style={[styles.detailLabel, { color: colors.textSecondary }]}>{t('ownerProfile.email')}</Text>
-                                <Text style={[styles.detailValue, { color: colors.text }]}>amit.verma@example.com</Text>
+                                <Text style={[styles.detailValue, { color: colors.text }]}>{profileData?.email || ''}</Text>
                             </View>
                         </View>
 
@@ -52,7 +58,7 @@ export const OwnerProfileScreen = () => {
                             <Phone size={20} color={colors.textSecondary} />
                             <View style={styles.detailContent}>
                                 <Text style={[styles.detailLabel, { color: colors.textSecondary }]}>{t('ownerProfile.phone')}</Text>
-                                <Text style={[styles.detailValue, { color: colors.text }]}>+91 99999 88888</Text>
+                                <Text style={[styles.detailValue, { color: colors.text }]}>{profileData?.phone || ''}</Text>
                             </View>
                         </View>
 
@@ -60,7 +66,7 @@ export const OwnerProfileScreen = () => {
                             <MapPin size={20} color={colors.textSecondary} />
                             <View style={styles.detailContent}>
                                 <Text style={[styles.detailLabel, { color: colors.textSecondary }]}>{t('ownerProfile.businessLocation')}</Text>
-                                <Text style={[styles.detailValue, { color: colors.text }]}>Mumbai, Maharashtra</Text>
+                                <Text style={[styles.detailValue, { color: colors.text }]}>{profileData?.location || ''}</Text>
                             </View>
                             <TouchableOpacity onPress={handleEditLocation} style={{ padding: 4 }}>
                                 <Text style={[styles.editButtonText, { color: colors.primary }]}>{t('ownerProfile.edit')}</Text>
@@ -73,15 +79,15 @@ export const OwnerProfileScreen = () => {
                         <Text style={[styles.statsTitle, { color: colors.text }]}>{t('ownerProfile.businessStats')}</Text>
                         <View style={styles.statsGrid}>
                             <View style={styles.statItem}>
-                                <Text style={[styles.statItemValue, { color: colors.text }]}>3</Text>
+                                <Text style={[styles.statItemValue, { color: colors.text }]}>{profileData?.stats?.courts || 0}</Text>
                                 <Text style={[styles.statItemLabel, { color: colors.textSecondary }]}>{t('ownerProfile.courts')}</Text>
                             </View>
                             <View style={styles.statItem}>
-                                <Text style={[styles.statItemValue, { color: colors.text }]}>2</Text>
+                                <Text style={[styles.statItemValue, { color: colors.text }]}>{profileData?.stats?.assistants || 0}</Text>
                                 <Text style={[styles.statItemLabel, { color: colors.textSecondary }]}>{t('ownerProfile.assistants')}</Text>
                             </View>
                             <View style={styles.statItem}>
-                                <Text style={[styles.statItemValue, { color: colors.text }]}>156</Text>
+                                <Text style={[styles.statItemValue, { color: colors.text }]}>{profileData?.stats?.bookings || 0}</Text>
                                 <Text style={[styles.statItemLabel, { color: colors.textSecondary }]}>{t('ownerProfile.bookings')}</Text>
                             </View>
                         </View>
@@ -101,7 +107,7 @@ export const OwnerProfileScreen = () => {
                             style={styles.actionRow}
                             onPress={handleDeleteAccount}
                         >
-                            <Text style={styles.deleteText}>{t('ownerProfile.deleteAccount')}</Text>
+                            <Text style={[styles.deleteText, { color: colors.error }]}>{t('ownerProfile.deleteAccount')}</Text>
                         </TouchableOpacity>
                     </View>
 

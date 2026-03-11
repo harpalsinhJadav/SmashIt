@@ -34,10 +34,10 @@ export const OwnerDashboardScreen = () => {
     };
 
     const getHexColor = (colorName: string) => {
-        if (colorName === 'blue') return '#3B82F6';
-        if (colorName === 'green') return '#10B981';
-        if (colorName === 'purple') return '#8B5CF6';
-        if (colorName === 'orange') return '#F59E0B';
+        if (colorName === 'blue') return colors.statBlue;
+        if (colorName === 'green') return colors.statGreen;
+        if (colorName === 'purple') return colors.statPurple;
+        if (colorName === 'orange') return colors.statOrange;
         return colors.primary;
     };
 
@@ -57,14 +57,14 @@ export const OwnerDashboardScreen = () => {
                         <ActionCard
                             title={t('ownerDashboard.addNewCourt')}
                             description={t('ownerDashboard.addNewCourtDesc')}
-                            color="#3B82F6"
+                            color={colors.statBlue}
                             icon={<Plus size={32} color={colors.white} />}
                             onPress={handleAddNewCourt}
                         />
                         <ActionCard
                             title={t('ownerDashboard.viewSales')}
                             description={t('ownerDashboard.viewSalesDesc')}
-                            color="#10B981"
+                            color={colors.statGreen}
                             icon={<DollarSign size={32} color={colors.white} />}
                             onPress={handleViewSales}
                         />

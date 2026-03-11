@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Calendar, Download, ChevronRight } from 'lucide-react-native';
 import { useTheme } from '../theme';
 import { moderateScale, horizontalScale, verticalScale } from '../utils/helpers';
@@ -26,15 +27,16 @@ export const HistoryCard = ({
     onDownloadInvoice,
 }: HistoryCardProps) => {
     const { colors } = useTheme();
+    const { t } = useTranslation();
 
     const getStatusStyle = () => {
         switch (status) {
             case 'completed':
-                return { bg: '#ECFDF5', text: '#059669' };
+                return { bg: colors.successBg, text: colors.successText };
             case 'upcoming':
-                return { bg: '#EFF6FF', text: '#2563EB' };
+                return { bg: colors.infoBg, text: colors.infoText };
             case 'cancelled':
-                return { bg: '#FEF2F2', text: '#DC2626' };
+                return { bg: colors.dangerBg, text: colors.dangerText };
             default:
                 return { bg: colors.surface, text: colors.textSecondary };
         }
@@ -53,7 +55,9 @@ export const HistoryCard = ({
                     <Text style={[styles.gameName, { color: colors.textSecondary }]}>{game}</Text>
                 </View>
                 <View style={[styles.statusBadge, { backgroundColor: statusStyle.bg }]}>
-                    <Text style={[styles.statusText, { color: statusStyle.text }]}>{status}</Text>
+                    <Text style={[styles.statusText, { color: statusStyle.text }]}>
+                        {t(`history.${status}`)}
+                    </Text>
                 </View>
             </View>
 
@@ -76,7 +80,7 @@ export const HistoryCard = ({
                         }}
                     >
                         <Download size={14} color={colors.primary} />
-                        <Text style={[styles.invoiceText, { color: colors.primary }]}>Invoice</Text>
+                        <Text style={[styles.invoiceText, { color: colors.primary }]}>{t('historyDetail.downloadInvoice')}</Text>
                     </TouchableOpacity>
                 ) : (
                     <ChevronRight size={20} color={colors.textSecondary} />

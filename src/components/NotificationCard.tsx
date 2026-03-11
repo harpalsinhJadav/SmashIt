@@ -26,11 +26,11 @@ export const NotificationCard = ({
     const getIcon = () => {
         switch (type) {
             case 'booking':
-                return { icon: <Calendar size={20} color="#2563EB" />, bg: '#EFF6FF' };
+                return { icon: <Calendar size={20} color={colors.infoText} />, bg: colors.infoBg };
             case 'offer':
-                return { icon: <Tag size={20} color="#EA580C" />, bg: '#FFF7ED' };
+                return { icon: <Tag size={20} color={colors.maintenanceText} />, bg: colors.maintenanceBg };
             default:
-                return { icon: <CheckCircle size={20} color="#059669" />, bg: '#F0FDF4' };
+                return { icon: <CheckCircle size={20} color={colors.successText} />, bg: colors.successBg };
         }
     };
 
@@ -44,7 +44,7 @@ export const NotificationCard = ({
                 {
                     backgroundColor: colors.background,
                     borderColor: colors.border,
-                    shadowColor: '#000',
+                    shadowColor: colors.shadow,
                     shadowOpacity: read ? 0 : 0.05,
                     shadowOffset: { width: 0, height: 2 },
                     shadowRadius: 4,
@@ -65,7 +65,7 @@ export const NotificationCard = ({
                         {!read && <View style={[styles.unreadDot, { backgroundColor: colors.primary }]} />}
                     </View>
                     <Text style={[styles.message, { color: colors.textSecondary }]}>{message}</Text>
-                    <Text style={[styles.time, { color: colors.textTertiary || '#94A3B8' }]}>{time}</Text>
+                    <Text style={[styles.time, { color: colors.textTertiary }]}>{time}</Text>
                 </View>
             </View>
         </TouchableOpacity>
