@@ -39,4 +39,7 @@ async function bootstrap() {
   console.log(`🚀 SmashIT API running on: http://localhost:${port}/api`);
   console.log(`📖 Swagger docs:           http://localhost:${port}/api/docs`);
 }
-bootstrap();
+void bootstrap().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

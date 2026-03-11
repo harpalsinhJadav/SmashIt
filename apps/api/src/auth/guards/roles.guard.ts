@@ -19,8 +19,11 @@ export class RolesGuard {
     ]);
     if (!requiredRoles || requiredRoles.length === 0) return true;
 
-    const { user } = context.switchToHttp().getRequest();
-    const hasRole = requiredRoles.includes(user?.role);
+    const request = context.switchToHttp().getRequest<{
+      user: { role: Role };
+    }>();
+    const user = request.user;
+    const hasRole = user && requiredRoles.includes(user.role);
     if (!hasRole) {
       throw new ForbiddenException(
         `This action requires one of these roles: ${requiredRoles.join(', ')}`,

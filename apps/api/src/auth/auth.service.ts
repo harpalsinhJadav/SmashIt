@@ -64,8 +64,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid email or password');
     }
 
-    const { password: _pass, ...safeUser } = user;
-    return { user: safeUser, token: this.generateToken(user) };
+    delete (user as { password?: string }).password;
+    return { user, token: this.generateToken(user) };
   }
 
   async getMe(userId: string) {
