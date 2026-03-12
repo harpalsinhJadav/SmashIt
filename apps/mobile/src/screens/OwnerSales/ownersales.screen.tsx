@@ -75,7 +75,7 @@ export const OwnerSalesScreen = () => {
           {/* Filter & Export Row */}
           <View style={styles.topSection}>
             <View style={styles.filtersRow}>
-              {['week', 'month', 'year'].map(f => {
+              {['weekly', 'monthly', 'yearly'].map(f => {
                 const isActive = filter === f;
                 return (
                   <TouchableOpacity
