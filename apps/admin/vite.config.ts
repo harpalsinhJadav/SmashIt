@@ -7,4 +7,15 @@ export default defineConfig({
   server: {
     port: 3002,
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ["react", "react-dom", "framer-motion"],
+          charts: ["recharts"],
+          icons: ["lucide-react"],
+        },
+      },
+    },
+  },
 });
