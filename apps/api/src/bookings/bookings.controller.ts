@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Patch, Body, Param } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { Role, BookingStatus } from '@smashit/database';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { BookingStatus, Role } from '@smashit/database';
+
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { Roles } from '../auth/decorators/roles.decorator';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/booking.dto';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 @ApiTags('Bookings')
 @ApiBearerAuth()

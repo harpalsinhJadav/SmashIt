@@ -1,46 +1,53 @@
-import { useState, useCallback, useMemo } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { useBookingHistory } from '../../services/playerQueries';
-import { useTheme } from '../../theme';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useBookingHistory } from '../../services/playerQueries';
+import { useTheme } from '../../theme';
+
 export const useHistory = () => {
-    const navigation = useNavigation<any>();
-    const { colors } = useTheme();
-    const { t } = useTranslation();
-    const [filter, setFilter] = useState('all');
+  const navigation = useNavigation<any>();
+  const { colors } = useTheme();
+  const { t } = useTranslation();
+  const [filter, setFilter] = useState('all');
 
-    const FILTERS = useMemo(() => ['all', 'upcoming', 'completed', 'cancelled'], []);
+  const FILTERS = useMemo(
+    () => ['all', 'upcoming', 'completed', 'cancelled'],
+    [],
+  );
 
-    const { data: bookings = [], isLoading, refetch } = useBookingHistory(filter);
+  const { data: bookings = [], isLoading, refetch } = useBookingHistory(filter);
 
-    const handleBookingPress = useCallback((id: number) => {
-        navigation.navigate('HistoryDetail', { id });
-    }, [navigation]);
+  const handleBookingPress = useCallback(
+    (id: number) => {
+      navigation.navigate('HistoryDetail', { id });
+    },
+    [navigation],
+  );
 
-    const handleDownloadInvoice = useCallback((id: number) => {
-        console.log('Downloading invoice for booking:', id);
-    }, []);
+  const handleDownloadInvoice = useCallback((id: number) => {
+    console.log('Downloading invoice for booking:', id);
+  }, []);
 
-    const handleFilterChange = useCallback((newFilter: string) => {
-        setFilter(newFilter);
-    }, []);
+  const handleFilterChange = useCallback((newFilter: string) => {
+    setFilter(newFilter);
+  }, []);
 
-    const handleNotifications = useCallback(() => {
-        navigation.navigate('Notifications');
-    }, [navigation]);
+  const handleNotifications = useCallback(() => {
+    navigation.navigate('Notifications');
+  }, [navigation]);
 
-    return {
-        colors,
-        t,
-        filter,
-        FILTERS,
-        bookings,
-        isLoading,
-        handleBookingPress,
-        handleDownloadInvoice,
-        handleFilterChange,
-        handleNotifications,
-        refetch,
-    };
+  return {
+    colors,
+    t,
+    filter,
+    FILTERS,
+    bookings,
+    isLoading,
+    handleBookingPress,
+    handleDownloadInvoice,
+    handleFilterChange,
+    handleNotifications,
+    refetch,
+  };
 };

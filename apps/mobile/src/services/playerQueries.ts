@@ -1,75 +1,81 @@
 import { useQuery } from '@tanstack/react-query';
-import { playerService } from './playerService';
-import { useAppDispatch } from '../redux/store';
-import { setPopularCourts, setUpcomingBookings, setBookingHistory, setNotifications } from '../redux/slices/playerSlice';
 import { useEffect } from 'react';
 
+import {
+  setBookingHistory,
+  setNotifications,
+  setPopularCourts,
+  setUpcomingBookings,
+} from '../redux/slices/playerSlice';
+import { useAppDispatch } from '../redux/store';
+import { playerService } from './playerService';
+
 export const usePlayerDashboard = () => {
-    const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-    const query = useQuery({
-        queryKey: ['playerDashboard'],
-        queryFn: playerService.getDashboardData,
-    });
+  const query = useQuery({
+    queryKey: ['playerDashboard'],
+    queryFn: playerService.getDashboardData,
+  });
 
-    useEffect(() => {
-        if (query.data) {
-            dispatch(setPopularCourts(query.data.popularCourts));
-            dispatch(setUpcomingBookings(query.data.upcomingBookings));
-        }
-    }, [query.data, dispatch]);
+  useEffect(() => {
+    if (query.data) {
+      dispatch(setPopularCourts(query.data.popularCourts));
+      dispatch(setUpcomingBookings(query.data.upcomingBookings));
+    }
+  }, [query.data, dispatch]);
 
-    return query;
+  return query;
 };
 
 export const useCourts = (params: { game?: string; search?: string }) => {
-    return useQuery({
-        queryKey: ['courts', params],
-        queryFn: () => playerService.getCourts(params),
-    });
+  return useQuery({
+    queryKey: ['courts', params],
+    queryFn: () => playerService.getCourts(params),
+  });
 };
 
 export const useCourtById = (id: number) => {
-    return useQuery({
-        queryKey: ['court', id],
-        queryFn: () => playerService.getCourtById(id),
-        enabled: !!id,
-    });
+  return useQuery({
+    queryKey: ['court', id],
+    queryFn: () => playerService.getCourtById(id),
+    enabled: !!id,
+  });
 };
 export const useBookingHistory = (filter: string = 'all') => {
-    const dispatch = useAppDispatch();
-    return useQuery({
-        queryKey: ['bookingHistory', filter],
-        queryFn: async () => {
-            const data = await playerService.getBookingHistory(filter);
-            dispatch(setBookingHistory(data));
-            return data;
-        },
-    });
+  const dispatch = useAppDispatch();
+  return useQuery({
+    queryKey: ['bookingHistory', filter],
+    queryFn: async () => {
+      const data = await playerService.getBookingHistory(filter);
+      dispatch(setBookingHistory(data));
+      return data;
+    },
+  });
 };
 
 export const useBookingDetail = (id: number) => {
-    return useQuery({
-        queryKey: ['bookingDetail', id],
-        queryFn: () => playerService.getBookingDetail(id),
-        enabled: !!id,
-    });
+  return useQuery({
+    queryKey: ['bookingDetail', id],
+    queryFn: () => playerService.getBookingDetail(id),
+    enabled: !!id,
+  });
 };
 export const useNotifications = () => {
-    const dispatch = useAppDispatch();
-    return useQuery({
-        queryKey: ['notifications'],
-        queryFn: async () => {
-            const data = await playerService.getNotifications();
-            dispatch(setNotifications(data));
-            return data;
-        },
-    });
+  const dispatch = useAppDispatch();
+  return useQuery({
+    queryKey: ['notifications'],
+    queryFn: async () => {
+      const data = await playerService.getNotifications();
+      dispatch(setNotifications(data));
+      return data;
+    },
+  });
 };
 
 export const usePlayerProfile = () => {
-    return useQuery({
-        queryKey: ['playerProfile'],
-        queryFn: playerService.getProfile,
-    });
+  return useQuery({
+    queryKey: ['playerProfile'],
+    queryFn: playerService.getProfile,
+  });
 };

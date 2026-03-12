@@ -1,5 +1,6 @@
+import { Loader2, Lock, LogIn, Mail, Trophy } from "lucide-react";
 import React, { useState } from "react";
-import { Trophy, Mail, Lock, LogIn, Loader2 } from "lucide-react";
+
 import api from "../api/client";
 
 const Login: React.FC = () => {
@@ -24,8 +25,14 @@ const Login: React.FC = () => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       window.location.reload();
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || "Login failed");
+    } catch (err: unknown) {
+      const error = err as {
+        response?: { data?: { message?: string } };
+        message?: string;
+      };
+      setError(
+        error.response?.data?.message || error.message || "Login failed"
+      );
     } finally {
       setLoading(false);
     }

@@ -1,10 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import { useTheme } from '../../theme';
+
+import { setRole, setUser } from '../../redux/slices/appSlice';
 import { useAppDispatch } from '../../redux/store';
-import { setUser, setRole } from '../../redux/slices/appSlice';
 import { useOwnerProfileData } from '../../services/ownerQueries';
+import { useTheme } from '../../theme';
 
 export const useOwnerProfileScreen = () => {
   const { t } = useTranslation();

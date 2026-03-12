@@ -1,14 +1,14 @@
-import {
-  IsString,
-  IsNumber,
-  IsEnum,
-  IsOptional,
-  IsArray,
-  Min,
-} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CourtType, Status } from '@smashit/database';
 import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 export class CreateCourtDto {
   @ApiProperty({ example: 'Smash Arena - Badminton' })

@@ -1,24 +1,25 @@
 import {
+  Body,
   Controller,
   Get,
-  Post,
-  Patch,
-  Body,
   Param,
+  Patch,
+  Post,
   Query,
 } from '@nestjs/common';
 import {
-  ApiTags,
-  ApiOperation,
   ApiBearerAuth,
+  ApiOperation,
   ApiQuery,
+  ApiTags,
 } from '@nestjs/swagger';
 import { Role } from '@smashit/database';
-import { CourtsService } from './courts.service';
-import { CreateCourtDto, UpdateCourtDto } from './dto/court.dto';
+
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Public } from '../auth/decorators/public.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { CourtsService } from './courts.service';
+import { CreateCourtDto, UpdateCourtDto } from './dto/court.dto';
 
 @ApiTags('Courts')
 @Controller('courts')

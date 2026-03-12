@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
 import {
-  MapPin,
-  Search,
   CheckCircle,
-  XCircle,
   Clock,
   ExternalLink,
+  MapPin,
+  Search,
   Tag,
+  XCircle,
 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
 import api from "../api/client";
 
 interface Court {
@@ -45,7 +46,7 @@ const Courts: React.FC = () => {
     try {
       await api.patch(`/courts/${id}`, { status });
       setCourts(courts.map((c) => (c.id === id ? { ...c, status } : c)));
-    } catch (error) {
+    } catch {
       alert("Failed to update status");
     }
   };

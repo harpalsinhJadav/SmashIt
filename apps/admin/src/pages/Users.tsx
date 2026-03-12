@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
 import {
-  Users as UsersIcon,
-  Search,
-  MoreVertical,
-  Trash2,
-  ShieldCheck,
   Mail,
+  MoreVertical,
   Phone,
+  Search,
+  ShieldCheck,
+  Trash2,
 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
 import api from "../api/client";
 
 interface User {
@@ -44,7 +44,7 @@ const Users: React.FC = () => {
       try {
         await api.delete(`/users/${id}`);
         setUsers(users.filter((u) => u.id !== id));
-      } catch (error) {
+      } catch {
         alert("Failed to delete user");
       }
     }

@@ -1,0 +1,216 @@
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/coverage/lcov-report/prettify.js
+  1:0  warning  Unexpected unlimited 'eslint-disable' comment. Specify some rule names to disable  eslint-comments/no-unlimited-disable
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/coverage/lcov-report/sorter.js
+  1:0  warning  Unexpected unlimited 'eslint-disable' comment. Specify some rule names to disable  eslint-comments/no-unlimited-disable
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/jest.setup.js
+    3:1   error  'jest' is not defined  no-undef
+   18:1   error  'jest' is not defined  no-undef
+   37:1   error  'jest' is not defined  no-undef
+   40:17  error  'jest' is not defined  no-undef
+   41:15  error  'jest' is not defined  no-undef
+   49:1   error  'jest' is not defined  no-undef
+   58:1   error  'jest' is not defined  no-undef
+   66:1   error  'jest' is not defined  no-undef
+   68:24  error  'jest' is not defined  no-undef
+   69:24  error  'jest' is not defined  no-undef
+   74:1   error  'jest' is not defined  no-undef
+   81:1   error  'jest' is not defined  no-undef
+   85:1   error  'jest' is not defined  no-undef
+   89:1   error  'jest' is not defined  no-undef
+  131:1   error  'jest' is not defined  no-undef
+  132:25  error  'jest' is not defined  no-undef
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/components/FilterChip.tsx
+  41:11  warning  Inline style: { marginLeft: 'icon ? horizontalScale(6) : 0' }  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/components/NotificationCard.tsx
+  58:9   warning  Inline style: {
+  shadowOpacity: 'read ? 0 : 0.05',
+  shadowRadius: 4,
+  elevation: 'read ? 0 : 2'
+}  react-native/no-inline-styles
+  79:17  warning  Inline style: { fontWeight: "read ? '500' : 'bold'" }                                                 react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/components/OwnerCourtCard.tsx
+  94:45  warning  Inline style: { color: '#059669' }  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/navigation/RootNavigator.tsx
+   61:21  warning  Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “OwnerTabs” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true   react/no-unstable-nested-components
+  123:21  warning  Do not define components during render. React will see a new component type on every render and destroy the entire subtree’s DOM nodes and state (https://reactjs.org/docs/reconciliation.html#elements-of-different-types). Instead, move this component definition out of the parent component “PlayerTabs” and pass data as props. If you want to allow component creation in props, set allowAsProps option to true  react/no-unstable-nested-components
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/Booking/booking.screen.tsx
+  100:49  warning  Inline style: { paddingTop: 0 }  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/CourtDetail/courtdetail.screen.tsx
+   49:11  warning  Inline style: { justifyContent: 'center', alignItems: 'center' }  react-native/no-inline-styles
+  121:39  warning  Inline style: { flexDirection: 'row', gap: 16 }                   react-native/no-inline-styles
+  122:24  warning  Inline style: { flex: 1 }                                         react-native/no-inline-styles
+  127:61  warning  Inline style: { width: '100%' }                                   react-native/no-inline-styles
+  132:21  warning  Inline style: { fontSize: 12 }                                    react-native/no-inline-styles
+  140:24  warning  Inline style: { flex: 1 }                                         react-native/no-inline-styles
+  145:61  warning  Inline style: { width: '100%' }                                   react-native/no-inline-styles
+  150:21  warning  Inline style: { fontSize: 12 }                                    react-native/no-inline-styles
+  202:19  warning  Inline style: { opacity: 'slot.available ? 1 : 0.5' }             react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/History/history.screen.tsx
+  43:37  warning  Inline style: { flex: 1 }  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/HistoryDetail/historydetail.screen.tsx
+   41:11  warning  Inline style: { justifyContent: 'center', alignItems: 'center' }      react-native/no-inline-styles
+  173:22  warning  Inline style: { flexDirection: 'row', alignItems: 'center', gap: 8 }  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/Login/login.screen.tsx
+  39:58  warning  Inline style: { flexGrow: 1 }  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/Notifications/notifications.screen.tsx
+  38:37  warning  Inline style: { flex: 1 }  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/OwnerAddCourt/owneraddcourt.screen.tsx
+  121:22  warning  Inline style: {
+  width: 20,
+  height: 20,
+  borderWidth: 2,
+  backgroundColor: 'form.allowDynamic\n' +
+    '                  ? colors.primary\n' +
+    "                  : 'transparent'",
+  borderRadius: 4
+}  react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/OwnerCourtManagement/ownercourtmanagement.screen.tsx
+  127:26  warning  Inline style: { flexDirection: 'row', gap: 8 }                                                                                                                                                                                                                                                             react-native/no-inline-styles
+  200:23  warning  Inline style: {
+  borderBottomColor: 'isActive\n' +
+    '                          ? colors.primary\n' +
+    "                          : 'transparent'",
+  backgroundColor: 'isActive\n' +
+    '                          ? `${colors.primary}10`\n' +
+    "                          : 'transparent'"
+}  react-native/no-inline-styles
+  262:38  warning  Inline style: { flex: 1 }                                                                                                                                                                                                                                                                                  react-native/no-inline-styles
+  278:34  warning  Inline style: { flexDirection: 'row', alignItems: 'center', gap: 12 }                                                                                                                                                                                                                                      react-native/no-inline-styles
+  300:36  warning  Inline style: { padding: 4 }                                                                                                                                                                                                                                                                               react-native/no-inline-styles
+  370:32  warning  Inline style: { flexDirection: 'row', gap: 12 }                                                                                                                                                                                                                                                            react-native/no-inline-styles
+  371:54  warning  Inline style: { flex: 1 }                                                                                                                                                                                                                                                                                  react-native/no-inline-styles
+  392:54  warning  Inline style: { flex: 1 }                                                                                                                                                                                                                                                                                  react-native/no-inline-styles
+  421:30  warning  Inline style: {
+  width: 20,
+  height: 20,
+  borderWidth: 2,
+  backgroundColor: 'isDynamic\n' +
+    '                          ? colors.primary\n' +
+    "                          : 'transparent'",
+  borderRadius: 4,
+  justifyContent: 'center',
+  alignItems: 'center'
+}                              react-native/no-inline-styles
+  517:38  warning  Inline style: { flex: 1 }                                                                                                                                                                                                                                                                                  react-native/no-inline-styles
+  568:18  warning  Inline style: {
+  flex: 1,
+  backgroundColor: 'rgba(0,0,0,0.5)',
+  justifyContent: 'flex-end'
+}                                                                                                                                                                                                            react-native/no-inline-styles
+  575:20  warning  Inline style: { padding: 24, borderTopLeftRadius: 20, borderTopRightRadius: 20 }                                                                                                                                                                                                                           react-native/no-inline-styles
+  583:22  warning  Inline style: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: 20
+}                                                                                                                                                                                    react-native/no-inline-styles
+  591:24  warning  Inline style: { fontSize: 18, fontWeight: '700' }                                                                                                                                                                                                                                                          react-native/no-inline-styles
+  603:22  warning  Inline style: { marginBottom: 8, fontWeight: '600' }                                                                                                                                                                                                                                                       react-native/no-inline-styles
+  612:22  warning  Inline style: { borderWidth: 1, padding: 12, borderRadius: 8, marginBottom: 16 }                                                                                                                                                                                                                           react-native/no-inline-styles
+  629:22  warning  Inline style: { marginBottom: 8, fontWeight: '600' }                                                                                                                                                                                                                                                       react-native/no-inline-styles
+  638:22  warning  Inline style: { borderWidth: 1, padding: 12, borderRadius: 8, marginBottom: 16 }                                                                                                                                                                                                                           react-native/no-inline-styles
+  655:22  warning  Inline style: { marginBottom: 8, fontWeight: '600' }                                                                                                                                                                                                                                                       react-native/no-inline-styles
+  663:26  warning  Inline style: { flexDirection: 'row', gap: 8, marginBottom: 24 }                                                                                                                                                                                                                                           react-native/no-inline-styles
+  667:26  warning  Inline style: {
+  paddingHorizontal: 12,
+  paddingVertical: 8,
+  borderRadius: 20,
+  borderWidth: 1
+}                                                                                                                                                                                                      react-native/no-inline-styles
+  679:28  warning  Inline style: { fontSize: 12 }                                                                                                                                                                                                                                                                             react-native/no-inline-styles
+  693:26  warning  Inline style: { flexDirection: 'row', gap: 12 }                                                                                                                                                                                                                                                            react-native/no-inline-styles
+  695:24  warning  Inline style: {
+  flex: 1,
+  padding: 14,
+  borderWidth: 1,
+  borderRadius: 8,
+  alignItems: 'center'
+}                                                                                                                                                                                                    react-native/no-inline-styles
+  705:30  warning  Inline style: { fontWeight: '600' }                                                                                                                                                                                                                                                                        react-native/no-inline-styles
+  710:24  warning  Inline style: { flex: 1, padding: 14, borderRadius: 8, alignItems: 'center' }                                                                                                                                                                                                                              react-native/no-inline-styles
+  719:30  warning  Inline style: { fontWeight: '600' }                                                                                                                                                                                                                                                                        react-native/no-inline-styles
+  727:24  warning  Inline style: {
+  padding: 14,
+  alignItems: 'center',
+  marginTop: 12,
+  flexDirection: 'row',
+  justifyContent: 'center',
+  gap: 8
+}                                                                                                                                                                     react-native/no-inline-styles
+  738:30  warning  Inline style: { fontWeight: '600' }                                                                                                                                                                                                                                                                        react-native/no-inline-styles
+  754:18  warning  Inline style: {
+  flex: 1,
+  backgroundColor: 'rgba(0,0,0,0.5)',
+  justifyContent: 'flex-end'
+}                                                                                                                                                                                                            react-native/no-inline-styles
+  761:20  warning  Inline style: { padding: 24, borderTopLeftRadius: 20, borderTopRightRadius: 20 }                                                                                                                                                                                                                           react-native/no-inline-styles
+  769:22  warning  Inline style: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: 20
+}                                                                                                                                                                                    react-native/no-inline-styles
+  777:24  warning  Inline style: { fontSize: 18, fontWeight: '700' }                                                                                                                                                                                                                                                          react-native/no-inline-styles
+  787:22  warning  Inline style: { marginBottom: 8, fontWeight: '600' }                                                                                                                                                                                                                                                       react-native/no-inline-styles
+  796:22  warning  Inline style: { borderWidth: 1, padding: 12, borderRadius: 8, marginBottom: 16 }                                                                                                                                                                                                                           react-native/no-inline-styles
+  811:22  warning  Inline style: { marginBottom: 8, fontWeight: '600' }                                                                                                                                                                                                                                                       react-native/no-inline-styles
+  820:22  warning  Inline style: { borderWidth: 1, padding: 12, borderRadius: 8, marginBottom: 16 }                                                                                                                                                                                                                           react-native/no-inline-styles
+  835:22  warning  Inline style: { marginBottom: 8, fontWeight: '600' }                                                                                                                                                                                                                                                       react-native/no-inline-styles
+  843:26  warning  Inline style: { flexDirection: 'row', gap: 12, marginBottom: 24 }                                                                                                                                                                                                                                          react-native/no-inline-styles
+  847:26  warning  Inline style: {
+  flex: 1,
+  padding: 12,
+  borderRadius: 8,
+  alignItems: 'center',
+  borderWidth: 1
+}                                                                                                                                                                                                    react-native/no-inline-styles
+  877:26  warning  Inline style: { flexDirection: 'row', gap: 12 }                                                                                                                                                                                                                                                            react-native/no-inline-styles
+  879:24  warning  Inline style: {
+  flex: 1,
+  padding: 14,
+  borderWidth: 1,
+  borderRadius: 8,
+  alignItems: 'center'
+}                                                                                                                                                                                                    react-native/no-inline-styles
+  889:30  warning  Inline style: { fontWeight: '600' }                                                                                                                                                                                                                                                                        react-native/no-inline-styles
+  894:24  warning  Inline style: { flex: 1, padding: 14, borderRadius: 8, alignItems: 'center' }                                                                                                                                                                                                                              react-native/no-inline-styles
+  903:30  warning  Inline style: { fontWeight: '600' }                                                                                                                                                                                                                                                                        react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/OwnerDashboard/ownerdashboard.screen.tsx
+   93:26  warning  Inline style: { padding: 40, alignItems: 'center' }  react-native/no-inline-styles
+  145:21  warning  Inline style: { marginBottom: 12 }                   react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/OwnerProfile/ownerprofile.screen.tsx
+  113:45  warning  Inline style: { borderBottomWidth: 0 }  react-native/no-inline-styles
+  127:24  warning  Inline style: { padding: 4 }            react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/OwnerSales/ownersales.screen.tsx
+  174:19  warning  Inline style: { paddingRight: 0 }                                                                                                                                react-native/no-inline-styles
+  211:28  warning  Inline style: { marginVertical: 8, borderRadius: 16 }                                                                                                            react-native/no-inline-styles
+  244:27  warning  Inline style: {
+  borderBottomColor: 'isLast\n' +
+    "                              ? 'transparent'\n" +
+    '                              : colors.border'
+}  react-native/no-inline-styles
+  271:59  warning  Inline style: { color: '#16a34a' }                                                                                                                               react-native/no-inline-styles
+
+/Users/macm63/Desktop/ReactNativeAI/SmashIT/apps/mobile/src/screens/Signup/signup.screen.tsx
+  41:58  warning  Inline style: { flexGrow: 1 }  react-native/no-inline-styles
+
+✖ 94 problems (16 errors, 78 warnings)
+
