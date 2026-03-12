@@ -19,8 +19,7 @@
     "mobile:android": "npm run android -w apps/mobile",
     "mobile:ios": "npm run ios -w apps/mobile",
     "test": "turbo run test",
-    "prepare": "husky"
-
+    "prepare": "husky || true"
   },
   "devDependencies": {
     "eslint": "^10.0.3",
