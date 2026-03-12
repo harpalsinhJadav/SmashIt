@@ -27,16 +27,16 @@ export const useCourtDetail = () => {
   }, []);
 
   const handleBooking = useCallback(() => {
-    if (selectedSlot) {
-      console.log(
-        'Proceeding to book slot:',
-        selectedSlot,
-        'for date:',
-        selectedDate,
-      );
-      // navigation.navigate('BookingConfirmation', { courtId: id, slot: selectedSlot, date: selectedDate });
+    if (selectedSlot && court) {
+      navigation.navigate('ReviewBooking', {
+        courtId: id,
+        slot: selectedSlot,
+        date: selectedDate.toISOString(),
+        price: parseInt(court.price.replace(/[^0-9]/g, ''), 10),
+      });
     }
-  }, [selectedSlot, selectedDate]);
+  }, [selectedSlot, selectedDate, court, id, navigation]);
+
 
   return {
     court,

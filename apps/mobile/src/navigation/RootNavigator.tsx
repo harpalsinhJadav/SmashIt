@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   Bell,
   Calendar,
@@ -9,9 +10,12 @@ import {
   LayoutDashboard,
   User,
 } from 'lucide-react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
-import { useAppSelector } from '../redux/store';
+import { useAppDispatch, useAppSelector } from '../redux/store';
+import { setRole, setUser } from '../redux/slices/appSlice';
+import { authService } from '../services/authService';
 import { AdminScreen } from '../screens/Admin/admin.screen';
 import { BookingScreen } from '../screens/Booking/booking.screen';
 import { CourtDetailScreen } from '../screens/CourtDetail/courtdetail.screen';
@@ -27,6 +31,7 @@ import { OwnerDashboardScreen } from '../screens/OwnerDashboard/ownerdashboard.s
 import { OwnerProfileScreen } from '../screens/OwnerProfile/ownerprofile.screen';
 import { OwnerSalesScreen } from '../screens/OwnerSales/ownersales.screen';
 import { ProfileScreen } from '../screens/Profile/profile.screen';
+import { ReviewBookingScreen } from '../screens/ReviewBooking/reviewbooking.screen';
 import { SignupScreen } from '../screens/Signup/signup.screen';
 import { useTheme } from '../theme';
 import {
@@ -177,6 +182,7 @@ const PlayerNavigator = () => (
   <PlayerStack.Navigator screenOptions={{ headerShown: false }}>
     <PlayerStack.Screen name="PlayerTabs" component={PlayerTabs} />
     <PlayerStack.Screen name="CourtDetail" component={CourtDetailScreen} />
+    <PlayerStack.Screen name="ReviewBooking" component={ReviewBookingScreen} />
     <PlayerStack.Screen name="HistoryDetail" component={HistoryDetailScreen} />
   </PlayerStack.Navigator>
 );
@@ -196,6 +202,50 @@ const AdminNavigator = () => (
 
 export const RootNavigator = () => {
   const { user, role } = useAppSelector(state => state.app);
+  const dispatch = useAppDispatch();
+  const [isInitializing, setIsInitializing] = useState(true);
+  const { colors } = useTheme();
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const token = await AsyncStorage.getItem('smashit_token');
+        if (token) {
+          console.log('[RootNavigator] Token found, restoring session...');
+          const profile: any = await authService.getMe();
+          if (profile) {
+            dispatch(setUser(profile));
+            dispatch(setRole(profile.role.toLowerCase() as any));
+            console.log('[RootNavigator] Session restored for:', profile.email);
+          } else {
+            console.log('[RootNavigator] Profile fetch failed, clearing token');
+            await AsyncStorage.removeItem('smashit_token');
+          }
+        } else {
+          console.log('[RootNavigator] No saved token found');
+        }
+      } catch (error: any) {
+        console.error('[RootNavigator] Auth initialization error:', error);
+        // If error is 401, clear token
+        if (error.response?.status === 401) {
+          await AsyncStorage.removeItem('smashit_token');
+        }
+      } finally {
+
+        setIsInitializing(false);
+      }
+    };
+
+    checkLogin();
+  }, [dispatch]);
+
+  if (isInitializing) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background }}>
+        <ActivityIndicator size="large" color={colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
@@ -215,3 +265,4 @@ export const RootNavigator = () => {
     </NavigationContainer>
   );
 };
+

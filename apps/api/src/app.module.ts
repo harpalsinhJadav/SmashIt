@@ -12,6 +12,7 @@ import { CourtsModule } from './courts/courts.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { StatsModule } from './stats/stats.module';
 import { UsersModule } from './users/users.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -23,7 +24,9 @@ import { UsersModule } from './users/users.module';
     BookingsModule,
     StatsModule,
     UsersModule,
+    NotificationsModule,
   ],
+
   controllers: [AppController],
   providers: [
     AppService,

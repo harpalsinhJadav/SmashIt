@@ -27,6 +27,13 @@ export class BookingsController {
     return this.bookingsService.findByUser(user.id);
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'Get booking details by ID' })
+  findOne(@CurrentUser() user: { id: string }, @Param('id') id: string) {
+    return this.bookingsService.findOne(user.id, id);
+  }
+
+
   @Patch(':id/cancel')
   @Roles(Role.PLAYER)
   @ApiOperation({ summary: 'Cancel a pending booking (Player only)' })

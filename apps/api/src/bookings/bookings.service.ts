@@ -8,10 +8,14 @@ import { BookingStatus } from '@smashit/database';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBookingDto } from './dto/booking.dto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class BookingsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService,
+  ) {}
 
   // Player: Create a booking (checks for double-booking)
   async create(userId: string, dto: CreateBookingDto) {
@@ -31,7 +35,7 @@ export class BookingsService {
       );
     }
 
-    return this.prisma.booking.create({
+    const booking = await this.prisma.booking.create({
       data: {
         userId,
         courtId: dto.courtId,
@@ -46,7 +50,17 @@ export class BookingsService {
         user: { select: { name: true, email: true } },
       },
     });
+
+    // Trigger notification
+    await this.notificationsService.create(userId, {
+      title: 'Booking Confirmed!',
+      message: `Your booking at ${booking.court.name} is confirmed for ${booking.startTime}.`,
+      type: 'BOOKING_CONFIRMED',
+    });
+
+    return booking;
   }
+
 
   // Player: Get their own bookings
   async findByUser(userId: string) {
@@ -60,6 +74,29 @@ export class BookingsService {
       orderBy: { bookingDate: 'desc' },
     });
   }
+
+  // Get single booking details
+  async findOne(userId: string, bookingId: string) {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        court: {
+          select: { name: true, location: true, type: true, mainImage: true },
+        },
+      },
+    });
+
+    if (!booking) throw new NotFoundException('Booking not found');
+
+    // Basic security: Check if booking belongs to user
+    // (Admin/Owner roles could be added here if needed)
+    if (booking.userId !== userId) {
+      throw new ForbiddenException('You do not have permission to view this booking');
+    }
+
+    return booking;
+  }
+
 
   // Player: Cancel their own booking
   async cancel(userId: string, bookingId: string) {

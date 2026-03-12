@@ -19,8 +19,16 @@
     "enterPhone": "Enter your phone number",
     "name": "Name",
     "enterName": "Enter your name",
-    "view": "View"
+    "view": "View",
+    "password": "Password",
+    "loading": "Loading...",
+    "fillAllFields": "Please fill all fields",
+    "invalidCredentials": "Invalid email or password",
+    "success": "Success",
+    "signupSuccess": "Account created successfully! Please login.",
+    "signupFailed": "Failed to create account. Please try again."
   },
+
   "roles": {
     "player": "Player",
     "owner": "Court Owner",

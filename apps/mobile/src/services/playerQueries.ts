@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import {
@@ -79,3 +79,15 @@ export const usePlayerProfile = () => {
     queryFn: playerService.getProfile,
   });
 };
+
+export const useCreateBooking = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: any) => playerService.createBooking(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['bookingHistory'] });
+      queryClient.invalidateQueries({ queryKey: ['playerDashboard'] });
+    },
+  });
+};
+

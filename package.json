@@ -10,13 +10,17 @@
     "build": "turbo run build",
     "generate": "turbo run generate",
     "dev": "turbo run dev",
+    "dev:all": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "api:dev": "npm run dev -w apps/api",
+    "admin:dev": "npm run dev -w apps/admin",
     "mobile:start": "npm run start -w apps/mobile",
     "mobile:android": "npm run android -w apps/mobile",
     "mobile:ios": "npm run ios -w apps/mobile",
     "test": "turbo run test",
     "prepare": "husky"
+
   },
   "devDependencies": {
     "eslint": "^10.0.3",
