@@ -169,64 +169,6 @@ export class PrismaClient<
   $use(cb: Prisma.Middleware): void;
 
   /**
-   * Executes a prepared raw query and returns the number of affected rows.
-   * @example
-   * ```
-   * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $executeRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): Prisma.PrismaPromise<number>;
-
-  /**
-   * Executes a raw query and returns the number of affected rows.
-   * Susceptible to SQL injections, see documentation.
-   * @example
-   * ```
-   * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $executeRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): Prisma.PrismaPromise<number>;
-
-  /**
-   * Performs a prepared raw query and returns the `SELECT` data.
-   * @example
-   * ```
-   * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $queryRaw<T = unknown>(
-    query: TemplateStringsArray | Prisma.Sql,
-    ...values: any[]
-  ): Prisma.PrismaPromise<T>;
-
-  /**
-   * Performs a raw query and returns the `SELECT` data.
-   * Susceptible to SQL injections, see documentation.
-   * @example
-   * ```
-   * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
-   * ```
-   *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
-   */
-  $queryRawUnsafe<T = unknown>(
-    query: string,
-    ...values: any[]
-  ): Prisma.PrismaPromise<T>;
-
-  /**
    * Allows the running of a sequence of read/write operations that are guaranteed to either succeed or fail as a whole.
    * @example
    * ```
@@ -240,20 +182,32 @@ export class PrismaClient<
    * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(
-    arg: [...P],
-    options?: { isolationLevel?: Prisma.TransactionIsolationLevel }
+    arg: [...P]
   ): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>;
 
   $transaction<R>(
     fn: (
       prisma: Omit<PrismaClient, runtime.ITXClientDenyList>
     ) => $Utils.JsPromise<R>,
-    options?: {
-      maxWait?: number;
-      timeout?: number;
-      isolationLevel?: Prisma.TransactionIsolationLevel;
-    }
+    options?: { maxWait?: number; timeout?: number }
   ): $Utils.JsPromise<R>;
+
+  /**
+   * Executes a raw MongoDB command and returns the result of it.
+   * @example
+   * ```
+   * const user = await prisma.$runCommandRaw({
+   *   aggregate: 'User',
+   *   pipeline: [{ $match: { name: 'Bob' } }, { $project: { email: true, _id: false } }],
+   *   explain: false,
+   * })
+   * ```
+   *
+   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   */
+  $runCommandRaw(
+    command: Prisma.InputJsonObject
+  ): Prisma.PrismaPromise<Prisma.JsonObject>;
 
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb, ExtArgs>;
 
@@ -808,7 +762,7 @@ export namespace Prisma {
   > = {
     meta: {
       modelProps: "user" | "owner" | "court" | "slot" | "booking" | "review";
-      txIsolationLevel: Prisma.TransactionIsolationLevel;
+      txIsolationLevel: never;
     };
     model: {
       User: {
@@ -843,10 +797,6 @@ export namespace Prisma {
             args: Prisma.UserCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
-          createManyAndReturn: {
-            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[];
-          };
           delete: {
             args: Prisma.UserDeleteArgs<ExtArgs>;
             result: $Utils.PayloadToResult<Prisma.$UserPayload>;
@@ -874,6 +824,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.UserGroupByArgs<ExtArgs>;
             result: $Utils.Optional<UserGroupByOutputType>[];
+          };
+          findRaw: {
+            args: Prisma.UserFindRawArgs<ExtArgs>;
+            result: JsonObject;
+          };
+          aggregateRaw: {
+            args: Prisma.UserAggregateRawArgs<ExtArgs>;
+            result: JsonObject;
           };
           count: {
             args: Prisma.UserCountArgs<ExtArgs>;
@@ -913,10 +871,6 @@ export namespace Prisma {
             args: Prisma.OwnerCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
-          createManyAndReturn: {
-            args: Prisma.OwnerCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$OwnerPayload>[];
-          };
           delete: {
             args: Prisma.OwnerDeleteArgs<ExtArgs>;
             result: $Utils.PayloadToResult<Prisma.$OwnerPayload>;
@@ -944,6 +898,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.OwnerGroupByArgs<ExtArgs>;
             result: $Utils.Optional<OwnerGroupByOutputType>[];
+          };
+          findRaw: {
+            args: Prisma.OwnerFindRawArgs<ExtArgs>;
+            result: JsonObject;
+          };
+          aggregateRaw: {
+            args: Prisma.OwnerAggregateRawArgs<ExtArgs>;
+            result: JsonObject;
           };
           count: {
             args: Prisma.OwnerCountArgs<ExtArgs>;
@@ -983,10 +945,6 @@ export namespace Prisma {
             args: Prisma.CourtCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
-          createManyAndReturn: {
-            args: Prisma.CourtCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$CourtPayload>[];
-          };
           delete: {
             args: Prisma.CourtDeleteArgs<ExtArgs>;
             result: $Utils.PayloadToResult<Prisma.$CourtPayload>;
@@ -1014,6 +972,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.CourtGroupByArgs<ExtArgs>;
             result: $Utils.Optional<CourtGroupByOutputType>[];
+          };
+          findRaw: {
+            args: Prisma.CourtFindRawArgs<ExtArgs>;
+            result: JsonObject;
+          };
+          aggregateRaw: {
+            args: Prisma.CourtAggregateRawArgs<ExtArgs>;
+            result: JsonObject;
           };
           count: {
             args: Prisma.CourtCountArgs<ExtArgs>;
@@ -1053,10 +1019,6 @@ export namespace Prisma {
             args: Prisma.SlotCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
-          createManyAndReturn: {
-            args: Prisma.SlotCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$SlotPayload>[];
-          };
           delete: {
             args: Prisma.SlotDeleteArgs<ExtArgs>;
             result: $Utils.PayloadToResult<Prisma.$SlotPayload>;
@@ -1084,6 +1046,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.SlotGroupByArgs<ExtArgs>;
             result: $Utils.Optional<SlotGroupByOutputType>[];
+          };
+          findRaw: {
+            args: Prisma.SlotFindRawArgs<ExtArgs>;
+            result: JsonObject;
+          };
+          aggregateRaw: {
+            args: Prisma.SlotAggregateRawArgs<ExtArgs>;
+            result: JsonObject;
           };
           count: {
             args: Prisma.SlotCountArgs<ExtArgs>;
@@ -1123,10 +1093,6 @@ export namespace Prisma {
             args: Prisma.BookingCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
-          createManyAndReturn: {
-            args: Prisma.BookingCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[];
-          };
           delete: {
             args: Prisma.BookingDeleteArgs<ExtArgs>;
             result: $Utils.PayloadToResult<Prisma.$BookingPayload>;
@@ -1154,6 +1120,14 @@ export namespace Prisma {
           groupBy: {
             args: Prisma.BookingGroupByArgs<ExtArgs>;
             result: $Utils.Optional<BookingGroupByOutputType>[];
+          };
+          findRaw: {
+            args: Prisma.BookingFindRawArgs<ExtArgs>;
+            result: JsonObject;
+          };
+          aggregateRaw: {
+            args: Prisma.BookingAggregateRawArgs<ExtArgs>;
+            result: JsonObject;
           };
           count: {
             args: Prisma.BookingCountArgs<ExtArgs>;
@@ -1193,10 +1167,6 @@ export namespace Prisma {
             args: Prisma.ReviewCreateManyArgs<ExtArgs>;
             result: BatchPayload;
           };
-          createManyAndReturn: {
-            args: Prisma.ReviewCreateManyAndReturnArgs<ExtArgs>;
-            result: $Utils.PayloadToResult<Prisma.$ReviewPayload>[];
-          };
           delete: {
             args: Prisma.ReviewDeleteArgs<ExtArgs>;
             result: $Utils.PayloadToResult<Prisma.$ReviewPayload>;
@@ -1225,6 +1195,14 @@ export namespace Prisma {
             args: Prisma.ReviewGroupByArgs<ExtArgs>;
             result: $Utils.Optional<ReviewGroupByOutputType>[];
           };
+          findRaw: {
+            args: Prisma.ReviewFindRawArgs<ExtArgs>;
+            result: JsonObject;
+          };
+          aggregateRaw: {
+            args: Prisma.ReviewAggregateRawArgs<ExtArgs>;
+            result: JsonObject;
+          };
           count: {
             args: Prisma.ReviewCountArgs<ExtArgs>;
             result: $Utils.Optional<ReviewCountAggregateOutputType> | number;
@@ -1236,21 +1214,9 @@ export namespace Prisma {
     other: {
       payload: any;
       operations: {
-        $executeRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]];
-          result: any;
-        };
-        $executeRawUnsafe: {
-          args: [query: string, ...values: any[]];
-          result: any;
-        };
-        $queryRaw: {
-          args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]];
-          result: any;
-        };
-        $queryRawUnsafe: {
-          args: [query: string, ...values: any[]];
-          result: any;
+        $runCommandRaw: {
+          args: Prisma.InputJsonObject;
+          result: Prisma.JsonObject;
         };
       };
     };
@@ -1300,7 +1266,6 @@ export namespace Prisma {
     transactionOptions?: {
       maxWait?: number;
       timeout?: number;
-      isolationLevel?: Prisma.TransactionIsolationLevel;
     };
   }
 
@@ -1752,23 +1717,6 @@ export namespace Prisma {
     ExtArgs["result"]["user"]
   >;
 
-  export type UserSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      email?: boolean;
-      name?: boolean;
-      password?: boolean;
-      phoneNumber?: boolean;
-      avatarUrl?: boolean;
-      role?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-    },
-    ExtArgs["result"]["user"]
-  >;
-
   export type UserSelectScalar = {
     id?: boolean;
     email?: boolean;
@@ -1789,9 +1737,6 @@ export namespace Prisma {
     reviews?: boolean | User$reviewsArgs<ExtArgs>;
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>;
   };
-  export type UserIncludeCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {};
 
   export type $UserPayload<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
@@ -1976,34 +1921,6 @@ export namespace Prisma {
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many Users and returns the data saved in the database.
-     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
-     * @example
-     * // Create many Users
-     * const user = await prisma.user.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Users and only return the `id`
-     * const userWithIdOnly = await prisma.user.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends UserCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "createManyAndReturn">
-    >;
-
-    /**
      * Delete a User.
      * @param {UserDeleteArgs} args - Arguments to delete one User.
      * @example
@@ -2107,6 +2024,29 @@ export namespace Prisma {
       never,
       ExtArgs
     >;
+
+    /**
+     * Find zero or more Users that matches the filter.
+     * @param {UserFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const user = await prisma.user.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: UserFindRawArgs): Prisma.PrismaPromise<JsonObject>;
+
+    /**
+     * Perform aggregation operations on a User.
+     * @param {UserAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const user = await prisma.user.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: UserAggregateRawArgs): Prisma.PrismaPromise<JsonObject>;
 
     /**
      * Count the number of Users.
@@ -2547,24 +2487,6 @@ export namespace Prisma {
      * The data used to create many Users.
      */
     data: UserCreateManyInput | UserCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * User createManyAndReturn
-   */
-  export type UserCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * The data used to create many Users.
-     */
-    data: UserCreateManyInput | UserCreateManyInput[];
-    skipDuplicates?: boolean;
   };
 
   /**
@@ -2665,6 +2587,38 @@ export namespace Prisma {
      * Filter which Users to delete
      */
     where?: UserWhereInput;
+  };
+
+  /**
+   * User findRaw
+   */
+  export type UserFindRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue;
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
+  };
+
+  /**
+   * User aggregateRaw
+   */
+  export type UserAggregateRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[];
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
   };
 
   /**
@@ -2897,17 +2851,6 @@ export namespace Prisma {
     ExtArgs["result"]["owner"]
   >;
 
-  export type OwnerSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      userId?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["owner"]
-  >;
-
   export type OwnerSelectScalar = {
     id?: boolean;
     userId?: boolean;
@@ -2919,11 +2862,6 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>;
     courts?: boolean | Owner$courtsArgs<ExtArgs>;
     _count?: boolean | OwnerCountOutputTypeDefaultArgs<ExtArgs>;
-  };
-  export type OwnerIncludeCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
   };
 
   export type $OwnerPayload<
@@ -3102,34 +3040,6 @@ export namespace Prisma {
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many Owners and returns the data saved in the database.
-     * @param {OwnerCreateManyAndReturnArgs} args - Arguments to create many Owners.
-     * @example
-     * // Create many Owners
-     * const owner = await prisma.owner.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Owners and only return the `id`
-     * const ownerWithIdOnly = await prisma.owner.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends OwnerCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, OwnerCreateManyAndReturnArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<Prisma.$OwnerPayload<ExtArgs>, T, "createManyAndReturn">
-    >;
-
-    /**
      * Delete a Owner.
      * @param {OwnerDeleteArgs} args - Arguments to delete one Owner.
      * @example
@@ -3233,6 +3143,31 @@ export namespace Prisma {
       never,
       ExtArgs
     >;
+
+    /**
+     * Find zero or more Owners that matches the filter.
+     * @param {OwnerFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const owner = await prisma.owner.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: OwnerFindRawArgs): Prisma.PrismaPromise<JsonObject>;
+
+    /**
+     * Perform aggregation operations on a Owner.
+     * @param {OwnerAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const owner = await prisma.owner.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(
+      args?: OwnerAggregateRawArgs
+    ): Prisma.PrismaPromise<JsonObject>;
 
     /**
      * Count the number of Owners.
@@ -3658,28 +3593,6 @@ export namespace Prisma {
      * The data used to create many Owners.
      */
     data: OwnerCreateManyInput | OwnerCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * Owner createManyAndReturn
-   */
-  export type OwnerCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    /**
-     * Select specific fields to fetch from the Owner
-     */
-    select?: OwnerSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * The data used to create many Owners.
-     */
-    data: OwnerCreateManyInput | OwnerCreateManyInput[];
-    skipDuplicates?: boolean;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: OwnerIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
@@ -3780,6 +3693,38 @@ export namespace Prisma {
      * Filter which Owners to delete
      */
     where?: OwnerWhereInput;
+  };
+
+  /**
+   * Owner findRaw
+   */
+  export type OwnerFindRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue;
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
+  };
+
+  /**
+   * Owner aggregateRaw
+   */
+  export type OwnerAggregateRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[];
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
   };
 
   /**
@@ -4115,30 +4060,6 @@ export namespace Prisma {
     ExtArgs["result"]["court"]
   >;
 
-  export type CourtSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      name?: boolean;
-      description?: boolean;
-      location?: boolean;
-      address?: boolean;
-      latitude?: boolean;
-      longitude?: boolean;
-      type?: boolean;
-      status?: boolean;
-      facilities?: boolean;
-      pricePerHour?: boolean;
-      mainImage?: boolean;
-      ownerId?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-      owner?: boolean | OwnerDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["court"]
-  >;
-
   export type CourtSelectScalar = {
     id?: boolean;
     name?: boolean;
@@ -4165,11 +4086,6 @@ export namespace Prisma {
     bookings?: boolean | Court$bookingsArgs<ExtArgs>;
     reviews?: boolean | Court$reviewsArgs<ExtArgs>;
     _count?: boolean | CourtCountOutputTypeDefaultArgs<ExtArgs>;
-  };
-  export type CourtIncludeCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    owner?: boolean | OwnerDefaultArgs<ExtArgs>;
   };
 
   export type $CourtPayload<
@@ -4363,34 +4279,6 @@ export namespace Prisma {
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many Courts and returns the data saved in the database.
-     * @param {CourtCreateManyAndReturnArgs} args - Arguments to create many Courts.
-     * @example
-     * // Create many Courts
-     * const court = await prisma.court.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Courts and only return the `id`
-     * const courtWithIdOnly = await prisma.court.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends CourtCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, CourtCreateManyAndReturnArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<Prisma.$CourtPayload<ExtArgs>, T, "createManyAndReturn">
-    >;
-
-    /**
      * Delete a Court.
      * @param {CourtDeleteArgs} args - Arguments to delete one Court.
      * @example
@@ -4494,6 +4382,31 @@ export namespace Prisma {
       never,
       ExtArgs
     >;
+
+    /**
+     * Find zero or more Courts that matches the filter.
+     * @param {CourtFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const court = await prisma.court.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: CourtFindRawArgs): Prisma.PrismaPromise<JsonObject>;
+
+    /**
+     * Perform aggregation operations on a Court.
+     * @param {CourtAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const court = await prisma.court.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(
+      args?: CourtAggregateRawArgs
+    ): Prisma.PrismaPromise<JsonObject>;
 
     /**
      * Count the number of Courts.
@@ -4942,28 +4855,6 @@ export namespace Prisma {
      * The data used to create many Courts.
      */
     data: CourtCreateManyInput | CourtCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * Court createManyAndReturn
-   */
-  export type CourtCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    /**
-     * Select specific fields to fetch from the Court
-     */
-    select?: CourtSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * The data used to create many Courts.
-     */
-    data: CourtCreateManyInput | CourtCreateManyInput[];
-    skipDuplicates?: boolean;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: CourtIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
@@ -5064,6 +4955,38 @@ export namespace Prisma {
      * Filter which Courts to delete
      */
     where?: CourtWhereInput;
+  };
+
+  /**
+   * Court findRaw
+   */
+  export type CourtFindRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue;
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
+  };
+
+  /**
+   * Court aggregateRaw
+   */
+  export type CourtAggregateRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[];
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
   };
 
   /**
@@ -5364,21 +5287,6 @@ export namespace Prisma {
     ExtArgs["result"]["slot"]
   >;
 
-  export type SlotSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      courtId?: boolean;
-      startTime?: boolean;
-      endTime?: boolean;
-      price?: boolean;
-      isAvailable?: boolean;
-      court?: boolean | CourtDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["slot"]
-  >;
-
   export type SlotSelectScalar = {
     id?: boolean;
     courtId?: boolean;
@@ -5389,11 +5297,6 @@ export namespace Prisma {
   };
 
   export type SlotInclude<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    court?: boolean | CourtDefaultArgs<ExtArgs>;
-  };
-  export type SlotIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
   > = {
     court?: boolean | CourtDefaultArgs<ExtArgs>;
@@ -5577,34 +5480,6 @@ export namespace Prisma {
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many Slots and returns the data saved in the database.
-     * @param {SlotCreateManyAndReturnArgs} args - Arguments to create many Slots.
-     * @example
-     * // Create many Slots
-     * const slot = await prisma.slot.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Slots and only return the `id`
-     * const slotWithIdOnly = await prisma.slot.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends SlotCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, SlotCreateManyAndReturnArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<Prisma.$SlotPayload<ExtArgs>, T, "createManyAndReturn">
-    >;
-
-    /**
      * Delete a Slot.
      * @param {SlotDeleteArgs} args - Arguments to delete one Slot.
      * @example
@@ -5708,6 +5583,29 @@ export namespace Prisma {
       never,
       ExtArgs
     >;
+
+    /**
+     * Find zero or more Slots that matches the filter.
+     * @param {SlotFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const slot = await prisma.slot.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: SlotFindRawArgs): Prisma.PrismaPromise<JsonObject>;
+
+    /**
+     * Perform aggregation operations on a Slot.
+     * @param {SlotAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const slot = await prisma.slot.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(args?: SlotAggregateRawArgs): Prisma.PrismaPromise<JsonObject>;
 
     /**
      * Count the number of Slots.
@@ -6132,28 +6030,6 @@ export namespace Prisma {
      * The data used to create many Slots.
      */
     data: SlotCreateManyInput | SlotCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * Slot createManyAndReturn
-   */
-  export type SlotCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    /**
-     * Select specific fields to fetch from the Slot
-     */
-    select?: SlotSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * The data used to create many Slots.
-     */
-    data: SlotCreateManyInput | SlotCreateManyInput[];
-    skipDuplicates?: boolean;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SlotIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
@@ -6254,6 +6130,38 @@ export namespace Prisma {
      * Filter which Slots to delete
      */
     where?: SlotWhereInput;
+  };
+
+  /**
+   * Slot findRaw
+   */
+  export type SlotFindRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue;
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
+  };
+
+  /**
+   * Slot aggregateRaw
+   */
+  export type SlotAggregateRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[];
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
   };
 
   /**
@@ -6522,26 +6430,6 @@ export namespace Prisma {
     ExtArgs["result"]["booking"]
   >;
 
-  export type BookingSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      courtId?: boolean;
-      userId?: boolean;
-      bookingDate?: boolean;
-      startTime?: boolean;
-      endTime?: boolean;
-      totalAmount?: boolean;
-      status?: boolean;
-      createdAt?: boolean;
-      updatedAt?: boolean;
-      court?: boolean | CourtDefaultArgs<ExtArgs>;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["booking"]
-  >;
-
   export type BookingSelectScalar = {
     id?: boolean;
     courtId?: boolean;
@@ -6556,12 +6444,6 @@ export namespace Prisma {
   };
 
   export type BookingInclude<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    court?: boolean | CourtDefaultArgs<ExtArgs>;
-    user?: boolean | UserDefaultArgs<ExtArgs>;
-  };
-  export type BookingIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
   > = {
     court?: boolean | CourtDefaultArgs<ExtArgs>;
@@ -6760,38 +6642,6 @@ export namespace Prisma {
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many Bookings and returns the data saved in the database.
-     * @param {BookingCreateManyAndReturnArgs} args - Arguments to create many Bookings.
-     * @example
-     * // Create many Bookings
-     * const booking = await prisma.booking.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Bookings and only return the `id`
-     * const bookingWithIdOnly = await prisma.booking.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends BookingCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, BookingCreateManyAndReturnArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$BookingPayload<ExtArgs>,
-        T,
-        "createManyAndReturn"
-      >
-    >;
-
-    /**
      * Delete a Booking.
      * @param {BookingDeleteArgs} args - Arguments to delete one Booking.
      * @example
@@ -6895,6 +6745,31 @@ export namespace Prisma {
       never,
       ExtArgs
     >;
+
+    /**
+     * Find zero or more Bookings that matches the filter.
+     * @param {BookingFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const booking = await prisma.booking.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: BookingFindRawArgs): Prisma.PrismaPromise<JsonObject>;
+
+    /**
+     * Perform aggregation operations on a Booking.
+     * @param {BookingAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const booking = await prisma.booking.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(
+      args?: BookingAggregateRawArgs
+    ): Prisma.PrismaPromise<JsonObject>;
 
     /**
      * Count the number of Bookings.
@@ -7337,28 +7212,6 @@ export namespace Prisma {
      * The data used to create many Bookings.
      */
     data: BookingCreateManyInput | BookingCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * Booking createManyAndReturn
-   */
-  export type BookingCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    /**
-     * Select specific fields to fetch from the Booking
-     */
-    select?: BookingSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * The data used to create many Bookings.
-     */
-    data: BookingCreateManyInput | BookingCreateManyInput[];
-    skipDuplicates?: boolean;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: BookingIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
@@ -7459,6 +7312,38 @@ export namespace Prisma {
      * Filter which Bookings to delete
      */
     where?: BookingWhereInput;
+  };
+
+  /**
+   * Booking findRaw
+   */
+  export type BookingFindRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue;
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
+  };
+
+  /**
+   * Booking aggregateRaw
+   */
+  export type BookingAggregateRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[];
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
   };
 
   /**
@@ -7693,22 +7578,6 @@ export namespace Prisma {
     ExtArgs["result"]["review"]
   >;
 
-  export type ReviewSelectCreateManyAndReturn<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = $Extensions.GetSelect<
-    {
-      id?: boolean;
-      rating?: boolean;
-      comment?: boolean;
-      userId?: boolean;
-      courtId?: boolean;
-      createdAt?: boolean;
-      user?: boolean | UserDefaultArgs<ExtArgs>;
-      court?: boolean | CourtDefaultArgs<ExtArgs>;
-    },
-    ExtArgs["result"]["review"]
-  >;
-
   export type ReviewSelectScalar = {
     id?: boolean;
     rating?: boolean;
@@ -7719,12 +7588,6 @@ export namespace Prisma {
   };
 
   export type ReviewInclude<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    user?: boolean | UserDefaultArgs<ExtArgs>;
-    court?: boolean | CourtDefaultArgs<ExtArgs>;
-  };
-  export type ReviewIncludeCreateManyAndReturn<
     ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
   > = {
     user?: boolean | UserDefaultArgs<ExtArgs>;
@@ -7911,38 +7774,6 @@ export namespace Prisma {
     ): Prisma.PrismaPromise<BatchPayload>;
 
     /**
-     * Create many Reviews and returns the data saved in the database.
-     * @param {ReviewCreateManyAndReturnArgs} args - Arguments to create many Reviews.
-     * @example
-     * // Create many Reviews
-     * const review = await prisma.review.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *
-     * // Create many Reviews and only return the `id`
-     * const reviewWithIdOnly = await prisma.review.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     *
-     */
-    createManyAndReturn<T extends ReviewCreateManyAndReturnArgs>(
-      args?: SelectSubset<T, ReviewCreateManyAndReturnArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<
-      $Result.GetResult<
-        Prisma.$ReviewPayload<ExtArgs>,
-        T,
-        "createManyAndReturn"
-      >
-    >;
-
-    /**
      * Delete a Review.
      * @param {ReviewDeleteArgs} args - Arguments to delete one Review.
      * @example
@@ -8046,6 +7877,31 @@ export namespace Prisma {
       never,
       ExtArgs
     >;
+
+    /**
+     * Find zero or more Reviews that matches the filter.
+     * @param {ReviewFindRawArgs} args - Select which filters you would like to apply.
+     * @example
+     * const review = await prisma.review.findRaw({
+     *   filter: { age: { $gt: 25 } }
+     * })
+     */
+    findRaw(args?: ReviewFindRawArgs): Prisma.PrismaPromise<JsonObject>;
+
+    /**
+     * Perform aggregation operations on a Review.
+     * @param {ReviewAggregateRawArgs} args - Select which aggregations you would like to apply.
+     * @example
+     * const review = await prisma.review.aggregateRaw({
+     *   pipeline: [
+     *     { $match: { status: "registered" } },
+     *     { $group: { _id: "$country", total: { $sum: 1 } } }
+     *   ]
+     * })
+     */
+    aggregateRaw(
+      args?: ReviewAggregateRawArgs
+    ): Prisma.PrismaPromise<JsonObject>;
 
     /**
      * Count the number of Reviews.
@@ -8478,28 +8334,6 @@ export namespace Prisma {
      * The data used to create many Reviews.
      */
     data: ReviewCreateManyInput | ReviewCreateManyInput[];
-    skipDuplicates?: boolean;
-  };
-
-  /**
-   * Review createManyAndReturn
-   */
-  export type ReviewCreateManyAndReturnArgs<
-    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
-  > = {
-    /**
-     * Select specific fields to fetch from the Review
-     */
-    select?: ReviewSelectCreateManyAndReturn<ExtArgs> | null;
-    /**
-     * The data used to create many Reviews.
-     */
-    data: ReviewCreateManyInput | ReviewCreateManyInput[];
-    skipDuplicates?: boolean;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ReviewIncludeCreateManyAndReturn<ExtArgs> | null;
   };
 
   /**
@@ -8603,6 +8437,38 @@ export namespace Prisma {
   };
 
   /**
+   * Review findRaw
+   */
+  export type ReviewFindRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The query predicate filter. If unspecified, then all documents in the collection will match the predicate. ${@link https://docs.mongodb.com/manual/reference/operator/query MongoDB Docs}.
+     */
+    filter?: InputJsonValue;
+    /**
+     * Additional options to pass to the `find` command ${@link https://docs.mongodb.com/manual/reference/command/find/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
+  };
+
+  /**
+   * Review aggregateRaw
+   */
+  export type ReviewAggregateRawArgs<
+    ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs
+  > = {
+    /**
+     * An array of aggregation stages to process and transform the document stream via the aggregation pipeline. ${@link https://docs.mongodb.com/manual/reference/operator/aggregation-pipeline MongoDB Docs}.
+     */
+    pipeline?: InputJsonValue[];
+    /**
+     * Additional options to pass to the `aggregate` command ${@link https://docs.mongodb.com/manual/reference/command/aggregate/#command-fields MongoDB Docs}.
+     */
+    options?: InputJsonValue;
+  };
+
+  /**
    * Review without action
    */
   export type ReviewDefaultArgs<
@@ -8621,16 +8487,6 @@ export namespace Prisma {
   /**
    * Enums
    */
-
-  export const TransactionIsolationLevel: {
-    ReadUncommitted: "ReadUncommitted";
-    ReadCommitted: "ReadCommitted";
-    RepeatableRead: "RepeatableRead";
-    Serializable: "Serializable";
-  };
-
-  export type TransactionIsolationLevel =
-    (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
 
   export const UserScalarFieldEnum: {
     id: "id";
@@ -8729,13 +8585,6 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
-
-  export const NullsOrder: {
-    first: "first";
-    last: "last";
-  };
-
-  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 
   /**
    * Field references
@@ -8900,10 +8749,10 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder;
     email?: SortOrder;
-    name?: SortOrderInput | SortOrder;
+    name?: SortOrder;
     password?: SortOrder;
-    phoneNumber?: SortOrderInput | SortOrder;
-    avatarUrl?: SortOrderInput | SortOrder;
+    phoneNumber?: SortOrder;
+    avatarUrl?: SortOrder;
     role?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -8936,10 +8785,10 @@ export namespace Prisma {
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder;
     email?: SortOrder;
-    name?: SortOrderInput | SortOrder;
+    name?: SortOrder;
     password?: SortOrder;
-    phoneNumber?: SortOrderInput | SortOrder;
-    avatarUrl?: SortOrderInput | SortOrder;
+    phoneNumber?: SortOrder;
+    avatarUrl?: SortOrder;
     role?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -9045,16 +8894,16 @@ export namespace Prisma {
   export type CourtOrderByWithRelationInput = {
     id?: SortOrder;
     name?: SortOrder;
-    description?: SortOrderInput | SortOrder;
+    description?: SortOrder;
     location?: SortOrder;
-    address?: SortOrderInput | SortOrder;
-    latitude?: SortOrderInput | SortOrder;
-    longitude?: SortOrderInput | SortOrder;
+    address?: SortOrder;
+    latitude?: SortOrder;
+    longitude?: SortOrder;
     type?: SortOrder;
     status?: SortOrder;
     facilities?: SortOrder;
     pricePerHour?: SortOrder;
-    mainImage?: SortOrderInput | SortOrder;
+    mainImage?: SortOrder;
     ownerId?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -9095,16 +8944,16 @@ export namespace Prisma {
   export type CourtOrderByWithAggregationInput = {
     id?: SortOrder;
     name?: SortOrder;
-    description?: SortOrderInput | SortOrder;
+    description?: SortOrder;
     location?: SortOrder;
-    address?: SortOrderInput | SortOrder;
-    latitude?: SortOrderInput | SortOrder;
-    longitude?: SortOrderInput | SortOrder;
+    address?: SortOrder;
+    latitude?: SortOrder;
+    longitude?: SortOrder;
     type?: SortOrder;
     status?: SortOrder;
     facilities?: SortOrder;
     pricePerHour?: SortOrder;
-    mainImage?: SortOrderInput | SortOrder;
+    mainImage?: SortOrder;
     ownerId?: SortOrder;
     createdAt?: SortOrder;
     updatedAt?: SortOrder;
@@ -9158,7 +9007,7 @@ export namespace Prisma {
     courtId?: SortOrder;
     startTime?: SortOrder;
     endTime?: SortOrder;
-    price?: SortOrderInput | SortOrder;
+    price?: SortOrder;
     isAvailable?: SortOrder;
     court?: CourtOrderByWithRelationInput;
   };
@@ -9185,7 +9034,7 @@ export namespace Prisma {
     courtId?: SortOrder;
     startTime?: SortOrder;
     endTime?: SortOrder;
-    price?: SortOrderInput | SortOrder;
+    price?: SortOrder;
     isAvailable?: SortOrder;
     _count?: SlotCountOrderByAggregateInput;
     _avg?: SlotAvgOrderByAggregateInput;
@@ -9321,7 +9170,7 @@ export namespace Prisma {
   export type ReviewOrderByWithRelationInput = {
     id?: SortOrder;
     rating?: SortOrder;
-    comment?: SortOrderInput | SortOrder;
+    comment?: SortOrder;
     userId?: SortOrder;
     courtId?: SortOrder;
     createdAt?: SortOrder;
@@ -9349,7 +9198,7 @@ export namespace Prisma {
   export type ReviewOrderByWithAggregationInput = {
     id?: SortOrder;
     rating?: SortOrder;
-    comment?: SortOrderInput | SortOrder;
+    comment?: SortOrder;
     userId?: SortOrder;
     courtId?: SortOrder;
     createdAt?: SortOrder;
@@ -9407,7 +9256,6 @@ export namespace Prisma {
   };
 
   export type UserUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -9422,7 +9270,6 @@ export namespace Prisma {
   };
 
   export type UserUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -9449,7 +9296,6 @@ export namespace Prisma {
   };
 
   export type UserUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -9461,7 +9307,6 @@ export namespace Prisma {
   };
 
   export type UserUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -9485,13 +9330,11 @@ export namespace Prisma {
   };
 
   export type OwnerUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     user?: UserUpdateOneRequiredWithoutOwnerProfileNestedInput;
     courts?: CourtUpdateManyWithoutOwnerNestedInput;
   };
 
   export type OwnerUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
     courts?: CourtUncheckedUpdateManyWithoutOwnerNestedInput;
   };
@@ -9501,12 +9344,9 @@ export namespace Prisma {
     userId: string;
   };
 
-  export type OwnerUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
-  };
+  export type OwnerUpdateManyMutationInput = {};
 
   export type OwnerUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
   };
 
@@ -9553,7 +9393,6 @@ export namespace Prisma {
   };
 
   export type CourtUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -9574,7 +9413,6 @@ export namespace Prisma {
   };
 
   export type CourtUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -9613,7 +9451,6 @@ export namespace Prisma {
   };
 
   export type CourtUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -9630,7 +9467,6 @@ export namespace Prisma {
   };
 
   export type CourtUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -9666,7 +9502,6 @@ export namespace Prisma {
   };
 
   export type SlotUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
     price?: NullableFloatFieldUpdateOperationsInput | number | null;
@@ -9675,7 +9510,6 @@ export namespace Prisma {
   };
 
   export type SlotUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courtId?: StringFieldUpdateOperationsInput | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
@@ -9693,7 +9527,6 @@ export namespace Prisma {
   };
 
   export type SlotUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
     price?: NullableFloatFieldUpdateOperationsInput | number | null;
@@ -9701,7 +9534,6 @@ export namespace Prisma {
   };
 
   export type SlotUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courtId?: StringFieldUpdateOperationsInput | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
@@ -9736,7 +9568,6 @@ export namespace Prisma {
   };
 
   export type BookingUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
@@ -9749,7 +9580,6 @@ export namespace Prisma {
   };
 
   export type BookingUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courtId?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -9775,7 +9605,6 @@ export namespace Prisma {
   };
 
   export type BookingUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
@@ -9786,7 +9615,6 @@ export namespace Prisma {
   };
 
   export type BookingUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courtId?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -9817,7 +9645,6 @@ export namespace Prisma {
   };
 
   export type ReviewUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -9826,7 +9653,6 @@ export namespace Prisma {
   };
 
   export type ReviewUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     userId?: StringFieldUpdateOperationsInput | string;
@@ -9844,14 +9670,12 @@ export namespace Prisma {
   };
 
   export type ReviewUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
   };
 
   export type ReviewUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     userId?: StringFieldUpdateOperationsInput | string;
@@ -9887,6 +9711,7 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>;
     mode?: QueryMode;
     not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+    isSet?: boolean;
   };
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -9922,11 +9747,6 @@ export namespace Prisma {
     every?: ReviewWhereInput;
     some?: ReviewWhereInput;
     none?: ReviewWhereInput;
-  };
-
-  export type SortOrderInput = {
-    sort: SortOrder;
-    nulls?: NullsOrder;
   };
 
   export type BookingOrderByRelationAggregateInput = {
@@ -10010,6 +9830,7 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>;
     _min?: NestedStringNullableFilter<$PrismaModel>;
     _max?: NestedStringNullableFilter<$PrismaModel>;
+    isSet?: boolean;
   };
 
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -10075,6 +9896,7 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>;
     gte?: number | FloatFieldRefInput<$PrismaModel>;
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null;
+    isSet?: boolean;
   };
 
   export type EnumCourtTypeFilter<$PrismaModel = never> = {
@@ -10203,6 +10025,7 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>;
     _min?: NestedFloatNullableFilter<$PrismaModel>;
     _max?: NestedFloatNullableFilter<$PrismaModel>;
+    isSet?: boolean;
   };
 
   export type EnumCourtTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -10520,6 +10343,7 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null;
+    unset?: boolean;
   };
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -10877,6 +10701,7 @@ export namespace Prisma {
     decrement?: number;
     multiply?: number;
     divide?: number;
+    unset?: boolean;
   };
 
   export type EnumCourtTypeFieldUpdateOperationsInput = {
@@ -11251,6 +11076,7 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>;
     endsWith?: string | StringFieldRefInput<$PrismaModel>;
     not?: NestedStringNullableFilter<$PrismaModel> | string | null;
+    isSet?: boolean;
   };
 
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
@@ -11317,6 +11143,7 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>;
     _min?: NestedStringNullableFilter<$PrismaModel>;
     _max?: NestedStringNullableFilter<$PrismaModel>;
+    isSet?: boolean;
   };
 
   export type NestedIntNullableFilter<$PrismaModel = never> = {
@@ -11328,6 +11155,7 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>;
     gte?: number | IntFieldRefInput<$PrismaModel>;
     not?: NestedIntNullableFilter<$PrismaModel> | number | null;
+    isSet?: boolean;
   };
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -11363,6 +11191,7 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>;
     gte?: number | FloatFieldRefInput<$PrismaModel>;
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null;
+    isSet?: boolean;
   };
 
   export type NestedEnumCourtTypeFilter<$PrismaModel = never> = {
@@ -11404,6 +11233,7 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>;
     _min?: NestedFloatNullableFilter<$PrismaModel>;
     _max?: NestedFloatNullableFilter<$PrismaModel>;
+    isSet?: boolean;
   };
 
   export type NestedEnumCourtTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -11540,7 +11370,6 @@ export namespace Prisma {
 
   export type BookingCreateManyUserInputEnvelope = {
     data: BookingCreateManyUserInput | BookingCreateManyUserInput[];
-    skipDuplicates?: boolean;
   };
 
   export type OwnerCreateWithoutUserInput = {
@@ -11587,7 +11416,6 @@ export namespace Prisma {
 
   export type ReviewCreateManyUserInputEnvelope = {
     data: ReviewCreateManyUserInput | ReviewCreateManyUserInput[];
-    skipDuplicates?: boolean;
   };
 
   export type BookingUpsertWithWhereUniqueWithoutUserInput = {
@@ -11655,12 +11483,10 @@ export namespace Prisma {
   };
 
   export type OwnerUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courts?: CourtUpdateManyWithoutOwnerNestedInput;
   };
 
   export type OwnerUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courts?: CourtUncheckedUpdateManyWithoutOwnerNestedInput;
   };
 
@@ -11790,7 +11616,6 @@ export namespace Prisma {
 
   export type CourtCreateManyOwnerInputEnvelope = {
     data: CourtCreateManyOwnerInput | CourtCreateManyOwnerInput[];
-    skipDuplicates?: boolean;
   };
 
   export type UserUpsertWithoutOwnerProfileInput = {
@@ -11814,7 +11639,6 @@ export namespace Prisma {
   };
 
   export type UserUpdateWithoutOwnerProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -11828,7 +11652,6 @@ export namespace Prisma {
   };
 
   export type UserUncheckedUpdateWithoutOwnerProfileInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -11934,7 +11757,6 @@ export namespace Prisma {
 
   export type SlotCreateManyCourtInputEnvelope = {
     data: SlotCreateManyCourtInput | SlotCreateManyCourtInput[];
-    skipDuplicates?: boolean;
   };
 
   export type BookingCreateWithoutCourtInput = {
@@ -11971,7 +11793,6 @@ export namespace Prisma {
 
   export type BookingCreateManyCourtInputEnvelope = {
     data: BookingCreateManyCourtInput | BookingCreateManyCourtInput[];
-    skipDuplicates?: boolean;
   };
 
   export type ReviewCreateWithoutCourtInput = {
@@ -12000,7 +11821,6 @@ export namespace Prisma {
 
   export type ReviewCreateManyCourtInputEnvelope = {
     data: ReviewCreateManyCourtInput | ReviewCreateManyCourtInput[];
-    skipDuplicates?: boolean;
   };
 
   export type OwnerUpsertWithoutCourtsInput = {
@@ -12024,12 +11844,10 @@ export namespace Prisma {
   };
 
   export type OwnerUpdateWithoutCourtsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     user?: UserUpdateOneRequiredWithoutOwnerProfileNestedInput;
   };
 
   export type OwnerUncheckedUpdateWithoutCourtsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
   };
 
@@ -12198,7 +12016,6 @@ export namespace Prisma {
   };
 
   export type CourtUpdateWithoutSlotsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12218,7 +12035,6 @@ export namespace Prisma {
   };
 
   export type CourtUncheckedUpdateWithoutSlotsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12342,7 +12158,6 @@ export namespace Prisma {
   };
 
   export type CourtUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12362,7 +12177,6 @@ export namespace Prisma {
   };
 
   export type CourtUncheckedUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12402,7 +12216,6 @@ export namespace Prisma {
   };
 
   export type UserUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -12416,7 +12229,6 @@ export namespace Prisma {
   };
 
   export type UserUncheckedUpdateWithoutBookingsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -12534,7 +12346,6 @@ export namespace Prisma {
   };
 
   export type UserUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -12548,7 +12359,6 @@ export namespace Prisma {
   };
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     email?: StringFieldUpdateOperationsInput | string;
     name?: NullableStringFieldUpdateOperationsInput | string | null;
     password?: StringFieldUpdateOperationsInput | string;
@@ -12582,7 +12392,6 @@ export namespace Prisma {
   };
 
   export type CourtUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12602,7 +12411,6 @@ export namespace Prisma {
   };
 
   export type CourtUncheckedUpdateWithoutReviewsInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12642,7 +12450,6 @@ export namespace Prisma {
   };
 
   export type BookingUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
@@ -12654,7 +12461,6 @@ export namespace Prisma {
   };
 
   export type BookingUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courtId?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
@@ -12666,7 +12472,6 @@ export namespace Prisma {
   };
 
   export type BookingUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     courtId?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
@@ -12678,7 +12483,6 @@ export namespace Prisma {
   };
 
   export type ReviewUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -12686,7 +12490,6 @@ export namespace Prisma {
   };
 
   export type ReviewUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     courtId?: StringFieldUpdateOperationsInput | string;
@@ -12694,7 +12497,6 @@ export namespace Prisma {
   };
 
   export type ReviewUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     courtId?: StringFieldUpdateOperationsInput | string;
@@ -12719,7 +12521,6 @@ export namespace Prisma {
   };
 
   export type CourtUpdateWithoutOwnerInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12739,7 +12540,6 @@ export namespace Prisma {
   };
 
   export type CourtUncheckedUpdateWithoutOwnerInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12759,7 +12559,6 @@ export namespace Prisma {
   };
 
   export type CourtUncheckedUpdateManyWithoutOwnerInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     name?: StringFieldUpdateOperationsInput | string;
     description?: NullableStringFieldUpdateOperationsInput | string | null;
     location?: StringFieldUpdateOperationsInput | string;
@@ -12804,7 +12603,6 @@ export namespace Prisma {
   };
 
   export type SlotUpdateWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
     price?: NullableFloatFieldUpdateOperationsInput | number | null;
@@ -12812,7 +12610,6 @@ export namespace Prisma {
   };
 
   export type SlotUncheckedUpdateWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
     price?: NullableFloatFieldUpdateOperationsInput | number | null;
@@ -12820,7 +12617,6 @@ export namespace Prisma {
   };
 
   export type SlotUncheckedUpdateManyWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
     price?: NullableFloatFieldUpdateOperationsInput | number | null;
@@ -12828,7 +12624,6 @@ export namespace Prisma {
   };
 
   export type BookingUpdateWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
     endTime?: StringFieldUpdateOperationsInput | string;
@@ -12840,7 +12635,6 @@ export namespace Prisma {
   };
 
   export type BookingUncheckedUpdateWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
@@ -12852,7 +12646,6 @@ export namespace Prisma {
   };
 
   export type BookingUncheckedUpdateManyWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     userId?: StringFieldUpdateOperationsInput | string;
     bookingDate?: DateTimeFieldUpdateOperationsInput | Date | string;
     startTime?: StringFieldUpdateOperationsInput | string;
@@ -12864,7 +12657,6 @@ export namespace Prisma {
   };
 
   export type ReviewUpdateWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string;
@@ -12872,7 +12664,6 @@ export namespace Prisma {
   };
 
   export type ReviewUncheckedUpdateWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     userId?: StringFieldUpdateOperationsInput | string;
@@ -12880,7 +12671,6 @@ export namespace Prisma {
   };
 
   export type ReviewUncheckedUpdateManyWithoutCourtInput = {
-    id?: StringFieldUpdateOperationsInput | string;
     rating?: IntFieldUpdateOperationsInput | number;
     comment?: NullableStringFieldUpdateOperationsInput | string | null;
     userId?: StringFieldUpdateOperationsInput | string;

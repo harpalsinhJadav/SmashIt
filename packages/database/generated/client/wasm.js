@@ -111,13 +111,6 @@ Prisma.NullTypes = {
  * Enums
  */
 
-exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
-  ReadUncommitted: "ReadUncommitted",
-  ReadCommitted: "ReadCommitted",
-  RepeatableRead: "RepeatableRead",
-  Serializable: "Serializable",
-});
-
 exports.Prisma.UserScalarFieldEnum = {
   id: "id",
   email: "email",
@@ -192,11 +185,6 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: "default",
   insensitive: "insensitive",
-};
-
-exports.Prisma.NullsOrder = {
-  first: "first",
-  last: "last",
 };
 exports.Role = exports.$Enums.Role = {
   ADMIN: "ADMIN",

@@ -1,51 +1,105 @@
-import { LayoutDashboard, Users, Calendar, Settings } from 'lucide-react'
+import React, { useState, useEffect } from "react";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./pages/Dashboard";
+import Users from "./pages/Users";
+import Courts from "./pages/Courts";
+import Bookings from "./pages/Bookings";
+import Login from "./pages/Login";
 
-function App() {
+const App: React.FC = () => {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [activeTab, setActiveTab] = useState("dashboard");
+
+  useEffect(() => {
+    const handleStorage = () => setToken(localStorage.getItem("token"));
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
+
+  if (!token) {
+    return <Login />;
+  }
+
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', fontFamily: 'sans-serif', backgroundColor: '#f5f5f5' }}>
-      {/* Sidebar */}
-      <div style={{ width: '250px', backgroundColor: '#1a1a1a', color: 'white', padding: '20px' }}>
-        <h2 style={{ marginBottom: '40px', color: '#4CAF50' }}>SmashIT Admin</h2>
-        <nav>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            <li style={{ padding: '12px 0', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-              <LayoutDashboard size={20} /> Dashboard
-            </li>
-            <li style={{ padding: '12px 0', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-              <Users size={20} /> Users
-            </li>
-            <li style={{ padding: '12px 0', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-              <Calendar size={20} /> Bookings
-            </li>
-            <li style={{ padding: '12px 0', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-              <Settings size={20} /> Settings
-            </li>
-          </ul>
-        </nav>
-      </div>
+    <div className="admin-layout">
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      {/* Main Content */}
-      <div style={{ flex: 1, padding: '40px' }}>
-        <h1>Welcome to SmashIT Admin Panel</h1>
-        <p>Manage your courts, users, and bookings from here.</p>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginTop: '40px' }}>
-          <StatCard title="Total Users" value="1,234" color="#2196F3" />
-          <StatCard title="Active Bookings" value="56" color="#4CAF50" />
-          <StatCard title="Revenue (MTD)" value="$12,500" color="#FF9800" />
-        </div>
-      </div>
+      <main className="admin-main">
+        <header className="admin-header glass">
+          <div className="header-search">{/* Search placeholder */}</div>
+          <div className="user-profile">
+            <span className="user-name">Admin User</span>
+            <div className="user-avatar">A</div>
+          </div>
+        </header>
+
+        <section className="admin-content">
+          {activeTab === "dashboard" && <Dashboard />}
+          {activeTab === "users" && <Users />}
+          {activeTab === "courts" && <Courts />}
+          {activeTab === "bookings" && <Bookings />}
+        </section>
+      </main>
+
+      <style>{`
+        .admin-layout {
+          display: flex;
+          min-height: 100vh;
+        }
+
+        .admin-main {
+          flex: 1;
+          margin-left: var(--sidebar-width);
+          transition: all 0.3s;
+        }
+
+        .admin-header {
+          height: var(--header-height);
+          position: sticky;
+          top: 0;
+          z-index: 90;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 32px;
+          border-bottom: 1px solid var(--border);
+        }
+
+        .user-profile {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .user-name {
+          font-weight: 600;
+          font-size: 14px;
+        }
+
+        .user-avatar {
+          width: 40px;
+          height: 40px;
+          background: var(--primary);
+          color: white;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+
+        .p-32 {
+          padding: 32px;
+        }
+
+        h2 {
+          font-size: 24px;
+          margin-bottom: 16px;
+        }
+      `}</style>
     </div>
-  )
-}
+  );
+};
 
-function StatCard({ title, value, color }: { title: string, value: string, color: string }) {
-  return (
-    <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', borderLeft: `4px solid ${color}` }}>
-      <div style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>{title}</div>
-      <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{value}</div>
-    </div>
-  )
-}
-
-export default App
+export default App;

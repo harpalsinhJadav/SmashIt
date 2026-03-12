@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -41,7 +41,7 @@ enum BookingStatus {
 }
 
 model User {
-  id          String   @id @default(cuid())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   email       String   @unique
   name        String?
   password    String
@@ -58,14 +58,14 @@ model User {
 }
 
 model Owner {
-  id     String  @id @default(cuid())
-  userId String  @unique
+  id     String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId String  @unique @db.ObjectId
   user   User    @relation(fields: [userId], references: [id])
   courts Court[]
 }
 
 model Court {
-  id           String    @id @default(cuid())
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
   name         String
   description  String?
   location     String
@@ -78,7 +78,7 @@ model Court {
   pricePerHour Float
   mainImage    String?
 
-  ownerId String
+  ownerId String @db.ObjectId
   owner   Owner  @relation(fields: [ownerId], references: [id])
 
   slots    Slot[]
@@ -90,8 +90,8 @@ model Court {
 }
 
 model Slot {
-  id          String  @id @default(cuid())
-  courtId     String
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  courtId     String  @db.ObjectId
   court       Court   @relation(fields: [courtId], references: [id])
   startTime   String // e.g., "06:00"
   endTime     String // e.g., "07:00"
@@ -102,10 +102,10 @@ model Slot {
 }
 
 model Booking {
-  id      String @id @default(cuid())
-  courtId String
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  courtId String @db.ObjectId
   court   Court  @relation(fields: [courtId], references: [id])
-  userId  String
+  userId  String @db.ObjectId
   user    User   @relation(fields: [userId], references: [id])
 
   bookingDate DateTime
@@ -119,12 +119,12 @@ model Booking {
 }
 
 model Review {
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
   rating    Int      @default(5)
   comment   String?
-  userId    String
+  userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
-  courtId   String
+  courtId   String   @db.ObjectId
   court     Court    @relation(fields: [courtId], references: [id])
   createdAt DateTime @default(now())
 }

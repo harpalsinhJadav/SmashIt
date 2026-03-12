@@ -11,7 +11,11 @@ async function bootstrap() {
 
   // Enable CORS for mobile app and admin panel
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'http://localhost:3002',
+    ],
     credentials: true,
   });
 
