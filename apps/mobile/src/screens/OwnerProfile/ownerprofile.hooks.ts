@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { setRole, setUser } from '../../redux/slices/appSlice';
 import { useAppDispatch } from '../../redux/store';
@@ -27,10 +28,12 @@ export const useOwnerProfileScreen = () => {
     navigation.navigate('Notifications');
   }, [navigation]);
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = useCallback(async () => {
+    await AsyncStorage.removeItem('smashit_token');
     dispatch(setUser(null));
     dispatch(setRole(null));
   }, [dispatch]);
+
 
   const handleEditLocation = useCallback(() => {
     console.log('Edit location tapped');

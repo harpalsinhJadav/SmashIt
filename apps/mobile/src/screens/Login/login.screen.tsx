@@ -25,9 +25,13 @@ export const LoginScreen = () => {
     setLoginMethod,
     identifier,
     setIdentifier,
+    password,
+    setPassword,
+    isLoading,
     handleLogin,
     navigateToSignup,
   } = useLogin();
+
 
   const styles = createStyles(colors);
 
@@ -128,8 +132,23 @@ export const LoginScreen = () => {
             autoCapitalize="none"
           />
 
-          <TouchableOpacity style={styles.submitButton} onPress={handleLogin}>
-            <Text style={styles.submitButtonText}>{t('common.sendOtp')}</Text>
+          <TextInput
+            style={styles.input}
+            placeholder={t('common.password')}
+            placeholderTextColor={colors.textSecondary}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+
+          <TouchableOpacity 
+            style={[styles.submitButton, isLoading && { opacity: 0.7 }]} 
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            <Text style={styles.submitButtonText}>
+              {isLoading ? t('common.loading') : t('common.login')}
+            </Text>
           </TouchableOpacity>
 
           <View style={styles.footer}>
@@ -138,6 +157,7 @@ export const LoginScreen = () => {
               <Text style={styles.footerLink}>{t('common.signup')}</Text>
             </TouchableOpacity>
           </View>
+
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

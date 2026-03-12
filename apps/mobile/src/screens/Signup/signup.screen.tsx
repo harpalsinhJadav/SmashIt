@@ -25,11 +25,15 @@ export const SignupScreen = () => {
     setEmail,
     phone,
     setPhone,
+    password,
+    setPassword,
     userType,
     setUserType,
+    isLoading,
     handleSignup,
     navigateToLogin,
   } = useSignup();
+
 
   const styles = createStyles(colors);
 
@@ -78,6 +82,15 @@ export const SignupScreen = () => {
             keyboardType="phone-pad"
           />
 
+          <TextInput
+            style={styles.input}
+            placeholder={t('common.password')}
+            placeholderTextColor={colors.textSecondary}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+
           <Text style={styles.label}>{t('common.loginAs')}</Text>
           <View style={styles.pickerContainer}>
             <Picker
@@ -92,9 +105,16 @@ export const SignupScreen = () => {
             </Picker>
           </View>
 
-          <TouchableOpacity style={styles.submitButton} onPress={handleSignup}>
-            <Text style={styles.submitButtonText}>{t('common.signup')}</Text>
+          <TouchableOpacity 
+            style={[styles.submitButton, isLoading && { opacity: 0.7 }]} 
+            onPress={handleSignup}
+            disabled={isLoading}
+          >
+            <Text style={styles.submitButtonText}>
+              {isLoading ? t('common.loading') : t('common.signup')}
+            </Text>
           </TouchableOpacity>
+
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>

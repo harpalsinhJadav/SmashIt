@@ -21,5 +21,7 @@ export type PlayerStackParamList = {
   Notifications: undefined;
   Profile: undefined;
   CourtDetail: { id: number };
+  ReviewBooking: { courtId: string; slot: string; date: string; price: number };
   HistoryDetail: { id: number };
 };
+

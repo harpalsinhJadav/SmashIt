@@ -2,9 +2,11 @@ import apiClient from './apiClient';
 
 export const userService = {
   getProfile: async () => {
-    return apiClient.get('/user/profile');
+    return apiClient.get('/auth/me');
   },
   updateProfile: async (data: any) => {
-    return apiClient.put('/user/profile', data);
+    // Note: Assuming Patch /auth/me or similar for updates
+    return apiClient.patch('/auth/me', data);
   },
 };
+
