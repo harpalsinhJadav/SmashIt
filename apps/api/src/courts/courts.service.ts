@@ -1,11 +1,12 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  ForbiddenException,
 } from '@nestjs/common';
+import { CourtType, Status } from '@smashit/database';
+
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCourtDto, UpdateCourtDto } from './dto/court.dto';
-import { CourtType, Status } from '@smashit/database';
 
 @Injectable()
 export class CourtsService {

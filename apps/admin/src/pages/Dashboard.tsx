@@ -1,22 +1,23 @@
+import {
+  ArrowUpRight,
+  CalendarCheck,
+  Clock,
+  MapPin,
+  TrendingUp,
+  Users,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import {
-  Users,
-  MapPin,
-  CalendarCheck,
-  TrendingUp,
-  Clock,
-  ArrowUpRight,
-} from "lucide-react";
-import {
-  BarChart,
   Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
 } from "recharts";
+
 import api from "../api/client";
 
 interface Stats {
@@ -27,7 +28,13 @@ interface Stats {
     revenue: number;
   };
   chartData: Array<{ name: string; value: number }>;
-  recentBookings: any[];
+  recentBookings: Array<{
+    id: string;
+    user: { name: string };
+    court: { name: string };
+    status: string;
+    createdAt: string;
+  }>;
 }
 
 const Dashboard: React.FC = () => {
@@ -73,7 +80,7 @@ const Dashboard: React.FC = () => {
     },
     {
       label: "Total Revenue",
-      value: `₹${stats?.summary.revenue.toLocaleString()}` || 0,
+      value: stats ? `₹${stats.summary.revenue.toLocaleString()}` : "₹0",
       icon: TrendingUp,
       color: "#ef4444",
       bg: "#fee2e2",

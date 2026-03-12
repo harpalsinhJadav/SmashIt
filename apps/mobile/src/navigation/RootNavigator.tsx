@@ -1,39 +1,40 @@
-import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useAppSelector } from '../redux/store';
 import {
-  RootStackParamList,
-  AdminStackParamList,
-  PlayerStackParamList,
-  AuthStackParamList,
-} from './types';
-import { HomeScreen } from '../screens/Home/home.screen';
-import { LoginScreen } from '../screens/Login/login.screen';
+  Bell,
+  Calendar,
+  DollarSign,
+  Home,
+  LayoutDashboard,
+  User,
+} from 'lucide-react-native';
+import React from 'react';
+
+import { useAppSelector } from '../redux/store';
 import { AdminScreen } from '../screens/Admin/admin.screen';
-import { SignupScreen } from '../screens/Signup/signup.screen';
 import { BookingScreen } from '../screens/Booking/booking.screen';
 import { CourtDetailScreen } from '../screens/CourtDetail/courtdetail.screen';
 import { HistoryScreen } from '../screens/History/history.screen';
 import { HistoryDetailScreen } from '../screens/HistoryDetail/historydetail.screen';
+import { HomeScreen } from '../screens/Home/home.screen';
+import { LoginScreen } from '../screens/Login/login.screen';
 import { NotificationsScreen } from '../screens/Notifications/notifications.screen';
-import { ProfileScreen } from '../screens/Profile/profile.screen';
-import { OwnerDashboardScreen } from '../screens/OwnerDashboard/ownerdashboard.screen';
-import { OwnerCourtsScreen } from '../screens/OwnerCourts/ownercourts.screen';
-import { OwnerCourtManagementScreen } from '../screens/OwnerCourtManagement/ownercourtmanagement.screen';
 import { OwnerAddCourtScreen } from '../screens/OwnerAddCourt/owneraddcourt.screen';
-import { OwnerSalesScreen } from '../screens/OwnerSales/ownersales.screen';
+import { OwnerCourtManagementScreen } from '../screens/OwnerCourtManagement/ownercourtmanagement.screen';
+import { OwnerCourtsScreen } from '../screens/OwnerCourts/ownercourts.screen';
+import { OwnerDashboardScreen } from '../screens/OwnerDashboard/ownerdashboard.screen';
 import { OwnerProfileScreen } from '../screens/OwnerProfile/ownerprofile.screen';
-import {
-  Home,
-  Calendar,
-  LayoutDashboard,
-  Bell,
-  User,
-  DollarSign,
-} from 'lucide-react-native';
+import { OwnerSalesScreen } from '../screens/OwnerSales/ownersales.screen';
+import { ProfileScreen } from '../screens/Profile/profile.screen';
+import { SignupScreen } from '../screens/Signup/signup.screen';
 import { useTheme } from '../theme';
+import {
+  AdminStackParamList,
+  AuthStackParamList,
+  PlayerStackParamList,
+  RootStackParamList,
+} from './types';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const AdminStack = createNativeStackNavigator<AdminStackParamList>();
@@ -44,8 +45,40 @@ const Tab = createBottomTabNavigator<PlayerStackParamList>();
 const OwnerStack = createNativeStackNavigator<any>();
 const OwnerTab = createBottomTabNavigator<any>();
 
+const getOwnerTabBarIcon =
+  (route: any) =>
+  ({ color, size }: { color: string; size: number }) => {
+    if (route.name === 'OwnerDashboard')
+      return <LayoutDashboard color={color} size={size} />;
+    if (route.name === 'OwnerCourts')
+      return <Calendar color={color} size={size} />;
+    if (route.name === 'OwnerSales')
+      return <DollarSign color={color} size={size} />;
+    if (route.name === 'OwnerProfile')
+      return <User color={color} size={size} />;
+    return <Home color={color} size={size} />;
+  };
+
+const getPlayerTabBarIcon =
+  (route: any) =>
+  ({ color, size }: { color: string; size: number }) => {
+    if (route.name === 'PlayerHome') return <Home color={color} size={size} />;
+    if (route.name === 'Booking') return <Calendar color={color} size={size} />;
+    if (route.name === 'History')
+      return <LayoutDashboard color={color} size={size} />;
+    if (route.name === 'Notifications')
+      return <Bell color={color} size={size} />;
+    if (route.name === 'Profile') return <User color={color} size={size} />;
+    return <Home color={color} size={size} />;
+  };
+
 const OwnerTabs = () => {
   const { colors } = useTheme();
+
+  const tabBarStyle = {
+    backgroundColor: colors.background,
+    borderTopColor: colors.border,
+  };
 
   return (
     <OwnerTab.Navigator
@@ -53,21 +86,8 @@ const OwnerTabs = () => {
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textSecondary,
-        tabBarStyle: {
-          backgroundColor: colors.background,
-          borderTopColor: colors.border,
-        },
-        tabBarIcon: ({ color, size }) => {
-          if (route.name === 'OwnerDashboard')
-            return <LayoutDashboard color={color} size={size} />;
-          if (route.name === 'OwnerCourts')
-            return <Calendar color={color} size={size} />;
-          if (route.name === 'OwnerSales')
-            return <DollarSign color={color} size={size} />;
-          if (route.name === 'Profile')
-            return <User color={color} size={size} />;
-          return <Home color={color} size={size} />;
-        },
+        tabBarStyle,
+        tabBarIcon: getOwnerTabBarIcon(route),
       })}
     >
       <OwnerTab.Screen
@@ -109,29 +129,19 @@ const OwnerNavigator = () => (
 const PlayerTabs = () => {
   const { colors } = useTheme();
 
+  const tabBarStyle = {
+    backgroundColor: colors.background,
+    borderTopColor: colors.border,
+  };
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textSecondary,
-        tabBarStyle: {
-          backgroundColor: colors.background,
-          borderTopColor: colors.border,
-        },
-        tabBarIcon: ({ color, size }) => {
-          if (route.name === 'PlayerHome')
-            return <Home color={color} size={size} />;
-          if (route.name === 'Booking')
-            return <Calendar color={color} size={size} />;
-          if (route.name === 'History')
-            return <LayoutDashboard color={color} size={size} />;
-          if (route.name === 'Notifications')
-            return <Bell color={color} size={size} />;
-          if (route.name === 'Profile')
-            return <User color={color} size={size} />;
-          return <Home color={color} size={size} />;
-        },
+        tabBarStyle,
+        tabBarIcon: getPlayerTabBarIcon(route),
       })}
     >
       <Tab.Screen

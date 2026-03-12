@@ -1,21 +1,22 @@
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '../../theme';
+
+import { setRole, setUser } from '../../redux/slices/appSlice';
 import { useAppDispatch } from '../../redux/store';
-import { setUser, setRole } from '../../redux/slices/appSlice';
+import { useTheme } from '../../theme';
 
 export const useAdmin = () => {
-    const { t } = useTranslation();
-    const { colors } = useTheme();
-    const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { colors } = useTheme();
+  const dispatch = useAppDispatch();
 
-    const handleLogout = () => {
-        dispatch(setUser(null));
-        dispatch(setRole(null));
-    };
+  const handleLogout = () => {
+    dispatch(setUser(null));
+    dispatch(setRole(null));
+  };
 
-    return {
-        t,
-        colors,
-        handleLogout,
-    };
+  return {
+    t,
+    colors,
+    handleLogout,
+  };
 };

@@ -1,8 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { StatsService } from './stats.service';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Role } from '@smashit/database';
+
+import { Roles } from '../auth/decorators/roles.decorator';
+import { StatsService } from './stats.service';
 
 @ApiTags('Stats')
 @ApiBearerAuth()

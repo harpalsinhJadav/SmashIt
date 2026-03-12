@@ -1,13 +1,12 @@
-import React from "react";
 import {
-  LayoutDashboard,
-  Users,
-  MapPin,
   CalendarCheck,
-  Settings,
+  LayoutDashboard,
   LogOut,
+  MapPin,
   Trophy,
+  Users,
 } from "lucide-react";
+import React from "react";
 
 interface SidebarProps {
   activeTab: string;

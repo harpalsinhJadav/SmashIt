@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+
 import { useAdmin } from './admin.hooks';
 import { createStyles } from './admin.style';
 

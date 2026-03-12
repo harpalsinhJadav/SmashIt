@@ -1,10 +1,11 @@
 import {
-  Injectable,
   ExecutionContext,
   ForbiddenException,
+  Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Role } from '@smashit/database';
+
 import { ROLES_KEY } from '../decorators/roles.decorator';
 
 // Checks that req.user.role matches what's required by @Roles(Role.ADMIN) etc.

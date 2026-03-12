@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
+
 import { ThemeColors } from '../../theme/colors';
-import { verticalScale, moderateScale } from '../../utils/helpers';
+import { moderateScale, verticalScale } from '../../utils/helpers';
 
 export const createStyles = (colors: ThemeColors) =>
   StyleSheet.create({
@@ -10,6 +11,7 @@ export const createStyles = (colors: ThemeColors) =>
     },
     content: {
       padding: moderateScale(16),
+      flex: 1,
     },
     listContent: {
       paddingBottom: verticalScale(20),
@@ -24,5 +26,6 @@ export const createStyles = (colors: ThemeColors) =>
       fontSize: moderateScale(16),
       fontWeight: '500',
       marginTop: verticalScale(12),
+      color: colors.textSecondary,
     },
   });

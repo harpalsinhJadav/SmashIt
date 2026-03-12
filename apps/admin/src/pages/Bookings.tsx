@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
 import {
   Calendar,
+  Clock,
+  CreditCard,
+  Filter,
+  MapPin,
   Search,
   User,
-  MapPin,
-  CreditCard,
-  Clock,
-  Filter,
 } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
 import api from "../api/client";
 
 interface Booking {

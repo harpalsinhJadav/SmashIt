@@ -1,19 +1,20 @@
+import { Filter, MapPin } from 'lucide-react-native';
 import React from 'react';
 import {
-  View,
-  Text,
-  RefreshControl,
-  TouchableOpacity,
-  SafeAreaView,
   FlatList,
+  RefreshControl,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { MapPin, Filter } from 'lucide-react-native';
+
+import { AppHeader } from '../../components/AppHeader';
+import { CourtListItem } from '../../components/CourtListItem';
+import { FilterChip } from '../../components/FilterChip';
+import { SearchBar } from '../../components/SearchBar';
 import { useBooking } from './booking.hooks';
 import { createStyles } from './booking.style';
-import { AppHeader } from '../../components/AppHeader';
-import { SearchBar } from '../../components/SearchBar';
-import { FilterChip } from '../../components/FilterChip';
-import { CourtListItem } from '../../components/CourtListItem';
 
 export const BookingScreen = () => {
   const {
@@ -54,14 +55,10 @@ export const BookingScreen = () => {
         <View style={styles.locationSection}>
           <View style={styles.locationLeft}>
             <MapPin size={20} color={colors.primary} />
-            <Text style={[styles.locationText, { color: colors.text }]}>
-              {location}
-            </Text>
+            <Text style={styles.locationText}>{location}</Text>
           </View>
           <TouchableOpacity>
-            <Text style={[styles.changeText, { color: colors.primary }]}>
-              {t('booking.change')}
-            </Text>
+            <Text style={styles.changeText}>{t('booking.change')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -83,9 +80,7 @@ export const BookingScreen = () => {
             ListFooterComponent={
               <TouchableOpacity style={styles.moreFilters}>
                 <Filter size={16} color={colors.text} />
-                <Text style={[styles.moreFiltersText, { color: colors.text }]}>
-                  {t('booking.more')}
-                </Text>
+                <Text style={styles.moreFiltersText}>{t('booking.more')}</Text>
               </TouchableOpacity>
             }
           />
@@ -96,7 +91,7 @@ export const BookingScreen = () => {
       <FlatList
         data={courts}
         keyExtractor={item => item.id.toString()}
-        contentContainerStyle={[styles.content, { paddingTop: 0 }]}
+        contentContainerStyle={styles.contentNoPadding}
         refreshControl={
           <RefreshControl
             refreshing={isLoading}
@@ -106,7 +101,7 @@ export const BookingScreen = () => {
         }
         ListHeaderComponent={
           <View style={styles.courtsHeader}>
-            <Text style={[styles.courtsCount, { color: colors.textSecondary }]}>
+            <Text style={styles.courtsCount}>
               {t('booking.courtsFound', { count: courts.length })}
             </Text>
           </View>

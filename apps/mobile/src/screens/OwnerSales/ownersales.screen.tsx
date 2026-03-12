@@ -1,24 +1,25 @@
+import {
+  Calendar,
+  DollarSign,
+  Download,
+  TrendingUp,
+  Users,
+} from 'lucide-react-native';
 import React from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
+  Dimensions,
   RefreshControl,
   SafeAreaView,
+  ScrollView,
+  Text,
   TouchableOpacity,
-  Dimensions,
+  View,
 } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
-import {
-  Download,
-  DollarSign,
-  Calendar,
-  Users,
-  TrendingUp,
-} from 'lucide-react-native';
+
+import { AppHeader } from '../../components/AppHeader';
 import { useOwnerSalesScreen } from './ownersales.hooks';
 import { createStyles } from './ownersales.style';
-import { AppHeader } from '../../components/AppHeader';
 
 export const OwnerSalesScreen = () => {
   const {
@@ -81,19 +82,18 @@ export const OwnerSalesScreen = () => {
                     key={f}
                     style={[
                       styles.filterButton,
-                      {
-                        backgroundColor: isActive
-                          ? colors.primary
-                          : colors.surface,
-                        borderColor: isActive ? colors.primary : colors.border,
-                      },
+                      isActive
+                        ? styles.filterButtonActive
+                        : styles.filterButtonInactive,
                     ]}
                     onPress={() => setFilter(f as any)}
                   >
                     <Text
                       style={[
                         styles.filterText,
-                        { color: isActive ? colors.white : colors.text },
+                        isActive
+                          ? styles.filterTextActive
+                          : styles.filterTextInactive,
                       ]}
                     >
                       {t(`ownerSales.${f}` as any)}
@@ -104,27 +104,18 @@ export const OwnerSalesScreen = () => {
             </View>
 
             <TouchableOpacity
-              style={[
-                styles.exportButton,
-                { backgroundColor: colors.surface, borderColor: colors.border },
-              ]}
+              style={styles.exportButton}
               onPress={handleExport}
             >
               <Download size={16} color={colors.textSecondary} />
-              <Text
-                style={[styles.exportText, { color: colors.textSecondary }]}
-              >
-                {t('ownerSales.export')}
-              </Text>
+              <Text style={styles.exportText}>{t('ownerSales.export')}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Loading State or Data Display */}
           {isLoading && !salesData ? (
             <View style={styles.loadingContainer}>
-              <Text style={{ color: colors.textSecondary }}>
-                Loading data...
-              </Text>
+              <Text style={styles.statLabel}>Loading data...</Text>
             </View>
           ) : (
             <>
@@ -133,16 +124,7 @@ export const OwnerSalesScreen = () => {
                 {salesData?.stats?.map((stat: any) => {
                   const Icon = getIcon(stat.label);
                   return (
-                    <View
-                      key={stat.label}
-                      style={[
-                        styles.statCard,
-                        {
-                          backgroundColor: colors.surface,
-                          borderColor: colors.border,
-                        },
-                      ]}
-                    >
+                    <View key={stat.label} style={styles.statCard}>
                       <View
                         style={[
                           styles.statIconContainer,
@@ -151,33 +133,17 @@ export const OwnerSalesScreen = () => {
                       >
                         <Icon size={20} color={stat.color} />
                       </View>
-                      <Text
-                        style={[
-                          styles.statLabel,
-                          { color: colors.textSecondary },
-                        ]}
-                      >
+                      <Text style={styles.statLabel}>
                         {t(`ownerSales.stats.${stat.label}` as any)}
                       </Text>
-                      <Text style={[styles.statValue, { color: colors.text }]}>
-                        {stat.value}
-                      </Text>
+                      <Text style={styles.statValue}>{stat.value}</Text>
                     </View>
                   );
                 })}
               </View>
 
-              <View
-                style={[
-                  styles.chartContainer,
-                  {
-                    backgroundColor: colors.surface,
-                    borderColor: colors.border,
-                    paddingRight: 0,
-                  },
-                ]}
-              >
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              <View style={styles.chartContainer}>
+                <Text style={styles.sectionTitle}>
                   {t('ownerSales.revenueTrend')}
                 </Text>
 
@@ -207,10 +173,7 @@ export const OwnerSalesScreen = () => {
                       },
                       barPercentage: 0.6,
                     }}
-                    style={{
-                      marginVertical: 8,
-                      borderRadius: 16,
-                    }}
+                    style={styles.chartConfig}
                     withInnerLines={false}
                     showValuesOnTopOfBars
                   />
@@ -218,16 +181,8 @@ export const OwnerSalesScreen = () => {
               </View>
 
               {/* Court-wise Performance */}
-              <View
-                style={[
-                  styles.listContainer,
-                  {
-                    backgroundColor: colors.surface,
-                    borderColor: colors.border,
-                  },
-                ]}
-              >
-                <Text style={[styles.sectionTitle, { color: colors.text }]}>
+              <View style={styles.listContainer}>
+                <Text style={styles.sectionTitle}>
                   {t('ownerSales.courtWisePerformance')}
                 </Text>
 
@@ -240,35 +195,19 @@ export const OwnerSalesScreen = () => {
                         key={index}
                         style={[
                           styles.listItem,
-                          {
-                            borderBottomColor: isLast
-                              ? 'transparent'
-                              : colors.border,
-                          },
+                          isLast && styles.listItemNoBorder,
                         ]}
                       >
                         <View>
-                          <Text
-                            style={[
-                              styles.listItemTitle,
-                              { color: colors.text },
-                            ]}
-                          >
+                          <Text style={styles.listItemTitle}>
                             {courtData.court}
                           </Text>
-                          <Text
-                            style={[
-                              styles.listItemSub,
-                              { color: colors.textSecondary },
-                            ]}
-                          >
+                          <Text style={styles.listItemSub}>
                             {courtData.bookings} {t('ownerSales.bookings')}
                           </Text>
                         </View>
                         <View>
-                          <Text
-                            style={[styles.listItemValue, { color: '#16a34a' }]}
-                          >
+                          <Text style={styles.listItemValue}>
                             {courtData.revenue}
                           </Text>
                         </View>

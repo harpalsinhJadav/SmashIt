@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
 import Sidebar from "./components/Sidebar";
-import Dashboard from "./pages/Dashboard";
-import Users from "./pages/Users";
-import Courts from "./pages/Courts";
 import Bookings from "./pages/Bookings";
+import Courts from "./pages/Courts";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import Users from "./pages/Users";
 
 const App: React.FC = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
