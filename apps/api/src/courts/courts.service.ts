@@ -6,7 +6,12 @@ import {
 import { CourtType, Status } from '@smashit/database';
 
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateCourtDto, UpdateCourtDto } from './dto/court.dto';
+import {
+  CreateCourtDto,
+  CreateSlotDto,
+  UpdateCourtDto,
+  UpdateSlotDto,
+} from './dto/court.dto';
 
 @Injectable()
 export class CourtsService {
@@ -89,7 +94,7 @@ export class CourtsService {
         slots: true,
         reviews: { select: { rating: true } },
         bookings: {
-          select: { status: true },
+          select: { status: true, totalAmount: true },
           orderBy: { createdAt: 'desc' },
           take: 10,
         },
@@ -105,6 +110,65 @@ export class CourtsService {
         reviews: { select: { rating: true } },
       },
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  // --- Slot Management ---
+
+  async addSlot(userId: string, courtId: string, slotData: CreateSlotDto) {
+    const owner = await this.prisma.owner.findUnique({ where: { userId } });
+    const court = await this.findOne(courtId);
+    if (court.ownerId !== owner?.id) {
+      throw new ForbiddenException('You can only add slots to your own courts');
+    }
+
+    return this.prisma.slot.create({
+      data: {
+        startTime: slotData.startTime,
+        endTime: slotData.endTime,
+        price: slotData.price,
+        isAvailable: slotData.isAvailable ?? true,
+        courtId,
+      },
+    });
+  }
+
+  async updateSlot(
+    userId: string,
+    courtId: string,
+    slotId: string,
+    slotData: UpdateSlotDto,
+  ) {
+    const owner = await this.prisma.owner.findUnique({ where: { userId } });
+    const court = await this.findOne(courtId);
+    if (court.ownerId !== owner?.id) {
+      throw new ForbiddenException(
+        'You can only update slots of your own courts',
+      );
+    }
+
+    return this.prisma.slot.update({
+      where: { id: slotId },
+      data: {
+        startTime: slotData.startTime,
+        endTime: slotData.endTime,
+        price: slotData.price,
+        isAvailable: slotData.isAvailable,
+      },
+    });
+  }
+
+  async deleteSlot(userId: string, courtId: string, slotId: string) {
+    const owner = await this.prisma.owner.findUnique({ where: { userId } });
+    const court = await this.findOne(courtId);
+    if (court.ownerId !== owner?.id) {
+      throw new ForbiddenException(
+        'You can only delete slots from your own courts',
+      );
+    }
+
+    return this.prisma.slot.delete({
+      where: { id: slotId },
     });
   }
 }

@@ -67,6 +67,11 @@ export class CreateCourtDto {
   @IsOptional()
   @Type(() => Number)
   longitude?: number;
+
+  @ApiProperty({ enum: Status, example: Status.ACTIVE, required: false })
+  @IsEnum(Status)
+  @IsOptional()
+  status?: Status;
 }
 
 export class UpdateCourtDto {
@@ -103,4 +108,46 @@ export class UpdateCourtDto {
   @IsEnum(Status)
   @IsOptional()
   status?: Status;
+
+  @IsEnum(CourtType)
+  @IsOptional()
+  type?: CourtType;
+}
+
+export class CreateSlotDto {
+  @ApiProperty({ example: '06:00' })
+  @IsString()
+  startTime: string;
+
+  @ApiProperty({ example: '07:00' })
+  @IsString()
+  endTime: string;
+
+  @ApiProperty({ example: 600, required: false })
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  price?: number;
+
+  @ApiProperty({ example: true, required: false })
+  @IsOptional()
+  isAvailable?: boolean;
+}
+
+export class UpdateSlotDto {
+  @IsString()
+  @IsOptional()
+  startTime?: string;
+
+  @IsString()
+  @IsOptional()
+  endTime?: string;
+
+  @IsNumber()
+  @IsOptional()
+  @Type(() => Number)
+  price?: number;
+
+  @IsOptional()
+  isAvailable?: boolean;
 }

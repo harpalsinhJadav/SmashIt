@@ -20,6 +20,7 @@ export const useOwnerAddCourt = () => {
     allowDynamic: false,
     facilities: '',
     status: 'active',
+    price: '0',
   });
 
   const handleBack = useCallback(() => {

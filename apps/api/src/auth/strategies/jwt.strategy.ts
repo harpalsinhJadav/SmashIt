@@ -9,7 +9,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       // Extract JWT from Authorization: Bearer <token> header
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET ?? 'fallback-secret',
+      secretOrKey:
+        process.env.JWT_SECRET ||
+        (process.env.NODE_ENV === 'production'
+          ? (() => {
+              throw new Error('JWT_SECRET is required in production');
+            })()
+          : 'dev-secret-key-12345'),
     });
   }
 

@@ -10,10 +10,18 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     PassportModule,
     JwtModule.registerAsync({
-      useFactory: () => ({
-        secret: process.env.JWT_SECRET ?? 'fallback-secret',
-        signOptions: { expiresIn: '7d' as const },
-      }),
+      useFactory: () => {
+        const secret = process.env.JWT_SECRET;
+        if (!secret && process.env.NODE_ENV === 'production') {
+          throw new Error(
+            'JWT_SECRET environment variable is required in production',
+          );
+        }
+        return {
+          secret: secret ?? 'dev-secret-key-12345',
+          signOptions: { expiresIn: '7d' as const },
+        };
+      },
     }),
   ],
   providers: [AuthService, JwtStrategy],

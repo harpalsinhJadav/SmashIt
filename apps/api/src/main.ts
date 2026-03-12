@@ -11,12 +11,15 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   // Enable CORS for mobile app and admin panel
+  const corsOrigins = process.env.CORS_ORIGINS?.split(',') ?? [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'http://localhost:3002',
+    'https://smashit-kappa.vercel.app',
+  ];
+
   app.enableCors({
-    origin: [
-      'http://localhost:5173',
-      'http://localhost:3000',
-      'http://localhost:3002',
-    ],
+    origin: corsOrigins,
     credentials: true,
   });
 

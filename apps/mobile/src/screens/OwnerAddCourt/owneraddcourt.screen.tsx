@@ -63,6 +63,17 @@ export const OwnerAddCourtScreen = () => {
               onChangeText={val => handleChange('gameType', val)}
             />
           </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.inputLabel}>
+              {t('ownerCourtManagement.slotsTab.slotPrice')}
+            </Text>
+            <TextInput
+              style={styles.input}
+              value={form.price}
+              onChangeText={val => handleChange('price', val)}
+              keyboardType="numeric"
+            />
+          </View>
 
           <View style={styles.row}>
             <View style={[styles.inputGroup, styles.halfInput]}>

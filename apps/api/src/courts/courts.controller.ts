@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -19,7 +20,12 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Public } from '../auth/decorators/public.decorator';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { CourtsService } from './courts.service';
-import { CreateCourtDto, UpdateCourtDto } from './dto/court.dto';
+import {
+  CreateCourtDto,
+  CreateSlotDto,
+  UpdateCourtDto,
+  UpdateSlotDto,
+} from './dto/court.dto';
 
 @ApiTags('Courts')
 @Controller('courts')
@@ -90,5 +96,44 @@ export class CourtsController {
   })
   findAllAdmin() {
     return this.courtsService.findAllAdmin();
+  }
+
+  // --- Slot Management ---
+
+  @Post(':id/slots')
+  @ApiBearerAuth()
+  @Roles(Role.OWNER)
+  @ApiOperation({ summary: 'Add a new time slot to a court' })
+  addSlot(
+    @CurrentUser() user: { id: string },
+    @Param('id') id: string,
+    @Body() slotData: CreateSlotDto,
+  ) {
+    return this.courtsService.addSlot(user.id, id, slotData);
+  }
+
+  @Patch(':id/slots/:slotId')
+  @ApiBearerAuth()
+  @Roles(Role.OWNER)
+  @ApiOperation({ summary: 'Update a specific court slot' })
+  updateSlot(
+    @CurrentUser() user: { id: string },
+    @Param('id') id: string,
+    @Param('slotId') slotId: string,
+    @Body() slotData: UpdateSlotDto,
+  ) {
+    return this.courtsService.updateSlot(user.id, id, slotId, slotData);
+  }
+
+  @Delete(':id/slots/:slotId')
+  @ApiBearerAuth()
+  @Roles(Role.OWNER)
+  @ApiOperation({ summary: 'Remove a court slot' })
+  deleteSlot(
+    @CurrentUser() user: { id: string },
+    @Param('id') id: string,
+    @Param('slotId') slotId: string,
+  ) {
+    return this.courtsService.deleteSlot(user.id, id, slotId);
   }
 }

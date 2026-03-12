@@ -10,7 +10,9 @@ export const useOwnerSalesScreen = () => {
   const { colors } = useTheme();
   const navigation = useNavigation<any>();
 
-  const [filter, setFilter] = useState<'week' | 'month' | 'year'>('month');
+  const [filter, setFilter] = useState<'weekly' | 'monthly' | 'yearly'>(
+    'monthly',
+  );
 
   // Fetch sales data
   const {

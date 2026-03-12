@@ -80,9 +80,38 @@ export class AuthService {
         phoneNumber: true,
         avatarUrl: true,
         createdAt: true,
-        ownerProfile: { select: { id: true } },
+        ownerProfile: {
+          select: {
+            id: true,
+            _count: {
+              select: {
+                courts: true,
+              },
+            },
+          },
+        },
       },
     });
+
+    if (user && user.role === 'OWNER' && user.ownerProfile) {
+      const bookingsCount = await this.prisma.booking.count({
+        where: {
+          court: {
+            ownerId: user.ownerProfile.id,
+          },
+        },
+      });
+
+      return {
+        ...user,
+        stats: {
+          courts: user.ownerProfile._count.courts,
+          assistants: 0, // Placeholder
+          bookings: bookingsCount,
+        },
+      };
+    }
+
     return user;
   }
 
